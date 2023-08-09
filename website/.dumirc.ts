@@ -8,7 +8,6 @@ export default defineConfig({
   outputPath: 'docs-dist',
   themeConfig: {
     name: '💧TickTack',
-    
     // logo:'💧',
     features,
     socialLinks:{
