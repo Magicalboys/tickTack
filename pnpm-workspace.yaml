@@ -1,4 +1,4 @@
 packages:
   - packages/*
-  - packages/library/playground
-  - docs
+  - packages/library
+  - website

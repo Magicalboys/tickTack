@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "pnpm run dev",
-    "dev": "dumi dev",
+    "docs": "dumi dev",
     "build": "father build",
     "build:watch": "father dev",
     "docs:build": "dumi build",
