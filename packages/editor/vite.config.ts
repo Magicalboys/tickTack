@@ -1,15 +1,10 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
 import react from "@vitejs/plugin-react";
-import createCommonjsPlugin from "@rollup/plugin-commonjs";
-import nodeResolve from "rollup-plugin-node-resolve";
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    createCommonjsPlugin(), // 添加@rollup/plugin-commonjs插件
-    nodeResolve() // 添加rollup-plugin-node-resolve插件
   ],
   resolve: {
     alias: {
