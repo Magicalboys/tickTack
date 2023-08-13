@@ -5,8 +5,8 @@ module.exports = {
     types: [
       { value: "✨feat", name: "✨ feat:         新增功能，迭代项目需求" },
       {
-        value: "🐛fix",
-        name: "🐛 fix:          修复缺陷，修复上一版本存在问题",
+        value: "🐞fix",
+        name: "🐞 fix:          修复缺陷，修复上一版本存在问题",
       },
       {
         value: "📝docs",
