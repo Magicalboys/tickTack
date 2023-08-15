@@ -13,6 +13,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "antd": "^5.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -47,5 +48,9 @@
     "*.{html,css,less,scss,md}": [
       "prettier --write"
     ]
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
   }
 }

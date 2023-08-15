@@ -1,0 +1,13 @@
+.container-header {
+    box-sizing: content-box;
+    width: 100%;
+    flex: 0 0 50px;   
+    border-bottom: 1px solid #e8e9eb;
+    .header-box {
+        height: 100%;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
