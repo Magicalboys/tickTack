@@ -1,17 +1,6 @@
-# docs
+# dumi
 
-[![NPM version](https://img.shields.io/npm/v/docs.svg?style=flat)](https://npmjs.org/package/docs)
-[![NPM downloads](http://img.shields.io/npm/dm/docs.svg?style=flat)](https://npmjs.org/package/docs)
-
-ticktack docs
-
-## Usage
-
-TODO
-
-## Options
-
-TODO
+A static site base on [dumi](https://d.umijs.org).
 
 ## Development
 
@@ -19,20 +8,11 @@ TODO
 # install dependencies
 $ pnpm install
 
-# develop library by docs demo
+# start dev server
 $ pnpm start
 
-# build library source code
-$ pnpm run build
-
-# build library source code in watch mode
-$ pnpm run build:watch
-
 # build docs
-$ pnpm run docs:build
-
-# check your project for potential problems
-$ pnpm run doctor
+$ pnpm run build
 ```
 
 ## LICENSE
