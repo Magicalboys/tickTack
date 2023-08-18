@@ -13,9 +13,13 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.8.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
@@ -36,6 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
+    "redux-devtools": "^3.7.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
