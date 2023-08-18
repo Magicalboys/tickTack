@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import classnames from "classnames";
 import menu from "../../../i18/CN.json";
 import { jsonToArr } from "../../../util/jsonToObj";
 import Setting from "./setting/index";
@@ -9,6 +10,13 @@ import "./style.scss";
 const Aside: React.FC = () => {
   const list = jsonToArr(menu.MenuSet);
   const [param, setParam] = useState("UniversalComponent");
+
+  const clickOption = (value: string) => {
+    return classnames(
+      { [`btn-${param}`]: value === param },
+      "container-menu-item"
+    );
+  };
 
   // 函数区
   const chooseShow = (param: string) => {
@@ -54,7 +62,7 @@ const Aside: React.FC = () => {
           <Fragment key={String(index) + item.value}>
             <div
               onClick={() => chooseParam(item.key)}
-              className='container-menu-item'
+              className={clickOption(item.key)}
             >
               {item.value}
             </div>
