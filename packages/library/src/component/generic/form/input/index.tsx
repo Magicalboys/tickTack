@@ -14,7 +14,7 @@ const componentData = defineLibraryComponent({
   tickType: "generics",
   libraryName: LibraryPanelTabEnum.generics,
   tabName: "form",
-  order: 2,
+  order: 1,
   libraryPanelShowDetail: {
     title: "文本框",
     content: inputTip,

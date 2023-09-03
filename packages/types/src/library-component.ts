@@ -1,5 +1,7 @@
 import { LibraryPanelTabEnum } from "./panel";
 
+export type LibraryComponentInstanceProps = Record<string, unknown>;
+
 export type DefineComponent = () => JSX.Element;
 
 export type TabName = "form" | "show" | "container";
@@ -29,4 +31,25 @@ export interface LibraryComponent {
 
     preview?: DefineComponent;
   };
+}
+
+/**
+ * 物料组件定义（右侧控制台）
+ */
+export interface LibraryComponentInstanceData {
+  indexId: string;
+
+  uuid: Readonly<string>;
+
+  focus: boolean;
+
+  libraryName: Readonly<LibraryPanelTabEnum>;
+
+  componentName: Readonly<string>;
+
+  props?: LibraryComponentInstanceProps;
+
+  //   eventTriggers?: LibraryComponentInstanceEventTriggers;
+
+  children?: LibraryComponentInstanceData[];
 }

@@ -17,9 +17,9 @@ const buttonTip = () => {
 };
 const componentData = defineLibraryComponent({
   name: "tickButton",
-  tickType: "generic",
+  tickType: "generics",
   tabName: "form",
-  order: 1,
+  order: 2,
   libraryPanelShowDetail: {
     title: "按钮",
     content: buttonTip,
