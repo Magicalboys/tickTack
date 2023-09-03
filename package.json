@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "editor": "pnpm -C packages/editor dev",
+    "lib": "pnpm -C packages/library dev",
     "docs": "pnpm -C website dev",
     "cz": "git add . && czg",
     "build": "tsc && vite build",
