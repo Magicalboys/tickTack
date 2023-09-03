@@ -17,11 +17,12 @@ const libraryMap: Record<string, LibraryComponent> = {};
 Object.entries(libraryComponents).forEach(([url, module]) => {
   console.log(typeof libraryComponents, "libraryComponent");
   console.log(url, "url");
-  console.log(module, "moudle");
-  module = module?.default || module;
-  if (!libraryRecord[module.libraryName])
-    libraryRecord[module.libraryName] = [];
-  libraryRecord[module.libraryName].push(module);
+  console.log(module.default, "moudle");
+  module = module?.default || module; // default就是默认导出的组件
+  if (!libraryRecord[module]) {
+    libraryRecord[module.name] = [];
+  }
+  libraryRecord[module.name].push(module);
   libraryMap[module.name] = module;
 });
 
