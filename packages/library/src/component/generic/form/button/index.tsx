@@ -1,5 +1,4 @@
-import { Button } from "antd";
-import { createLibraryComponentPropItem } from "../../../../utils/library";
+// import { createLibraryComponentPropItem } from "../../../../utils/library";
 import { defineLibraryComponent } from "../../../../utils/library";
 
 // const App: React.FC = () => {
@@ -7,14 +6,6 @@ enum EventTriggersEnum {
   click = "click",
   doubleClick = "doubleClick",
 }
-
-const buttonTip = () => {
-  return (
-    <>
-      <Button>hello world</Button>
-    </>
-  );
-};
 const componentData = defineLibraryComponent({
   name: "tickButton",
   tickType: "generics",
@@ -22,7 +13,7 @@ const componentData = defineLibraryComponent({
   order: 2,
   libraryPanelShowDetail: {
     title: "按钮",
-    content: buttonTip,
+    content: "按下去",
   },
   tips: {
     title: "按钮",
@@ -38,44 +29,44 @@ const componentData = defineLibraryComponent({
   },
 });
 // 右侧的属性
-const props = {
-  title: createLibraryComponentPropItem({
-    title: "按钮名称",
-    default: "按钮",
-  }),
-  buttonType: createLibraryComponentPropItem({
-    title: "按钮类型",
-    default: "default",
-    selectOptions: [
-      { title: "default", value: "default" },
-      { title: "primary", value: "primary" },
-      { title: "success", value: "success" },
-      { title: "info", value: "info" },
-      { title: "warning", value: "warning" },
-      { title: "danger", value: "danger" },
-    ],
-    type: String,
-  }),
-  buttonSize: createLibraryComponentPropItem({
-    title: "按钮大小",
-    default: "normal",
-    selectOptions: [
-      { title: "large", value: "large" },
-      { title: "normal", value: "normal" },
-      { title: "small", value: "small" },
-      { title: "mimi", value: "mimi" },
-    ],
-    type: String,
-  }),
-};
+// const props = {
+//   title: createLibraryComponentPropItem({
+//     title: "按钮名称",
+//     default: "按钮",
+//   }),
+//   buttonType: createLibraryComponentPropItem({
+//     title: "按钮类型",
+//     default: "default",
+//     selectOptions: [
+//       { title: "default", value: "default" },
+//       { title: "primary", value: "primary" },
+//       { title: "success", value: "success" },
+//       { title: "info", value: "info" },
+//       { title: "warning", value: "warning" },
+//       { title: "danger", value: "danger" },
+//     ],
+//     type: String,
+//   }),
+//   buttonSize: createLibraryComponentPropItem({
+//     title: "按钮大小",
+//     default: "normal",
+//     selectOptions: [
+//       { title: "large", value: "large" },
+//       { title: "normal", value: "normal" },
+//       { title: "small", value: "small" },
+//       { title: "mimi", value: "mimi" },
+//     ],
+//     type: String,
+//   }),
+// };
 
-const tickCss = () => {
-  const tackCss = [];
-  for (const item in props) {
-    tackCss.push(props[item]?.[0]);
-  }
-  return tackCss;
-};
+// const tickCss = () => {
+//   const tackCss = [];
+//   for (const item in props) {
+//     tackCss.push(props[item]?.[0]);
+//   }
+//   return tackCss;
+// };
 
 //   return (
 //     <>

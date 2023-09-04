@@ -1,13 +1,15 @@
 import React from "react";
 import { Button } from "antd";
-import './style.scss';
+import "./style.scss";
 
 const Control: React.FC = () => {
-    return <>
-        <div className="container-control">
-            <Button>这是control</Button>
-        </div>
+  return (
+    <>
+      <div className='container-control'>
+        <Button></Button>
+      </div>
     </>
-}
+  );
+};
 
 export default Control;

@@ -34,18 +34,18 @@ export interface LibraryComponent {
 }
 
 /**
- * 物料组件定义（右侧控制台）
+ * 物料组件定义（可视区域与右侧控制台）
  */
 export interface LibraryComponentInstanceData {
   indexId: string;
 
-  uuid: Readonly<string>;
+  uuid: string;
 
   focus: boolean;
 
-  libraryName: Readonly<LibraryPanelTabEnum>;
+  libraryName: LibraryPanelTabEnum;
 
-  componentName: Readonly<string>;
+  componentName: string;
 
   props?: LibraryComponentInstanceProps;
 

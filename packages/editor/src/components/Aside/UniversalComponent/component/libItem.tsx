@@ -19,8 +19,8 @@ const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
     () => ({
       type: props.tickType,
       item: props,
-      end(draggedItem) {
-        console.log(draggedItem, "draggedItem");
+      end() {
+        // console.log(draggedItem, "draggedItem");
         console.log(isDragging, "isDragging");
       },
       collect: (monitor) => ({

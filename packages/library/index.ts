@@ -15,9 +15,6 @@ const libraryMap: Record<string, LibraryComponent> = {};
 
 // 添加每一个lib下面的组件
 Object.entries(libraryComponents).forEach(([url, module]) => {
-  //   console.log(typeof libraryComponents, "libraryComponent");
-  //   console.log(url, "url");
-  //   console.log(module.default, "moudle");
   module = module?.default || module;
   if (!libraryRecord[module]) {
     libraryRecord[module.name] = [];

@@ -1,14 +1,14 @@
-import { Input } from "antd";
+// import { Input } from "antd";
 import { defineLibraryComponent } from "../../../../utils/library";
 import { LibraryPanelTabEnum } from "../../../../../../types/src/panel";
 
-const inputTip = () => {
-  return (
-    <>
-      <Input placeholder='hello'></Input>
-    </>
-  );
-};
+// const inputTip = () => {
+//   return (
+//     <>
+//       <Input placeholder='hello'></Input>
+//     </>
+//   );
+// };
 const componentData = defineLibraryComponent({
   name: "tickInput",
   tickType: "generics",
@@ -17,7 +17,7 @@ const componentData = defineLibraryComponent({
   order: 1,
   libraryPanelShowDetail: {
     title: "文本框",
-    content: inputTip,
+    content: "请输入你的文字",
   },
   tip: {
     title: "文本框",
