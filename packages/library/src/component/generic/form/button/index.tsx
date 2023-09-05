@@ -1,4 +1,4 @@
-// import { createLibraryComponentPropItem } from "../../../../utils/library";
+import { createLibraryComponentPropItem } from "../../../../utils/library";
 import { defineLibraryComponent } from "../../../../utils/library";
 
 // const App: React.FC = () => {
@@ -29,36 +29,44 @@ const componentData = defineLibraryComponent({
   },
 });
 // 右侧的属性
-// const props = {
-//   title: createLibraryComponentPropItem({
-//     title: "按钮名称",
-//     default: "按钮",
-//   }),
-//   buttonType: createLibraryComponentPropItem({
-//     title: "按钮类型",
-//     default: "default",
-//     selectOptions: [
-//       { title: "default", value: "default" },
-//       { title: "primary", value: "primary" },
-//       { title: "success", value: "success" },
-//       { title: "info", value: "info" },
-//       { title: "warning", value: "warning" },
-//       { title: "danger", value: "danger" },
-//     ],
-//     type: String,
-//   }),
-//   buttonSize: createLibraryComponentPropItem({
-//     title: "按钮大小",
-//     default: "normal",
-//     selectOptions: [
-//       { title: "large", value: "large" },
-//       { title: "normal", value: "normal" },
-//       { title: "small", value: "small" },
-//       { title: "mimi", value: "mimi" },
-//     ],
-//     type: String,
-//   }),
-// };
+const props = {
+  title: createLibraryComponentPropItem({
+    title: "按钮名称",
+    default: "按钮",
+  }),
+  buttonType: createLibraryComponentPropItem({
+    title: "按钮类型",
+    placeholder: "default",
+    selectOptions: [
+      { title: "default", value: "default" },
+      { title: "primary", value: "primary" },
+      { title: "success", value: "success" },
+      { title: "info", value: "info" },
+      { title: "warning", value: "warning" },
+      { title: "danger", value: "danger" },
+    ],
+    type: String,
+  }),
+  buttonSize: createLibraryComponentPropItem({
+    title: "按钮大小",
+    default: "normal",
+    selectOptions: [
+      { title: "large", value: "large" },
+      { title: "normal", value: "normal" },
+      { title: "small", value: "small" },
+      { title: "mimi", value: "mimi" },
+    ],
+    type: String,
+  }),
+  toRouter: createLibraryComponentPropItem({
+    value: "",
+    default: "",
+  }),
+  toUrl: createLibraryComponentPropItem({
+    value: "",
+    default: "",
+  }),
+};
 
 // const tickCss = () => {
 //   const tackCss = [];
@@ -79,3 +87,4 @@ const componentData = defineLibraryComponent({
 //   );
 // };
 export default componentData;
+export { props };

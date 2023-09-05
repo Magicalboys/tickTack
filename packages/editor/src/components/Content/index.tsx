@@ -2,20 +2,49 @@ import React, { Fragment } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { addComponent, updateAll } from "../../store/features/counterSlice";
-import { LibraryComponent } from "../../../../types/src/library-component";
+import { v4 as uuidv4 } from "uuid";
+import {
+  LibraryComponent,
+  LibraryComponentInstanceData,
+} from "../../../../types/src/library-component";
+import { libraryPropsMap } from "../../../../library";
 import FormContent from "./component/uniForm";
 import "./style.scss";
 
 const Content: React.FC = () => {
   const dispatch = useDispatch();
-  const contentData: LibraryComponent[] = useSelector(
+  const contentData: LibraryComponentInstanceData[] = useSelector(
     (state) => state.tickTack.contentData
   );
+
+  const handleItem = (item: LibraryComponent): LibraryComponentInstanceData => {
+    console.log(item);
+    let prop;
+    for (const propName in libraryPropsMap) {
+      if (propName === item.name) {
+        prop = libraryPropsMap[propName];
+      } else {
+        continue;
+      }
+    }
+    const uuid = uuidv4();
+    const res = {
+      uuid: uuid,
+      focus: false,
+      libraryName: item.libraryName,
+      componentName: item.name,
+      prop: prop,
+    };
+    return res;
+  };
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: "generics" || "container",
       drop: (item: LibraryComponent) => {
-        dispatch(addComponent({ componentJson: item }));
+        const _item = handleItem(item);
+        console.log(_item, "_item");
+        console.log(isOver);
+        dispatch(addComponent({ componentJson: _item }));
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

@@ -20,7 +20,6 @@ const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
       type: props.tickType,
       item: props,
       end() {
-        // console.log(draggedItem, "draggedItem");
         console.log(isDragging, "isDragging");
       },
       collect: (monitor) => ({

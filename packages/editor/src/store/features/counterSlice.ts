@@ -11,7 +11,6 @@ export const counterSlice = createSlice({
 
   // 初始值
   initialState,
-  // 这里的属性会自动的导出为actions，在组件中可以直接通过dispatch进行触发
 
   reducers: {
     /**
@@ -27,9 +26,8 @@ export const counterSlice = createSlice({
      * @param param1
      */
     addComponent(state, { payload }) {
-      // console.log(payload, "payload");
       state.contentData.push(payload.componentJson);
-      // state.count = state.count + payload.step; // 内置了immutable
+      console.log(state.contentData, "state");
     },
 
     /**
@@ -49,12 +47,27 @@ export const counterSlice = createSlice({
     },
 
     /**
-     * 物料数据，
+     * 更改物料的focus
      */
+    updateFocus(state, { payload }) {
+      // 点击更改
+      state.contentData.forEach((itemData) => {
+        if (itemData.uuid === payload.uuid) {
+          itemData.focus = true;
+        } else {
+          itemData.focus = false;
+        }
+      });
+    },
   },
 });
 // 导出actions
-export const { showContent, addComponent, deleteComponent, updateAll } =
-  counterSlice.actions;
+export const {
+  showContent,
+  addComponent,
+  deleteComponent,
+  updateAll,
+  updateFocus,
+} = counterSlice.actions;
 
 export default counterSlice.reducer; // 导出reducer，在创建store时使用到
