@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateFocus } from "../../../store/features/counterSlice";
 import {
   //   LibraryComponent,
@@ -18,9 +18,9 @@ const App: React.FC<{
   const ref = useRef(null);
 
   const dispatch = useDispatch();
-  const _contentData: LibraryComponentInstanceData[] = useSelector(
-    (state) => state.tickTack.contentData
-  );
+  //   const _contentData: LibraryComponentInstanceData[] = useSelector(
+  //     (state) => state.tickTack.contentData
+  //   );
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */

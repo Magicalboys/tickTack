@@ -1,3 +1,4 @@
+import { LibraryComponentInstanceProps } from "../types/src/library-component";
 import {
   LibraryComponent,
   LibraryComponentInstanceData,
@@ -13,7 +14,7 @@ const libraryComponents = import.meta.glob<LibraryComponent>(
   }
 );
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const libraryPropsMap: Record<string, LibraryComponentInstanceData> = {};
+const libraryPropsMap: Record<string, LibraryComponentInstanceProps> = {};
 const libraryTree: Record<string, Record<string, LibraryComponent[]>> = {};
 const libraryRecord: Record<string, LibraryComponent[]> = {};
 const libraryMap: Record<string, LibraryComponent> = {};

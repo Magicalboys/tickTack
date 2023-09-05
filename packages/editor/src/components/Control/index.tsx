@@ -10,23 +10,26 @@ const App: React.FC = () => {
 
   const chooseComponent = (id: string) => {
     if (id === "1") {
-      return (
+      return [
         <>
           <Common></Common>
-        </>
-      );
+        </>,
+        "常规",
+      ];
     } else if (id === "2") {
-      return (
+      return [
         <>
           <View></View>
-        </>
-      );
-    } else if (id === "3") {
-      return (
+        </>,
+        "外观",
+      ];
+    } else {
+      return [
         <>
           <ToEvent></ToEvent>
-        </>
-      );
+        </>,
+        "事件",
+      ];
     }
   };
 
@@ -37,11 +40,11 @@ const App: React.FC = () => {
         type='card'
         size={size}
         items={new Array(3).fill(null).map((_, i) => {
-          const id = String(i + 1);
+          const id: string = String(i + 1);
           return {
-            label: `Card Tab ${id}`,
+            label: chooseComponent(id)[1],
             key: id,
-            children: chooseComponent(id),
+            children: chooseComponent(id)[0],
           };
         })}
       />

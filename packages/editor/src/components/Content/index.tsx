@@ -23,6 +23,7 @@ const Content: React.FC = () => {
     for (const propName in libraryPropsMap) {
       if (propName === item.name) {
         prop = libraryPropsMap[propName];
+        console.log(prop, "**********");
       } else {
         continue;
       }
@@ -33,7 +34,7 @@ const Content: React.FC = () => {
       focus: false,
       libraryName: item.libraryName,
       componentName: item.name,
-      prop: prop,
+      props: prop,
     };
     return res;
   };
