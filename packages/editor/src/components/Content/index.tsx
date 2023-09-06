@@ -8,24 +8,23 @@ import {
   LibraryComponentInstanceData,
 } from "../../../../types/src/library-component";
 import { libraryPropsMap } from "../../../../library";
+import type { CounterSliceType } from "../../store";
 import FormContent from "./component/uniForm";
 import "./style.scss";
 
 const Content: React.FC = () => {
   const dispatch = useDispatch();
   const contentData: LibraryComponentInstanceData[] = useSelector(
-    (state) => state.tickTack.contentData
+    (state: CounterSliceType) => state.tickTack.contentData
   );
 
   const handleItem = (item: LibraryComponent): LibraryComponentInstanceData => {
-    console.log(item);
+    console.log('handleItem', item, libraryPropsMap);
     let prop;
     for (const propName in libraryPropsMap) {
       if (propName === item.name) {
         prop = libraryPropsMap[propName];
         console.log(prop, "**********");
-      } else {
-        continue;
       }
     }
     const uuid = uuidv4();

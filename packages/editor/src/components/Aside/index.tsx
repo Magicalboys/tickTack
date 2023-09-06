@@ -1,57 +1,37 @@
 import { Fragment, useState } from "react";
+import { Empty } from "antd";
 import classnames from "classnames";
 import menu from "../../../i18/CN.json";
 import { jsonToArr } from "../../../util/jsonToObj";
-import Setting from "./setting/index";
-import UniversalComponent from "./UniversalComponent/index";
-import Code from "./code/index";
+import Setting from "./setting";
+import UniversalComponent from "./UniversalComponent";
+import Code from "./code";
 import "./style.scss";
 
 const Aside: React.FC = () => {
   const list = jsonToArr(menu.MenuSet);
   const [param, setParam] = useState("UniversalComponent");
 
-  const clickOption = (value: string) => {
-    return classnames(
-      { [`btn-${param}`]: value === param },
-      "container-menu-item"
-    );
-  };
-
   // 函数区
   const chooseShow = (param: string) => {
     return (
       <>
-        {list.map((item) => {
+        {list.map((item, index) => {
           if (param === item.key) {
-            if (param === "UniversalComponent") {
-              return (
-                <>
-                  <UniversalComponent></UniversalComponent>
-                </>
-              );
-            } else if (param === "Setting") {
-              return (
-                <>
-                  <Setting></Setting>
-                </>
-              );
-            } else if (param === "Code") {
-              return (
-                <>
-                  <Code></Code>
-                </>
-              );
+            switch (param) {
+              case "UniversalComponent":
+                return <UniversalComponent key={index}></UniversalComponent>;
+              case "Setting":
+                return <Setting key={index}></Setting>;
+              case "Code":
+                return <Code key={index}></Code>;
+              default:
+                return "";
             }
           }
         })}
       </>
     );
-  };
-
-  const chooseParam = (toParam: string) => {
-    console.log(toParam);
-    setParam(toParam);
   };
 
   // 组件区
@@ -61,8 +41,11 @@ const Aside: React.FC = () => {
         return (
           <Fragment key={String(index) + item.value}>
             <div
-              onClick={() => chooseParam(item.key)}
-              className={clickOption(item.key)}
+              onClick={() => setParam(item.key)}
+              className={classnames(
+                { [`btn-${param}`]: item.key === param },
+                "container-menu-item"
+              )}
             >
               {item.value}
             </div>
@@ -70,13 +53,13 @@ const Aside: React.FC = () => {
         );
       })
     ) : (
-      <div>kong</div>
+      <Empty />
     );
 
   return (
     <>
-      <div className='container-aside'>
-        <div className='container-menu'>{MenuData}</div>
+      <div className="container-aside">
+        <div className="container-menu">{MenuData}</div>
         <div>{chooseShow(param)}</div>
       </div>
     </>
