@@ -1,5 +1,6 @@
 import { useDrag, DragPreviewImage } from "react-dnd";
 import { LibraryComponent } from "../../../../../../types/src/library-component";
+import Icon from "@/assets/react.svg";
 import "./libItem.scss";
 
 // 根据配置文件生成control
@@ -30,11 +31,12 @@ const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
   );
   return (
     <>
-      <DragPreviewImage
-        connect={preview}
-        src='../../../../assets/react.svg'
-      ></DragPreviewImage>
-      <div className='libItem_menu' ref={drag}>
+      <DragPreviewImage connect={preview} src={Icon}></DragPreviewImage>
+      <div
+        className="libItem_menu"
+        ref={drag}
+        style={{ opacity: isDragging ? 0.5 : 1 }}
+      >
         <div>{props.name}</div>
       </div>
     </>

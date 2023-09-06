@@ -7,6 +7,7 @@ import {
   LibraryComponentInstanceData,
 } from "../../../../../types/src/library-component";
 import "./uniform.scss";
+
 /**
  * 适用于form表单相关的元素
  */
@@ -21,6 +22,8 @@ const App: React.FC<{
   //   const _contentData: LibraryComponentInstanceData[] = useSelector(
   //     (state) => state.tickTack.contentData
   //   );
+  console.log('form', props);
+  
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */

@@ -7,11 +7,11 @@ const Header: React.FC = () => {
         <div className="container-header">
             <div className="header-box">
                 <div className="session-header header-left">
-                    <h3>TickTack 可视化编辑器</h3>
+                    <h3>TickTack</h3>
                 </div>
                 <div className="session-header header-center">
-                    <Button>icon</Button>
-                    <Button>icon</Button>
+                    <Button>PC</Button>
+                    <Button>mobile</Button>
                 </div>
                 <div className="session-header header-right">
                     <Button>预览</Button>

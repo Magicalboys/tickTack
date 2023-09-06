@@ -11,3 +11,6 @@ const store = configureStore({
 });
 
 export default store;
+
+//导出推导
+export type CounterSliceType = ReturnType<typeof store.getState>;
