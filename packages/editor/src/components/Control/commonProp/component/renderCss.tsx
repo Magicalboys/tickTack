@@ -1,20 +1,29 @@
-import { LibraryComponentInstanceData } from "../../../../../../types/src/library-component";
+import { Fragment } from "react";
+import showContent from "../../../chooseAntd/index";
+import {
+  LibraryComponentInstanceData,
+  LibraryComponentInstanceProps,
+} from "../../../../../../types/src/library-component";
 
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
-  console.log(props, "___________________");
-  const cssProps = props.props;
-  for (const item in cssProps) {
-    console.log(
-      item,
-      Object.prototype.toString.call(cssProps[item]),
-      "cssProps"
-    );
-  }
-  return (
-    <>
-      <div>hello world</div>
-    </>
-  );
+  const cssProps = props.props as LibraryComponentInstanceProps;
+  const tickCss: LibraryComponentInstanceProps[] = [];
+
+  const renderControl = () => {
+    Object.keys(cssProps as LibraryComponentInstanceProps).forEach((item) => {
+      tickCss.push(cssProps[item] as LibraryComponentInstanceProps);
+    });
+    return tickCss.map((props, index) => {
+      const type: string = props.type as string;
+      return (
+        <Fragment key={`${props}${index}`}>
+          <div>{props.title as string}</div>
+          {showContent({ props, type })}
+        </Fragment>
+      );
+    });
+  };
+  return <>{renderControl()}</>;
 };
 
 export default App;

@@ -4,26 +4,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { addComponent, updateAll } from "../../store/features/counterSlice";
 import { v4 as uuidv4 } from "uuid";
 import {
-  LibraryComponent,
+  ExportJson,
   LibraryComponentInstanceData,
 } from "../../../../types/src/library-component";
+import { storeData } from "../../../../types/src/store";
 import { libraryPropsMap } from "../../../../library";
 import FormContent from "./component/uniForm";
+import { DragProp } from "../../../../types/src/drop-drag";
 import "./style.scss";
 
 const Content: React.FC = () => {
   const dispatch = useDispatch();
   const contentData: LibraryComponentInstanceData[] = useSelector(
-    (state) => state.tickTack.contentData
+    (state: Record<string, storeData>) => state.tickTack.contentData
   );
 
-  const handleItem = (item: LibraryComponent): LibraryComponentInstanceData => {
-    console.log(item);
+  const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
     for (const propName in libraryPropsMap) {
-      if (propName === item.name) {
+      if (propName === item.componentData.name) {
         prop = libraryPropsMap[propName];
-        console.log(prop, "**********");
       } else {
         continue;
       }
@@ -31,28 +31,14 @@ const Content: React.FC = () => {
     const uuid = uuidv4();
     const res = {
       uuid: uuid,
+      componentName: item.componentData.name, // 组件名称，可以用来对应展示区应该出现的组件
+      libraryName: item.componentData.libraryName,
       focus: false,
-      libraryName: item.libraryName,
-      componentName: item.name,
       props: prop,
+      child: item.componentData.child,
     };
     return res;
   };
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: "generics" || "container",
-      drop: (item: LibraryComponent) => {
-        const _item = handleItem(item);
-        console.log(_item, "_item");
-        console.log(isOver);
-        dispatch(addComponent({ componentJson: _item }));
-      },
-      collect: (monitor: DropTargetMonitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }),
-    []
-  );
 
   const swapIndex = (pre: number, now: number) => {
     /**需要复制一个全新的数组，不要改变基本原数据 */
@@ -63,6 +49,20 @@ const Content: React.FC = () => {
     dispatch(updateAll({ componentData: _contentData }));
   };
 
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: DragProp.GENERICS,
+      drop: (data: { props: ExportJson; index: number }) => {
+        console.log(isOver);
+        const _item = handleItem(data.props);
+        dispatch(addComponent({ componentJson: _item }));
+      },
+      collect: (monitor: DropTargetMonitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }),
+    []
+  );
   return (
     <>
       <div className='container container-content' ref={drop}>

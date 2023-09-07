@@ -1,13 +1,12 @@
-import { createLibraryComponentPropItem } from "../../../../utils/library";
-import { defineLibraryComponent } from "../../../../utils/library";
+// import { createLibraryComponentPropItem } from "../../../../utils/library";
+// import { defineLibraryComponent } from "../../../../utils/library";
 
-// const App: React.FC = () => {
-enum EventTriggersEnum {
-  click = "click",
-  doubleClick = "doubleClick",
-}
-const componentData = defineLibraryComponent({
-  name: "tickButton",
+// enum EventTriggersEnum {
+//   click = "click",
+//   doubleClick = "doubleClick",
+// }
+const componentData = {
+  name: "Button",
   tickType: "generics",
   tabName: "form",
   order: 2,
@@ -19,53 +18,63 @@ const componentData = defineLibraryComponent({
     title: "按钮",
     content: "按一下就知道啦",
   },
-  eventTriggers: {
-    [EventTriggersEnum.click]: {
-      title: "click",
-    },
-    [EventTriggersEnum.doubleClick]: {
-      title: "doubleClick",
-    },
-  },
-});
+  // child: "按钮",
+  // child?: '按钮',
+  // eventTriggers: {
+  //   [EventTriggersEnum.click]: {
+  //     title: "click",
+  //   },
+  //   [EventTriggersEnum.doubleClick]: {
+  //     title: "doubleClick",
+  //   },
+  // },
+};
+
 // 右侧的属性
 const props = {
-  title: createLibraryComponentPropItem({
+  title: {
     title: "按钮名称",
-    default: "按钮",
-  }),
-  buttonType: createLibraryComponentPropItem({
+    defaultValue: "按钮",
+    type: "string",
+    control: "value",
+  },
+  buttonType: {
     title: "按钮类型",
-    placeholder: "default",
-    selectOptions: [
+    defaultValue: "default",
+    options: [
       { title: "default", value: "default" },
       { title: "primary", value: "primary" },
-      { title: "success", value: "success" },
-      { title: "info", value: "info" },
-      { title: "warning", value: "warning" },
-      { title: "danger", value: "danger" },
+      { title: "dashed", value: "dashed" },
+      { title: "text", value: "text" },
+      { title: "link", value: "link" },
     ],
-    type: String,
-  }),
-  buttonSize: createLibraryComponentPropItem({
+    type: "select",
+    control: "type",
+  },
+  buttonSize: {
     title: "按钮大小",
-    default: "normal",
-    selectOptions: [
+    defaultValue: "middle",
+    options: [
       { title: "large", value: "large" },
-      { title: "normal", value: "normal" },
+      { title: "middle", value: "middle" },
       { title: "small", value: "small" },
-      { title: "mimi", value: "mimi" },
     ],
-    type: String,
-  }),
-  toRouter: createLibraryComponentPropItem({
-    value: "",
-    default: "",
-  }),
-  toUrl: createLibraryComponentPropItem({
-    value: "",
-    default: "",
-  }),
+    type: "select",
+    control: "size",
+  },
+  // toRouter: {
+  //   value: "",
+  //   default: "",
+  // },
+  // toUrl: {
+  //   value: "",
+  //   default: "",
+  // },
+};
+
+const buttonJson = {
+  componentData,
+  props,
 };
 
 // const tickCss = () => {
@@ -86,5 +95,4 @@ const props = {
 //     </>
 //   );
 // };
-export default componentData;
-export { props };
+export default buttonJson;

@@ -4,10 +4,11 @@ import FormControl from "./component/formControl";
 import RenderCss from "./component/renderCss";
 import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
 import "./index.scss";
+import { storeData } from "../../../../../types/src/store";
 
 const Control: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
-    (state) => state.tickTack.contentData
+    (state: Record<string, storeData>) => state.tickTack.contentData
   );
   const handleControl = () => {
     if (contentData.length > 0) {

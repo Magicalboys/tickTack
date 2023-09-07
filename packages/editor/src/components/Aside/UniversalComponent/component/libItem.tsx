@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { useDrag, DragPreviewImage } from "react-dnd";
-import { LibraryComponent } from "../../../../../../types/src/library-component";
+import { DragProp } from "../../../../../../types/src/drop-drag";
+import { ExportJson } from "../../../../../../types/src/library-component";
 import "./libItem.scss";
 
-// 根据配置文件生成control
-const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
+const App: React.FC<{ props: ExportJson }> = ({ props }) => {
+  const ref = useRef(null);
   /**
    * 传入参数: {
    *     type: 指定元素的类型，只有类型相同的元素才能进行drop操作
@@ -17,8 +19,8 @@ const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
    */
   const [{ isDragging }, drag, preview] = useDrag(
     () => ({
-      type: props.tickType,
-      item: props,
+      type: DragProp.SORT && DragProp.GENERICS,
+      item: { props: props, index: 2 },
       end() {
         console.log(isDragging, "isDragging");
       },
@@ -28,14 +30,17 @@ const App: React.FC<{ props: LibraryComponent }> = ({ props }) => {
     }),
     []
   );
+  useEffect(() => {
+    drag(ref);
+  }, []);
   return (
     <>
       <DragPreviewImage
         connect={preview}
         src='../../../../assets/react.svg'
       ></DragPreviewImage>
-      <div className='libItem_menu' ref={drag}>
-        <div>{props.name}</div>
+      <div className='libItem_menu' ref={ref}>
+        <div>{props.componentData.name}</div>
       </div>
     </>
   );

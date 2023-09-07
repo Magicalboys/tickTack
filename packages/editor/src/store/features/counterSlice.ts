@@ -4,6 +4,7 @@ import { storeData } from "../../../../types/src/store";
 const initialState: storeData = {
   contentData: [],
   focus: false,
+  count: 0,
 };
 
 export const counterSlice = createSlice({
@@ -27,7 +28,7 @@ export const counterSlice = createSlice({
      */
     addComponent(state, { payload }) {
       state.contentData.push(payload.componentJson);
-      console.log(state.contentData, "state");
+      // console.log(state.contentData, "state");
     },
 
     /**
@@ -36,7 +37,6 @@ export const counterSlice = createSlice({
      */
     deleteComponent(state) {
       console.log(state, "state");
-      // state.count -= 1;
     },
 
     /**
@@ -59,6 +59,13 @@ export const counterSlice = createSlice({
         }
       });
     },
+
+    /**
+     * 更新JSON数据
+     */
+    updateJson(state, { payload }) {
+      console.log(state, payload, "statePayload");
+    },
   },
 });
 // 导出actions
@@ -68,6 +75,7 @@ export const {
   deleteComponent,
   updateAll,
   updateFocus,
+  updateJson,
 } = counterSlice.actions;
 
 export default counterSlice.reducer; // 导出reducer，在创建store时使用到

@@ -50,7 +50,6 @@ const Aside: React.FC = () => {
   };
 
   const chooseParam = (toParam: string) => {
-    console.log(toParam);
     setParam(toParam);
   };
 

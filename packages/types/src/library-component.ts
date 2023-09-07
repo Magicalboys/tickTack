@@ -8,6 +8,15 @@ export type TabName = "form" | "show" | "container";
 
 export type tickType = "container" | "generics";
 
+export interface ExportJson {
+  componentData: LibraryComponent;
+  props: LibraryComponentInstanceProps;
+}
+
+export interface Module {
+  default: ExportJson;
+}
+
 export interface LibraryComponent {
   name: string;
 
@@ -31,6 +40,7 @@ export interface LibraryComponent {
 
     preview?: DefineComponent;
   };
+  child?: string;
 }
 
 /**
@@ -48,6 +58,8 @@ export interface LibraryComponentInstanceData {
   componentName: string;
 
   props?: LibraryComponentInstanceProps;
+
+  child?: string;
 
   //   eventTriggers?: LibraryComponentInstanceEventTriggers;
 

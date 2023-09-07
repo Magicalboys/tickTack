@@ -1,9 +1,9 @@
 // import { Input } from "antd";
-import {
-  defineLibraryComponent,
-  createLibraryComponentPropItem,
-} from "../../../../utils/library";
-import { LibraryPanelTabEnum } from "../../../../../../types/src/panel";
+// import {
+//   defineLibraryComponent,
+//   createLibraryComponentPropItem,
+// } from "../../../../utils/library";
+// import { LibraryPanelTabEnum } from "../../../../../../types/src/panel";
 
 // const inputTip = () => {
 //   return (
@@ -12,38 +12,39 @@ import { LibraryPanelTabEnum } from "../../../../../../types/src/panel";
 //     </>
 //   );
 // };
-const componentData = defineLibraryComponent({
-  name: "tickInput",
+const componentData = {
+  name: "Input",
   tickType: "generics",
-  libraryName: LibraryPanelTabEnum.generics,
+  // libraryName: LibraryPanelTabEnum.generics,
   tabName: "form",
-  order: 1,
+  // order: 1,
   libraryPanelShowDetail: {
     title: "文本框",
     content: "请输入你的文字",
   },
+  // hover时出现
   tip: {
     title: "文本框",
     content: "文本输入框",
   },
-});
+};
 
 const props = {
-  name: createLibraryComponentPropItem({
+  name: {
     title: "字段名",
     belongToPanel: "generics",
     formType: "input",
-    type: String,
+    type: "string", // type主要用于以什么格式进行显示，如果是String就是输入框
     default: "text",
-  }),
-  title: createLibraryComponentPropItem({
+  },
+  title: {
     title: "标题",
     belongToPanel: "generic",
     formType: "input",
-    type: String,
+    type: "string",
     default: "文本",
-  }),
-  type: createLibraryComponentPropItem({
+  },
+  type: {
     title: "类型",
     belongToPanel: "generic",
     formType: "select",
@@ -54,30 +55,34 @@ const props = {
       { title: "手机号", value: "tel" },
       { title: "整数", value: "digit" },
     ],
-    type: String,
+    type: "string",
     default: "text",
-  }),
-  value: createLibraryComponentPropItem({
+  },
+  value: {
     title: "默认值",
     belongToPanel: "generic",
     formType: "input",
-    type: String,
+    type: "string",
     default: "",
-  }),
-  placeholder: createLibraryComponentPropItem({
+  },
+  placeholder: {
     title: "占位符",
     belongToPanel: "generic",
     formType: "input",
-    type: String,
+    type: "string",
     default: "Please input content!",
-  }),
-  widgetCss: createLibraryComponentPropItem({
-    title: "控件样式",
-    default: {},
-    formType: "cssPropertyInput",
-    belongToPanel: "appearance",
-  }),
+  },
+  // widgetCss: {
+  //   title: "控件样式",
+  //   default: {},
+  //   formType: "cssPropertyInput",
+  //   belongToPanel: "appearance",
+  // },
 };
 
-export default componentData;
-export { props };
+const inputJson = {
+  componentData,
+  props,
+};
+
+export default inputJson;
