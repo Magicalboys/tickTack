@@ -9,6 +9,7 @@ import {
 } from "../../../../types/src/library-component";
 import { storeData } from "../../../../types/src/store";
 import { libraryPropsMap } from "../../../../library";
+// import type { CounterSliceType } from "../../store";
 import FormContent from "./component/uniForm";
 import { DragProp } from "../../../../types/src/drop-drag";
 import "./style.scss";

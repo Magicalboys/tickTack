@@ -68,6 +68,7 @@ export const counterSlice = createSlice({
     },
   },
 });
+
 // 导出actions
 export const {
   showContent,
@@ -79,3 +80,5 @@ export const {
 } = counterSlice.actions;
 
 export default counterSlice.reducer; // 导出reducer，在创建store时使用到
+
+
