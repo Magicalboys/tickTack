@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import showContent from "../../chooseAntd/index";
+import ShowContent from "../../chooseAntd/index";
 import { updateFocus } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
@@ -67,7 +67,8 @@ const App: React.FC<{
   return (
     <>
       <div ref={ref} onClick={() => handleFocus(props.uuid)}>
-        {showContent(tickCss)}
+        {/* {showContent(tickCss)} */}
+        <ShowContent props={tickCss.props}></ShowContent>
       </div>
     </>
   );

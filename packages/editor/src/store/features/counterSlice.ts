@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { storeData } from "../../../../types/src/store";
 
+/**
+ * 全局共享物料
+ */
+
 const initialState: storeData = {
   contentData: [],
   focus: false,
@@ -80,5 +84,3 @@ export const {
 } = counterSlice.actions;
 
 export default counterSlice.reducer; // 导出reducer，在创建store时使用到
-
-
