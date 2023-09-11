@@ -47,7 +47,7 @@ const App: React.FC<{
         nameProps.push(item);
       }
     );
-    return nameProps[index];
+    return nameProps[0];
   };
 
   useEffect(() => {

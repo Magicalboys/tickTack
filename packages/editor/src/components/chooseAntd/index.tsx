@@ -13,7 +13,7 @@ import {
 
 const App: React.FC<{
   uuid: string;
-  name: string;
+  name?: string;
   componentName?: string;
   type?: string;
 }> = ({ componentName, type, uuid, name }) => {
@@ -26,16 +26,21 @@ const App: React.FC<{
     (state: { tickTack: { contentData: LibraryComponentInstanceData[] } }) =>
       state.tickTack.contentData
   );
+  console.log(contentData);
 
   useEffect(() => {
+    // if (name) {
     contentData.forEach((item) => {
       if (item.uuid === uuid) {
         const itemProps = item.props as LibraryComponentInstanceProps;
+        console.log(name, "pppppp");
         setValue(
-          (itemProps[name] as LibraryComponentInstanceProps)
+          (itemProps[name as string] as LibraryComponentInstanceProps)
             .defaultValue as string
         );
-        setFakeProps(itemProps[name] as LibraryComponentInstanceProps);
+        setFakeProps(
+          itemProps[name as string] as LibraryComponentInstanceProps
+        );
         const cssProps: LibraryComponentInstanceProps = {};
         const fake = item.props as LibraryComponentInstanceProps;
         Object.keys(fake as LibraryComponentInstanceProps).forEach((item) => {
@@ -46,6 +51,7 @@ const App: React.FC<{
         setCssProps(cssProps);
       }
     });
+    // }
   }, [contentData]);
 
   const handleChange = (event) => {
@@ -74,7 +80,7 @@ const App: React.FC<{
     } else if (type === "select") {
       return <Select {...fakeProps} onChange={handleSelectChange}></Select>;
     } else {
-      return <Button {...fakeProps}>jj</Button>;
+      return <Button {...fakeProps}></Button>;
     }
   } else {
     ShowContent = Antd[`${componentName}`];
