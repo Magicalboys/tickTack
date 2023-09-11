@@ -20,25 +20,6 @@ const App: React.FC<{
 }> = ({ props, index, swapIndex }) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
-
-  // 对props的数据格式进行处理, 提取为可以直接渲染的props
-  const cssProps: LibraryComponentInstanceProps =
-    props.props as LibraryComponentInstanceProps;
-
-  const tickCss: {
-    props: LibraryComponentInstanceProps;
-    componentName: string;
-  } = {
-    props: {},
-    componentName: props.componentName,
-  };
-  Object.keys(cssProps).forEach((item, index) => {
-    console.log(item, index);
-    tickCss.props[
-      (cssProps[item] as LibraryComponentInstanceProps).control as string
-    ] = (cssProps[item] as LibraryComponentInstanceProps).defaultValue;
-  });
-
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */
@@ -59,6 +40,16 @@ const App: React.FC<{
     dispatch(updateFocus({ uuid: uuid }));
   };
 
+  const chooseName = (index: number) => {
+    const nameProps: string[] = [];
+    Object.keys(props.props as LibraryComponentInstanceProps).forEach(
+      (item) => {
+        nameProps.push(item);
+      }
+    );
+    return nameProps[index];
+  };
+
   useEffect(() => {
     drag(ref);
     drop(ref);
@@ -67,8 +58,11 @@ const App: React.FC<{
   return (
     <>
       <div ref={ref} onClick={() => handleFocus(props.uuid)}>
-        {/* {showContent(tickCss)} */}
-        <ShowContent props={tickCss.props}></ShowContent>
+        <ShowContent
+          uuid={props.uuid}
+          name={chooseName(index)}
+          componentName={props.componentName}
+        ></ShowContent>
       </div>
     </>
   );

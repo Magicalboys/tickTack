@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import ShowContent from "../../../chooseAntd/index";
 import {
   LibraryComponentInstanceData,
@@ -6,29 +6,36 @@ import {
 } from "../../../../../../types/src/library-component";
 
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
-  console.log(props, "oooooooooooooooo");
-  const [inputValue, setInputValue] = useState(props.props);
-  console.log(inputValue, "DDDDDDDDDDDDDDDDD");
-  // const cssProps = props.props as LibraryComponentInstanceProps;
-  const cssProps = inputValue as LibraryComponentInstanceProps;
+  const uuid = props.uuid;
   const tickCss: LibraryComponentInstanceProps[] = [];
+  Object.keys(props.props as LibraryComponentInstanceProps).forEach((item) => {
+    tickCss.push(
+      (props.props as LibraryComponentInstanceProps)[
+        item
+      ] as LibraryComponentInstanceProps
+    );
+  });
+
+  const chooseName = (index: number) => {
+    const nameProp: string[] = [];
+    Object.keys(props.props as LibraryComponentInstanceProps).forEach(
+      (item) => {
+        nameProp.push(item);
+      }
+    );
+    return nameProp[index];
+  };
 
   const renderControl = () => {
-    Object.keys(cssProps as LibraryComponentInstanceProps).forEach((item) => {
-      console.log(cssProps[item], "AAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-      tickCss.push(cssProps[item] as LibraryComponentInstanceProps);
-    });
-    console.log(tickCss, "tickticktickci");
     return tickCss.map((props, index) => {
       const type: string = props.type as string;
       return (
         <Fragment key={`${props}${index}`}>
           <div>{props.title as string}</div>
-          {/* {ShowContent({ props, type, setInputValue })} */}
           <ShowContent
-            props={props}
             type={type}
-            setInputValue={setInputValue}
+            uuid={uuid}
+            name={chooseName(index)}
           ></ShowContent>
         </Fragment>
       );

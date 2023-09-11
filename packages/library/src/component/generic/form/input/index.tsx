@@ -1,23 +1,7 @@
-// import { Input } from "antd";
-// import {
-//   defineLibraryComponent,
-//   createLibraryComponentPropItem,
-// } from "../../../../utils/library";
-// import { LibraryPanelTabEnum } from "../../../../../../types/src/panel";
-
-// const inputTip = () => {
-//   return (
-//     <>
-//       <Input placeholder='hello'></Input>
-//     </>
-//   );
-// };
 const componentData = {
   name: "Input",
   tickType: "generics",
-  // libraryName: LibraryPanelTabEnum.generics,
   tabName: "form",
-  // order: 1,
   libraryPanelShowDetail: {
     title: "文本框",
     content: "请输入你的文字",
@@ -30,54 +14,29 @@ const componentData = {
 };
 
 const props = {
-  name: {
-    title: "字段名",
-    belongToPanel: "generics",
-    formType: "input",
-    type: "string", // type主要用于以什么格式进行显示，如果是String就是输入框
-    default: "text",
-  },
   title: {
     title: "标题",
-    belongToPanel: "generic",
-    formType: "input",
+    defaultValue: "",
     type: "string",
-    default: "文本",
+    control: "value",
   },
-  type: {
-    title: "类型",
-    belongToPanel: "generic",
-    formType: "select",
-    selectOptions: [
-      { title: "文本", value: "text" },
-      { title: "密码", value: "password" },
-      { title: "数字", value: "number" },
-      { title: "手机号", value: "tel" },
-      { title: "整数", value: "digit" },
+  inputSize: {
+    title: "大小",
+    defaultValue: "middle",
+    options: [
+      { title: "large", value: "large" },
+      { title: "middle", value: "middle" },
+      { title: "small", value: "small" },
     ],
-    type: "string",
-    default: "text",
+    type: "select",
+    control: "size",
   },
-  value: {
-    title: "默认值",
-    belongToPanel: "generic",
-    formType: "input",
-    type: "string",
-    default: "",
-  },
-  placeholder: {
+  inputPlaceholder: {
     title: "占位符",
-    belongToPanel: "generic",
-    formType: "input",
+    defaultValue: "Please input content!",
     type: "string",
-    default: "Please input content!",
+    control: "placeholder",
   },
-  // widgetCss: {
-  //   title: "控件样式",
-  //   default: {},
-  //   formType: "cssPropertyInput",
-  //   belongToPanel: "appearance",
-  // },
 };
 
 const inputJson = {

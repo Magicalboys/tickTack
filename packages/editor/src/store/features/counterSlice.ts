@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { storeData } from "../../../../types/src/store";
+import { LibraryComponentInstanceProps } from "../../../../types/src/library-component";
 
 /**
  * 全局共享物料
@@ -70,6 +71,21 @@ export const counterSlice = createSlice({
     updateJson(state, { payload }) {
       console.log(state, payload, "statePayload");
     },
+
+    /**
+     *
+     */
+    updateControlProp(state, { payload }) {
+      state.contentData.forEach((item) => {
+        if (item.uuid === payload.uuid) {
+          (
+            (item.props as LibraryComponentInstanceProps)[
+              payload.name
+            ] as LibraryComponentInstanceProps
+          ).defaultValue = payload.defaultValue;
+        }
+      });
+    },
   },
 });
 
@@ -81,6 +97,7 @@ export const {
   updateAll,
   updateFocus,
   updateJson,
+  updateControlProp,
 } = counterSlice.actions;
 
 export default counterSlice.reducer; // 导出reducer，在创建store时使用到

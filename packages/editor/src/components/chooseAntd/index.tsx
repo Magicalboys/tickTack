@@ -1,64 +1,89 @@
 /**
  * 选择性地导出Antd组件
  */
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import * as Antd from "antd"; // 导入整个 Antd 库
-import { useState } from "react";
+import { updateControlProp } from "../../store/features/counterSlice";
+import { Input, Button, Select } from "antd";
 import {
+  LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
-  // LibraryComponentInstanceData,
 } from "../../../../types/src/library-component";
-// import { useState } from "react";
 
 const App: React.FC<{
-  props: LibraryComponentInstanceProps;
+  uuid: string;
+  name: string;
   componentName?: string;
   type?: string;
-  setInputValue?: React.Dispatch<
-    React.SetStateAction<LibraryComponentInstanceProps | undefined>
-  >;
-}> = ({ props, componentName, type, setInputValue }) => {
-  const [value, setValue] = useState<string>(props.defaultValue as string);
-  console.log(props, "props");
+}> = ({ componentName, type, uuid, name }) => {
+  const dispatch = useDispatch();
+  const [fakeProps, setFakeProps] = useState<LibraryComponentInstanceProps>({}); // 控制右侧控制台的prop
+  const [value, setValue] = useState<string>(""); // 控制button的value值
+  const [cssProps, setCssProps] = useState<LibraryComponentInstanceProps>({}); // 控制中间展示台元素的prop
+
+  const contentData: LibraryComponentInstanceData[] = useSelector(
+    (state: { tickTack: { contentData: LibraryComponentInstanceData[] } }) =>
+      state.tickTack.contentData
+  );
+
+  useEffect(() => {
+    contentData.forEach((item) => {
+      if (item.uuid === uuid) {
+        const itemProps = item.props as LibraryComponentInstanceProps;
+        setValue(
+          (itemProps[name] as LibraryComponentInstanceProps)
+            .defaultValue as string
+        );
+        setFakeProps(itemProps[name] as LibraryComponentInstanceProps);
+        const cssProps: LibraryComponentInstanceProps = {};
+        const fake = item.props as LibraryComponentInstanceProps;
+        Object.keys(fake as LibraryComponentInstanceProps).forEach((item) => {
+          cssProps[
+            (fake[item] as LibraryComponentInstanceProps).control as string
+          ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
+        });
+        setCssProps(cssProps);
+      }
+    });
+  }, [contentData]);
+
   const handleChange = (event) => {
     setValue(event.target.value);
-    console.log(event.target.value, "AAAAAAAAAAAA");
-    setInputValue((inputValue) => ({
-      ...inputValue,
-      title: {
-        ...props,
-        defaultValue: event.target.value,
-      },
-    }));
+    const defaultValue = event.target.value;
+    dispatch(updateControlProp({ uuid, name, defaultValue }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    const defaultValue = value;
+    dispatch(updateControlProp({ uuid, name, defaultValue }));
   };
 
   let ShowContent;
   if (type !== undefined) {
     if (type === "string") {
-      ShowContent = Antd["Input"];
       return (
         <>
-          <ShowContent
-            {...props}
-            value={value as string}
+          <Input
+            {...fakeProps}
+            value={value}
             onChange={(event) => handleChange(event)}
-          ></ShowContent>
+          ></Input>
         </>
       );
     } else if (type === "select") {
-      ShowContent = Antd["Select"];
-      return <ShowContent {...props}></ShowContent>;
+      return <Select {...fakeProps} onChange={handleSelectChange}></Select>;
     } else {
-      return <Antd.Button {...props}>jj</Antd.Button>;
+      return <Button {...fakeProps}>jj</Button>;
     }
   } else {
     ShowContent = Antd[`${componentName}`];
-    return <Antd.Input {...props}></Antd.Input>;
+    if (componentName === "Button") {
+      return <Button {...cssProps}>{cssProps.value as string}</Button>;
+    } else {
+      return <ShowContent {...cssProps}></ShowContent>;
+    }
   }
-  // return (
-  //   <>
-  //     <ShowContent {...props}></ShowContent>
-  //   </>
-  // );
 };
 
 export default App;

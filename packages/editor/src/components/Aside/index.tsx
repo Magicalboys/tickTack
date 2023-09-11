@@ -34,10 +34,6 @@ const Aside: React.FC = () => {
     );
   };
 
-  // const chooseParam = (toParam: string) => {
-  //   setParam(toParam);
-  // };
-
   // 组件区
   const MenuData =
     list !== null ? (
