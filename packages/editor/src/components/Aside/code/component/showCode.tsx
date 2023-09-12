@@ -29,7 +29,7 @@ const ShowCode = ({ codeJson }) => {
       width={500}
       theme='vs-dark' // 主题选择
       value={value} // 编辑器初始显示文字
-      onChange={setValue}
+      // onChange={setValue}
       options={{
         readOnly: false, // 是否只读
         roundedSelection: false, //属性允许将选区的左右两端进行圆角处理
