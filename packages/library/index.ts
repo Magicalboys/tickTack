@@ -7,6 +7,7 @@ import {
   Module,
   // LibraryComponentInstanceData,
 } from "../types/src/library-component";
+import { asideMenu as libraryAsideMenu } from "./src/universal";
 
 /**
  * 动态导入模块
@@ -63,5 +64,6 @@ export {
   // getLibraryModules,
   libraryComponents,
   libraryPropsMap,
+  libraryAsideMenu
 };
 // export default libraryTree;

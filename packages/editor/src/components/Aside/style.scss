@@ -1,33 +1,46 @@
-.container-aside {
-  flex: 0 0 28vw;
+.tt-aside {
+  flex: 0 0 310px;
+  min-width: 310px;
   height: 100%;
   box-shadow: 10px 2px 10px rgba(49, 48, 48, 0.1);
   display: flex;
   flex-direction: row;
-
-  .container-menu {
-    width: 5vw;
+  .tt-menu-aside {
+    width: 50px;
     background-color: rgb(240, 240, 242);
-
-    .container-menu-item {
+    .tt-menu-aside-item {
       cursor: pointer;
       text-align: center;
-      height: 2vw;
-      line-height: 2vw;
-
+      height: 50px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       &:hover {
         color: rgb(22, 119, 25);
       }
     }
-
-    .btn-UniversalComponent {
+    .btn-active {
       background-color: white;
     }
-    .btn-Setting {
-      background-color: white;
+  }
+  .tt-menu-content{
+    width: 100%;
+    padding: 15px;
+    .tt-menu-content-header{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .tt-menu-content-header-icon{
+        cursor: pointer;
+        &:hover{
+          color:  rgb(22, 119, 25);
+        }
+      }
     }
-    .btn-Code {
-      background-color: white;
+    .tt-menu-content-base{
+      
     }
+    
   }
 }
