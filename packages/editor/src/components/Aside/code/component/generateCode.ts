@@ -22,20 +22,19 @@ export const generateCode = (contentData: LibraryComponentInstanceData[]) => {
       <${item.componentName}${props} />`;
     });
     return `<>
-    ${result}
-    </>`;
+      ${result}
+      </>`;
   };
 
   const code = render(contentData);
   const moduleCode = "";
   return `import React from 'react';
   ${moduleCode}
-  
-  function App() {
-      return (
-          ${code}
-      );
+function App() {
+    return (
+        ${code}
+    );
   }
   
-  export default App;`;
+export default App;`;
 };
