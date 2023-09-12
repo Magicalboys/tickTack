@@ -59,7 +59,7 @@ export interface LibraryComponentInstanceData {
 
   child?: string;
 
-  //   eventTriggers?: LibraryComponentInstanceEventTriggers;
-
   children?: LibraryComponentInstanceData[];
 }
+
+export interface contentJsonProp {}

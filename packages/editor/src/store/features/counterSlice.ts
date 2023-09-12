@@ -10,6 +10,7 @@ const initialState: storeData = {
   contentData: [],
   focus: false,
   count: 0,
+  contentJson: [],
 };
 
 export const counterSlice = createSlice({
@@ -19,13 +20,6 @@ export const counterSlice = createSlice({
   initialState,
 
   reducers: {
-    /**
-     * 渲染方法
-     */
-    showContent(state) {
-      console.log(state, "state");
-    },
-
     /**
      * 添加组件
      * @param state
@@ -68,7 +62,7 @@ export const counterSlice = createSlice({
     /**
      * 更新JSON数据
      */
-    updateJson(state, { payload }) {
+    showContentJson(state, { payload }) {
       console.log(state, payload, "statePayload");
     },
 
@@ -91,12 +85,11 @@ export const counterSlice = createSlice({
 
 // 导出actions
 export const {
-  showContent,
   addComponent,
   deleteComponent,
   updateAll,
   updateFocus,
-  updateJson,
+  showContentJson,
   updateControlProp,
 } = counterSlice.actions;
 
