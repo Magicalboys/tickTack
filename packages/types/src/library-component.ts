@@ -47,8 +47,6 @@ export interface LibraryComponent {
  * 物料组件定义（可视区域与右侧控制台）
  */
 export interface LibraryComponentInstanceData {
-  //   indexId: string;
-
   uuid: string;
 
   focus: boolean;
@@ -61,7 +59,7 @@ export interface LibraryComponentInstanceData {
 
   child?: string;
 
-  //   eventTriggers?: LibraryComponentInstanceEventTriggers;
-
   children?: LibraryComponentInstanceData[];
 }
+
+export interface contentJsonProp {}

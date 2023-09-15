@@ -1,10 +1,14 @@
-import { LibraryComponent } from "./library-component";
-import { LibraryComponentInstanceData } from "./library-component";
+import {
+  LibraryComponent,
+  LibraryComponentInstanceData,
+  contentJsonProp,
+} from "./library-component";
 
 export interface storeData {
   contentData: LibraryComponentInstanceData[];
   focus: boolean;
   count: number;
+  contentJson: contentJsonProp[];
 }
 
 export interface actions {
