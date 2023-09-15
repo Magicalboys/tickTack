@@ -19,8 +19,8 @@ const App: React.FC<{ props: ExportJson }> = ({ props }) => {
    */
   const [{ isDragging }, drag, preview] = useDrag(
     () => ({
-      type: DragProp.SORT && DragProp.GENERICS,
-      item: { props: props, index: 2 },
+      type: DragProp.SORT,
+      item: { props: props, index: 0 },
       end() {
         console.log(isDragging, "isDragging");
       },
