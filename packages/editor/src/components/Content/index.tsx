@@ -52,11 +52,11 @@ const Content: React.FC = () => {
 
   const [{ isOver }, drop] = useDrop(
     () => ({
-      accept: DragProp.GENERICS,
+      accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
         console.log(isOver);
         const _item = handleItem(data.props);
-        dispatch(addComponent({ componentJson: _item }));
+        dispatch(addComponent({ componentJson: _item, index: data.index }));
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),

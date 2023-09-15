@@ -21,13 +21,14 @@ export const counterSlice = createSlice({
 
   reducers: {
     /**
-     * 添加组件
+     * 添加组件,根据index插入
      * @param state
      * @param param1
      */
     addComponent(state, { payload }) {
-      state.contentData.push(payload.componentJson);
+      // state.contentData.push(payload.componentJson);
       // console.log(state.contentData, "state");
+      state.contentData.splice(payload.index, 0, payload.componentJson);
     },
 
     /**
