@@ -33,7 +33,6 @@ const App: React.FC<{
     accept: DragProp.SORT,
     hover(item: LibraryComponentInstanceData & { index: number }) {
       dispatch(swapIndex({ pre: index, now: item.index }));
-      console.log("dropDrop", index, item.index);
       setIndex(index);
       item.index = index;
     },

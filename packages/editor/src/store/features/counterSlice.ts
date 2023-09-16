@@ -8,7 +8,6 @@ import { LibraryComponentInstanceProps } from "../../../../types/src/library-com
 
 const initialState: storeData = {
   contentData: [],
-  focus: false,
   count: 0,
   contentJson: [],
 };
@@ -29,7 +28,6 @@ export const counterSlice = createSlice({
       if (payload.index === 0) {
         state.contentData.push(payload.componentJson);
       } else {
-        console.log(payload.index, "ooooooooooooooooooooooo");
         state.contentData.splice(payload.index, 0, payload.componentJson);
       }
     },

@@ -19,7 +19,6 @@ const Content: React.FC = () => {
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
   const length = contentData.length;
-  console.log(length, "hhhhhhhhhhhhhh");
   const [index, setIndex] = useState<number>(length);
   const indexRef = useRef(index);
 
@@ -52,7 +51,6 @@ const Content: React.FC = () => {
       accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
         console.log(isOver);
-        console.log(indexRef.current, "indexIndex");
         const _item = handleItem(data.props);
         dispatch(
           addComponent({ componentJson: _item, index: indexRef.current })

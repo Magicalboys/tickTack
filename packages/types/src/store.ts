@@ -6,7 +6,6 @@ import {
 
 export interface storeData {
   contentData: LibraryComponentInstanceData[];
-  focus: boolean;
   count: number;
   contentJson: contentJsonProp[];
 }
