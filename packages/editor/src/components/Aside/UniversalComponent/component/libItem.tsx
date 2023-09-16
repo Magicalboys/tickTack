@@ -1,10 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useDrag, DragPreviewImage } from "react-dnd";
+// import { useSelector } from "react-redux";
 import { DragProp } from "../../../../../../types/src/drop-drag";
 import { ExportJson } from "../../../../../../types/src/library-component";
 import "./libItem.scss";
 
-const App: React.FC<{ props: ExportJson }> = ({ props }) => {
+const App: React.FC<{ props: ExportJson; index: number }> = ({
+  props,
+  index,
+}) => {
   const ref = useRef(null);
   /**
    * 传入参数: {
@@ -20,7 +24,7 @@ const App: React.FC<{ props: ExportJson }> = ({ props }) => {
   const [{ isDragging }, drag, preview] = useDrag(
     () => ({
       type: DragProp.SORT,
-      item: { props: props, index: 0 },
+      item: { props: props, index: index },
       end() {
         console.log(isDragging, "isDragging");
       },

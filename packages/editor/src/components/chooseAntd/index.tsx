@@ -26,14 +26,14 @@ const App: React.FC<{
     (state: { tickTack: { contentData: LibraryComponentInstanceData[] } }) =>
       state.tickTack.contentData
   );
-  console.log(contentData);
+  // console.log(contentData);
 
   useEffect(() => {
     // if (name) {
     contentData.forEach((item) => {
       if (item.uuid === uuid) {
         const itemProps = item.props as LibraryComponentInstanceProps;
-        console.log(name, "pppppp");
+        // console.log(name, "pppppp");
         setValue(
           (itemProps[name as string] as LibraryComponentInstanceProps)
             .defaultValue as string

@@ -26,9 +26,21 @@ export const counterSlice = createSlice({
      * @param param1
      */
     addComponent(state, { payload }) {
-      // state.contentData.push(payload.componentJson);
-      // console.log(state.contentData, "state");
-      state.contentData.splice(payload.index, 0, payload.componentJson);
+      if (payload.index === 0) {
+        state.contentData.push(payload.componentJson);
+      } else {
+        console.log(payload.index, "ooooooooooooooooooooooo");
+        state.contentData.splice(payload.index, 0, payload.componentJson);
+      }
+    },
+
+    /**
+     *
+     */
+    swapIndex(state, { payload }) {
+      const temp = state.contentData[payload.pre];
+      state.contentData[payload.pre] = state.contentData[payload.now];
+      state.contentData[payload.now] = temp;
     },
 
     /**
@@ -87,6 +99,7 @@ export const counterSlice = createSlice({
 // 导出actions
 export const {
   addComponent,
+  swapIndex,
   deleteComponent,
   updateAll,
   updateFocus,
@@ -94,4 +107,4 @@ export const {
   updateControlProp,
 } = counterSlice.actions;
 
-export default counterSlice.reducer; // 导出reducer，在创建store时使用到
+export default counterSlice.reducer;
