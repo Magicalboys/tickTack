@@ -8,7 +8,6 @@ import { LibraryComponentInstanceProps } from "../../../../types/src/library-com
 
 const initialState: storeData = {
   contentData: [],
-  focus: false,
   count: 0,
   contentJson: [],
 };
@@ -21,13 +20,25 @@ export const counterSlice = createSlice({
 
   reducers: {
     /**
-     * 添加组件
+     * 添加组件,根据index插入
      * @param state
      * @param param1
      */
     addComponent(state, { payload }) {
-      state.contentData.push(payload.componentJson);
-      // console.log(state.contentData, "state");
+      if (payload.index === 0) {
+        state.contentData.push(payload.componentJson);
+      } else {
+        state.contentData.splice(payload.index, 0, payload.componentJson);
+      }
+    },
+
+    /**
+     *
+     */
+    swapIndex(state, { payload }) {
+      const temp = state.contentData[payload.pre];
+      state.contentData[payload.pre] = state.contentData[payload.now];
+      state.contentData[payload.now] = temp;
     },
 
     /**
@@ -86,6 +97,7 @@ export const counterSlice = createSlice({
 // 导出actions
 export const {
   addComponent,
+  swapIndex,
   deleteComponent,
   updateAll,
   updateFocus,
@@ -93,4 +105,4 @@ export const {
   updateControlProp,
 } = counterSlice.actions;
 
-export default counterSlice.reducer; // 导出reducer，在创建store时使用到
+export default counterSlice.reducer;

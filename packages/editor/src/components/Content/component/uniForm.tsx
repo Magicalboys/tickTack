@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import ShowContent from "../../chooseAntd/index";
-import { updateFocus } from "../../../store/features/counterSlice";
+import { updateFocus, swapIndex } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
@@ -16,8 +16,9 @@ import "./uniform.scss";
 const App: React.FC<{
   props: LibraryComponentInstanceData;
   index: number;
-  swapIndex: (pre: number, now: number) => void;
-}> = ({ props, index, swapIndex }) => {
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  // swapIndex: (pre: number, now: number) => void;
+}> = ({ props, index, setIndex }) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
   /**
@@ -31,7 +32,8 @@ const App: React.FC<{
   const [, drop] = useDrop({
     accept: DragProp.SORT,
     hover(item: LibraryComponentInstanceData & { index: number }) {
-      swapIndex(index, item.index);
+      dispatch(swapIndex({ pre: index, now: item.index }));
+      setIndex(index);
       item.index = index;
     },
   });

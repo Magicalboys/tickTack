@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import { addComponent, updateAll } from "../../store/features/counterSlice";
+import { addComponent } from "../../store/features/counterSlice";
 import { v4 as uuidv4 } from "uuid";
 import {
   ExportJson,
@@ -9,7 +9,6 @@ import {
 } from "../../../../types/src/library-component";
 import { storeData } from "../../../../types/src/store";
 import { libraryPropsMap } from "../../../../library";
-// import type { CounterSliceType } from "../../store";
 import FormContent from "./component/uniForm";
 import { DragProp } from "../../../../types/src/drop-drag";
 import "./style.scss";
@@ -19,6 +18,9 @@ const Content: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
+  const length = contentData.length;
+  const [index, setIndex] = useState<number>(length);
+  const indexRef = useRef(index);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
@@ -41,22 +43,18 @@ const Content: React.FC = () => {
     return res;
   };
 
-  const swapIndex = (pre: number, now: number) => {
-    /**需要复制一个全新的数组，不要改变基本原数据 */
-    const _contentData = contentData.slice();
-    const temp = _contentData[pre];
-    _contentData[pre] = _contentData[now];
-    _contentData[now] = temp;
-    dispatch(updateAll({ componentData: _contentData }));
-  };
-
+  useEffect(() => {
+    indexRef.current = index;
+  }, [index]);
   const [{ isOver }, drop] = useDrop(
     () => ({
-      accept: DragProp.GENERICS,
+      accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
         console.log(isOver);
         const _item = handleItem(data.props);
-        dispatch(addComponent({ componentJson: _item }));
+        dispatch(
+          addComponent({ componentJson: _item, index: indexRef.current })
+        );
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),
@@ -73,8 +71,8 @@ const Content: React.FC = () => {
               <Fragment key={`${index}${item}`}>
                 <FormContent
                   props={item}
-                  swapIndex={swapIndex}
                   index={index}
+                  setIndex={setIndex}
                 ></FormContent>
               </Fragment>
             );

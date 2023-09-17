@@ -4,9 +4,7 @@ import {
 } from "../../../../../../types/src/library-component";
 
 export const generateCode = (contentData: LibraryComponentInstanceData[]) => {
-  console.log(contentData);
   const render = (contentData: LibraryComponentInstanceData[]) => {
-    console.log(contentData);
     let result = "";
     contentData.forEach((item) => {
       let props = "";
@@ -14,7 +12,6 @@ export const generateCode = (contentData: LibraryComponentInstanceData[]) => {
         (data) => {
           const key = item.props[data].control;
           const value = item.props[data].defaultValue;
-
           props = `${props} ${key} = '${String(value)}'`;
         }
       );
