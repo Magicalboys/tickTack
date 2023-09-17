@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useDrag, DragPreviewImage } from "react-dnd";
-// import { useSelector } from "react-redux";
 import { DragProp } from "../../../../../../types/src/drop-drag";
 import { ExportJson } from "../../../../../../types/src/library-component";
 import "./libItem.scss";
