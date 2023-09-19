@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Empty } from "antd";
 import { useSelector } from "react-redux";
 import FormControl from "./component/formControl";
 import RenderCss from "./component/renderCss";
@@ -24,7 +25,7 @@ const Control: React.FC = () => {
     } else {
       return (
         <>
-          <div>控制台暂无数据，请进行拖拽</div>
+          <Empty description="请选中画布组件"></Empty>
         </>
       );
     }
