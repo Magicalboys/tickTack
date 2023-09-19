@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import LibraryItem from "./component/libItem";
+import LibraryItem from "./component/LibItem/libItem";
 import { libraryMap } from "../../../../../library/index";
 import { Fragment } from "react";
+import "./style.scss";
 
 const App = () => {
   const count: number = useSelector(
-    (state) => state.tickTack.contentData.length
+    (state: any) => state.tickTack.contentData.length
   );
   const genericComponent =
     libraryMap &&
@@ -16,6 +17,6 @@ const App = () => {
         </Fragment>
       );
     });
-  return <>{genericComponent}</>;
+  return <div className="tt-component-container">{genericComponent}</div>;
 };
 export default App;

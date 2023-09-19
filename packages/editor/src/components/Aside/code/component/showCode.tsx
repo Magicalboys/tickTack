@@ -3,7 +3,7 @@ import MonacoEditor from "react-monaco-editor";
 import * as monaco from "monaco-editor";
 import { configureMonaco } from "../../../../monaco/monacoSetup";
 
-const ShowCode = ({ codeJson }) => {
+const ShowCode = ({ codeJson }: { codeJson: string }) => {
   // console.log(codeJson, "codeJSon");
   const [value, setValue] = useState(codeJson);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>(); // 编辑器实例
@@ -26,7 +26,7 @@ const ShowCode = ({ codeJson }) => {
     <MonacoEditor
       language='javascript'
       height={600}
-      width={500}
+      // width={500}
       theme='vs-dark' // 主题选择
       value={value} // 编辑器初始显示文字
       // onChange={setValue}
