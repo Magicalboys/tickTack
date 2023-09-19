@@ -4,6 +4,7 @@ import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
 } from "../../../../../../types/src/library-component";
+import "./renderCss.scss";
 
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
   const uuid = props.uuid;
@@ -30,14 +31,14 @@ const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
     return tickCss.map((props, index) => {
       const type: string = props.type as string;
       return (
-        <Fragment key={`${props}${index}`}>
-          <div>{props.title as string}</div>
-          <ShowContent
+        <div key={`${props}${index}`} className="tt-control-item">
+          <div className="tt-item-text">{props.title as string}</div>
+          <div className="tt-item-content"><ShowContent
             type={type}
             uuid={uuid}
             name={chooseName(index)}
-          ></ShowContent>
-        </Fragment>
+          ></ShowContent></div>
+        </div>
       );
     });
   };

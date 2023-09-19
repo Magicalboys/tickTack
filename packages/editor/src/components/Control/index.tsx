@@ -4,6 +4,7 @@ import type { SizeType } from "antd/es/config-provider/SizeContext";
 import Common from "./commonProp/index";
 import View from "./view/index";
 import ToEvent from "./eventTriger/index";
+import "./style.scss";
 
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>("small");
@@ -34,7 +35,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="tt-control-container">
       <Tabs
         defaultActiveKey='1'
         type='card'
@@ -44,7 +45,9 @@ const App: React.FC = () => {
           return {
             label: chooseComponent(id)[1],
             key: id,
-            children: chooseComponent(id)[0],
+            children: <div className="tt-container-content">
+            {chooseComponent(id)[0]}
+          </div>,
           };
         })}
       />
