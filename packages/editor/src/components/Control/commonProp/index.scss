@@ -1,4 +1,7 @@
-.container-control {
+.tt-container-control {
   flex: 0 0 300px;
   height: 100%;
+  .tt-control-item{
+    margin: 10px 0;
+  }
 }

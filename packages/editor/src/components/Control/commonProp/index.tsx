@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useMemo } from "react";
 import { Empty } from "antd";
 import { useSelector } from "react-redux";
 import FormControl from "./component/formControl";
@@ -11,29 +11,22 @@ const Control: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
-  const handleControl = () => {
-    if (contentData.length > 0) {
-      return contentData.map((item, index) => {
-        if (item.focus === true)
-          return (
-            <Fragment key={`${item}${index}`}>
-              <FormControl props={item}></FormControl>
-              <RenderCss props={item}></RenderCss>
-            </Fragment>
-          );
-      });
-    } else {
-      return (
-        <>
-          <Empty description="请选中画布组件"></Empty>
-        </>
-      );
-    }
-  };
+  const data = useMemo(() => contentData.find(item => item.focus), [contentData]);
+
+  const controlComponent = data && <div className="tt-content">
+    <FormControl props={data}></FormControl>
+    <RenderCss props={data}></RenderCss>
+  </div>
 
   return (
     <>
-      <div className='container-control'>{handleControl()}</div>
+      <div className="tt-container-control">
+        {
+          data ? controlComponent : <>
+            <Empty description="请选中画布组件"></Empty>
+          </>
+        }
+      </div>
     </>
   );
 };
