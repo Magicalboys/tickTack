@@ -15,7 +15,7 @@ const componentData = {
 
 const props = {
   title: {
-    title: "标题",
+    title: "文本内容",
     defaultValue: "",
     type: "string",
     control: "value",
@@ -24,9 +24,9 @@ const props = {
     title: "大小",
     defaultValue: "middle",
     options: [
-      { title: "large", value: "large" },
-      { title: "middle", value: "middle" },
-      { title: "small", value: "small" },
+      { label: "大", value: "large" },
+      { label: "中", value: "middle" },
+      { label: "小", value: "small" },
     ],
     type: "select",
     control: "size",

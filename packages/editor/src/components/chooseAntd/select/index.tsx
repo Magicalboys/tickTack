@@ -8,6 +8,8 @@ const App: React.FC<{
   uuid: string;
   name: string;
 }> = ({ fakeProps, uuid, name }) => {
+  console.log('fake', fakeProps);
+  
   const dispatch = useDispatch();
   const handleChange = (value: string) => {
     const defaultValue = value;
@@ -15,7 +17,7 @@ const App: React.FC<{
   };
   return (
     <>
-      <Select {...fakeProps} onChange={handleChange}></Select>
+      <Select {...fakeProps}  onChange={handleChange} style={{minWidth: '100px'}}></Select>
     </>
   );
 };

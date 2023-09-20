@@ -13,6 +13,8 @@ import {
   LibraryComponentInstanceProps,
 } from "../../../../types/src/library-component";
 
+const _Antd: any = Antd;
+
 const App: React.FC<{
   uuid: string;
   name?: string;
@@ -29,6 +31,10 @@ const App: React.FC<{
   );
 
   useEffect(() => {
+    console.log(fakeProps);
+    console.log(value);
+    console.log(cssProps);
+
     contentData.forEach((item) => {
       if (item.uuid === uuid) {
         const itemProps = item.props as LibraryComponentInstanceProps;
@@ -52,34 +58,31 @@ const App: React.FC<{
   }, [contentData]);
 
   let ShowContent;
-  if (type !== undefined) {
-    if (type === "string") {
-      return (
-        <>
-          <TickInput
-            fakeProps={fakeProps}
-            value={value}
-            setValue={setValue}
-            uuid={uuid}
-            name={name as string}
-          ></TickInput>
-        </>
-      );
-    } else if (type === "select") {
-      return (
-        <TickSelect
+  // 存在type，表示是控制台的输入渲染，目前有输入框，下拉选择，按钮
+  if (type) {
+    switch (type) {
+      case "string":
+        return <TickInput
+          fakeProps={fakeProps}
+          value={value}
+          setValue={setValue}
+          uuid={uuid}
+          name={name as string}
+        ></TickInput>;
+      case "select":
+        return <TickSelect
           fakeProps={fakeProps}
           uuid={uuid}
           name={name as string}
-        ></TickSelect>
-      );
-    } else {
-      return <TickButton fakeProps={fakeProps}></TickButton>;
+        ></TickSelect>;
+      default: return <TickButton fakeProps={fakeProps}></TickButton>;
     }
-  } else {
-    ShowContent = Antd[`${componentName}`];
+  } 
+  // 不存在type，表示是画布级别的组件渲染
+  else {
+    ShowContent = _Antd[`${componentName}`];
     if (componentName === "Button") {
-      return <Button {...cssProps}>{cssProps.value as string}</Button>;
+      return <Button {...cssProps}>{cssProps.value as string}1</Button>;
     } else {
       return <ShowContent {...cssProps}></ShowContent>;
     }
