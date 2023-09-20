@@ -43,7 +43,7 @@ const App: React.FC<{ props: ExportJson; index: number }> = ({
         src='../../../../assets/react.svg'
       ></DragPreviewImage>
       <div className='libItem_box' ref={ref}>
-        <div className="libItem_text">{props.componentData.name}</div>
+        <div className="libItem_text">{props.componentData.libraryPanelShowDetail.title}</div>
       </div>
     </>
   );
