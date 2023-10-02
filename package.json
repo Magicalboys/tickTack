@@ -6,6 +6,7 @@
   "scripts": {
     "editor": "pnpm -C packages/editor dev",
     "lib": "pnpm -C packages/library dev",
+    "event": "pnpm -C packages/event-action dev",
     "docs": "pnpm -C website dev",
     "cz": "git add . && czg",
     "build": "tsc && vite build",

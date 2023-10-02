@@ -1,0 +1,15 @@
+{
+  "name": "@ticktack/library",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5"
+  }
+}

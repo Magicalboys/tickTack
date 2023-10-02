@@ -13,6 +13,7 @@ import {
   LibraryComponentInstanceProps,
 } from "../../../../types/src/library-component";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _Antd: any = Antd;
 
 const App: React.FC<{
@@ -62,22 +63,27 @@ const App: React.FC<{
   if (type) {
     switch (type) {
       case "string":
-        return <TickInput
-          fakeProps={fakeProps}
-          value={value}
-          setValue={setValue}
-          uuid={uuid}
-          name={name as string}
-        ></TickInput>;
+        return (
+          <TickInput
+            fakeProps={fakeProps}
+            value={value}
+            setValue={setValue}
+            uuid={uuid}
+            name={name as string}
+          ></TickInput>
+        );
       case "select":
-        return <TickSelect
-          fakeProps={fakeProps}
-          uuid={uuid}
-          name={name as string}
-        ></TickSelect>;
-      default: return <TickButton fakeProps={fakeProps}></TickButton>;
+        return (
+          <TickSelect
+            fakeProps={fakeProps}
+            uuid={uuid}
+            name={name as string}
+          ></TickSelect>
+        );
+      default:
+        return <TickButton fakeProps={fakeProps}></TickButton>;
     }
-  } 
+  }
   // 不存在type，表示是画布级别的组件渲染
   else {
     ShowContent = _Antd[`${componentName}`];
