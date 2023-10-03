@@ -1,7 +1,10 @@
-.tt-control-container{
-    width: 300px;
-    padding: 10px;
-    .tt-container-content{
-        width: 100%;
-    }
+.tt-control-container {
+  width: 300px;
+  padding: 10px;
+
+  .tt-container-content {
+    height: 80vh;
+    width: 100%;
+    position: relative;
+  }
 }
