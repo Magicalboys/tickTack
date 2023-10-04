@@ -1,4 +1,6 @@
 import { Modal } from "antd";
+import { Editor } from "./monaco/index";
+import "../../../../../monaco/use-monaco";
 
 const App: React.FC<{
   open: boolean;
@@ -11,6 +13,7 @@ const App: React.FC<{
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Modal
@@ -18,7 +21,9 @@ const App: React.FC<{
         open={open}
         onOk={handleOK}
         onCancel={handleClose}
-      ></Modal>
+      >
+        <Editor></Editor>
+      </Modal>
     </>
   );
 };

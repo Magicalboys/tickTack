@@ -1,3 +1,8 @@
+/**
+ * 这个函数暂时保留着，后面注意重构掉，换为另一种方式进行编辑器的书写，可以参考monaco的github里面的docs
+ * @param monaco
+ */
+
 export function configureMonaco(monaco) {
   monaco.languages.register({ id: "jsx" });
 

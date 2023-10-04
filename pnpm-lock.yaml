@@ -124,6 +124,10 @@ importers:
   packages/constants: {}
 
   packages/editor:
+    dependencies:
+      monaco-editor:
+        specifier: ^0.43.0
+        version: 0.43.0
     devDependencies:
       vite:
         specifier: ^4.4.5
