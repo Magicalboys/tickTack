@@ -25,6 +25,7 @@ export const counterSlice = createSlice({
      * @param param1
      */
     addComponent(state, { payload }) {
+      // console.log(payload.index, "indexIndexIndexIndex");
       if (payload.index === 0) {
         state.contentData.push(payload.componentJson);
       } else {
@@ -39,6 +40,7 @@ export const counterSlice = createSlice({
       const temp = state.contentData[payload.pre];
       state.contentData[payload.pre] = state.contentData[payload.now];
       state.contentData[payload.now] = temp;
+      payload.now = payload.pre;
     },
 
     /**
@@ -91,6 +93,18 @@ export const counterSlice = createSlice({
         }
       });
     },
+
+    /**
+     *  根据uuid寻找对应的slot，然后再将后续元素插入到slot里面
+     */
+    findSlotToInsert(state, { payload }) {
+      console.log(payload);
+      state.contentData.forEach((item) => {
+        if (item.uuid === payload.uuid) {
+          item.children?.push(payload.componentJson);
+        }
+      });
+    },
   },
 });
 
@@ -103,6 +117,7 @@ export const {
   updateFocus,
   showContentJson,
   updateControlProp,
+  findSlotToInsert,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

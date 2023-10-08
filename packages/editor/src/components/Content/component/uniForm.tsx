@@ -16,9 +16,11 @@ import "./uniform.scss";
 const App: React.FC<{
   props: LibraryComponentInstanceData;
   index: number;
+  // container: string;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
-  // swapIndex: (pre: number, now: number) => void;
-}> = ({ props, index, setIndex }) => {
+  setContainer: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ props, index, setIndex, setContainer }) => {
+  // console.log(props, "ggggggggggggggggggggggg");
   const ref = useRef(null);
   const dispatch = useDispatch();
   /**
@@ -27,11 +29,23 @@ const App: React.FC<{
   const [, drag] = useDrag({
     type: DragProp.SORT,
     item: { props: props, index: index },
+    end(draggedItem, monitor) {
+      console.log(draggedItem);
+      if (monitor.didDrop()) {
+        console.log("uuuuuuuuuuuuuuuuuuu");
+      }
+    },
   });
 
   const [, drop] = useDrop({
     accept: DragProp.SORT,
-    hover(item: LibraryComponentInstanceData & { index: number }) {
+    hover(item: { props: LibraryComponentInstanceData } & { index: number }) {
+      //TODO 以后这里还是改为libraryName，先暂时用这个字段
+      if (props.componentName === "Slot") {
+        setContainer(props.componentName);
+        //TODO 判断是否放置在了这个元素之内
+        return;
+      }
       dispatch(swapIndex({ pre: index, now: item.index }));
       setIndex(index);
       item.index = index;
@@ -52,21 +66,25 @@ const App: React.FC<{
     return nameProps[0];
   };
 
+  const selectComponent = () => {
+    return (
+      <>
+        <div ref={ref} onClick={() => handleFocus(props.uuid)}>
+          <ShowContent
+            uuid={props.uuid}
+            name={chooseName(index)}
+            componentName={props.componentName}
+          ></ShowContent>
+        </div>
+      </>
+    );
+  };
+
   useEffect(() => {
     drag(ref);
     drop(ref);
   }, []);
 
-  return (
-    <>
-      <div ref={ref} onClick={() => handleFocus(props.uuid)}>
-        <ShowContent
-          uuid={props.uuid}
-          name={chooseName(index)}
-          componentName={props.componentName}
-        ></ShowContent>
-      </div>
-    </>
-  );
+  return <>{selectComponent()}</>;
 };
 export default App;

@@ -8,6 +8,7 @@ import { Button } from "antd";
 import TickInput from "./input/index";
 import TickButton from "./button/index";
 import TickSelect from "./select/index";
+import Slot from "./slot/index";
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
@@ -32,10 +33,6 @@ const App: React.FC<{
   );
 
   useEffect(() => {
-    console.log(fakeProps);
-    console.log(value);
-    console.log(cssProps);
-
     contentData.forEach((item) => {
       if (item.uuid === uuid) {
         const itemProps = item.props as LibraryComponentInstanceProps;
@@ -86,11 +83,17 @@ const App: React.FC<{
   }
   // 不存在type，表示是画布级别的组件渲染
   else {
-    ShowContent = _Antd[`${componentName}`];
-    if (componentName === "Button") {
-      return <Button {...cssProps}>{cssProps.value as string}1</Button>;
+    if (componentName === "Slot") {
+      // console.log("slotSlot");
+      return <Slot uuid={uuid}></Slot>;
     } else {
-      return <ShowContent {...cssProps}></ShowContent>;
+      ShowContent = _Antd[`${componentName}`];
+      if (componentName === "Button") {
+        // console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        return <Button {...cssProps}>{cssProps.value as string}</Button>;
+      } else {
+        return <ShowContent {...cssProps}></ShowContent>;
+      }
     }
   }
 };

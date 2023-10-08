@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useState, useEffect } from "react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "./index.scss";

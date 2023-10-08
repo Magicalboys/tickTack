@@ -23,9 +23,14 @@ const App: React.FC<{ props: ExportJson; index: number }> = ({
   const [{ isDragging }, drag, preview] = useDrag(
     () => ({
       type: DragProp.SORT,
-      item: { props: props, index: index },
+      item: {
+        props: props,
+        index: index,
+      },
       end() {
         console.log(isDragging, "isDragging");
+        // if (!isDragging) {
+        // }
       },
       collect: (monitor) => ({
         isDragging: !!monitor.isDragging(),
@@ -43,7 +48,9 @@ const App: React.FC<{ props: ExportJson; index: number }> = ({
         src='../../../../assets/react.svg'
       ></DragPreviewImage>
       <div className='libItem_box' ref={ref}>
-        <div className="libItem_text">{props.componentData.libraryPanelShowDetail.title}</div>
+        <div className='libItem_text'>
+          {props.componentData.libraryPanelShowDetail.title}
+        </div>
       </div>
     </>
   );

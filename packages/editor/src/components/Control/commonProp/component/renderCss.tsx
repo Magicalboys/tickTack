@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import ShowContent from "../../../chooseAntd/index";
 import {
   LibraryComponentInstanceData,
@@ -31,13 +30,15 @@ const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
     return tickCss.map((props, index) => {
       const type: string = props.type as string;
       return (
-        <div key={`${props}${index}`} className="tt-control-item">
-          <div className="tt-item-text">{props.title as string}</div>
-          <div className="tt-item-content"><ShowContent
-            type={type}
-            uuid={uuid}
-            name={chooseName(index)}
-          ></ShowContent></div>
+        <div key={`${props}${index}`} className='tt-control-item'>
+          <div className='tt-item-text'>{props.title as string}</div>
+          <div className='tt-item-content'>
+            <ShowContent
+              type={type}
+              uuid={uuid}
+              name={chooseName(index)}
+            ></ShowContent>
+          </div>
         </div>
       );
     });

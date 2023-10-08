@@ -20,7 +20,9 @@ const Content: React.FC = () => {
   );
   const length = contentData.length;
   const [index, setIndex] = useState<number>(length);
+  const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
+  const containerRef = useRef(container);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
@@ -39,22 +41,31 @@ const Content: React.FC = () => {
       focus: false,
       props: prop,
       child: item.componentData.child,
+      children: [],
     };
     return res;
   };
 
+  // 拖动展示区中的元素的时候会触发
   useEffect(() => {
     indexRef.current = index;
-  }, [index]);
+    containerRef.current = container;
+  }, [index, container]);
+
   const [{ isOver }, drop] = useDrop(
     () => ({
-      accept: DragProp.SORT,
-      drop: (data: { props: ExportJson; index: number }) => {
-        console.log(isOver);
+      accept: [DragProp.SORT],
+      drop: (data: { props: ExportJson; index: number }, monitor) => {
+        console.log(isOver, monitor.getDropResult(), "mmmmmmmmmmmmmmmmm");
         const _item = handleItem(data.props);
-        dispatch(
-          addComponent({ componentJson: _item, index: indexRef.current })
-        );
+        setIndex(0); // fix: 每次拖动结束之后index更新为0
+        setContainer(""); // fix: 每次拖动结束之后container更新为空
+        if (containerRef.current !== "Slot") {
+          console.log(containerRef.current, "container");
+          dispatch(
+            addComponent({ componentJson: _item, index: indexRef.current })
+          );
+        }
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),
@@ -72,7 +83,9 @@ const Content: React.FC = () => {
                 <FormContent
                   props={item}
                   index={index}
+                  // container={container}
                   setIndex={setIndex}
+                  setContainer={setContainer}
                 ></FormContent>
               </Fragment>
             );
