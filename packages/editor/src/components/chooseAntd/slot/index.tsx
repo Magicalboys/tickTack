@@ -13,6 +13,8 @@ import "./index.scss";
 
 const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   const dispatch = useDispatch();
+
+  // 收集插槽
   const slotData: LibraryComponentInstanceData | undefined = useSelector(
     (state: Record<string, storeData>) => {
       for (const item of state.tickTack.contentData) {
@@ -22,6 +24,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
       }
     }
   );
+
   console.log(slotData, "slotDataSlotDataSlotData");
 
   const contentData: LibraryComponentInstanceData[] = useSelector(
@@ -29,7 +32,9 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   );
   const length = contentData.length;
   const [index, setIndex] = useState<number>(length);
+  const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
+  const containerRef = useRef(container);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
@@ -56,19 +61,15 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
 
   useEffect(() => {
     indexRef.current = index;
-  }, [index]);
+    containerRef.current = container;
+  }, [index, container]);
 
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
-        console.log(
-          isOver,
-          data,
-          "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
-        );
+        console.log(isOver);
         const _item = handleItem(data.props);
-        console.log(_item, "_item");
         dispatch(findSlotToInsert({ componentJson: _item, uuid: uuid }));
       },
       collect: (monitor: DropTargetMonitor) => ({
@@ -81,14 +82,15 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   return (
     <>
       <div className='slotProp' ref={drop}>
-        {(slotData?.children as LibraryComponentInstanceData[])
+        {slotData?.children && slotData.children.length > 0
           ? slotData?.children?.map((item, index) => {
               console.log(item, "ItemItemItem");
               return (
                 <>
                   <Fragment key={`${index}${item}`}>
-                    <div className="slot_children">
+                    <div className='slot_children'>
                       <FormContent
+                        setContainer={setContainer}
                         props={item}
                         index={index}
                         setIndex={setIndex}

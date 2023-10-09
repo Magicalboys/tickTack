@@ -25,7 +25,7 @@ export const counterSlice = createSlice({
      * @param param1
      */
     addComponent(state, { payload }) {
-      // console.log(payload.index, "indexIndexIndexIndex");
+      console.log(payload.index, "indexIndexIndexIndex");
       if (payload.index === 0) {
         state.contentData.push(payload.componentJson);
       } else {

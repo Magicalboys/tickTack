@@ -18,6 +18,7 @@ const Content: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
+  console.log(contentData, "contentData");
   const length = contentData.length;
   const [index, setIndex] = useState<number>(length);
   const [container, setContainer] = useState(""); // 放置的容器信息
@@ -65,6 +66,7 @@ const Content: React.FC = () => {
           dispatch(
             addComponent({ componentJson: _item, index: indexRef.current })
           );
+          return;
         }
       },
       collect: (monitor: DropTargetMonitor) => ({

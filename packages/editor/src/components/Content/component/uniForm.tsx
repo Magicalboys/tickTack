@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch } from "react-redux";
+import { useCollectSlotUuid } from "../../../util/useCollectUuid";
 import ShowContent from "../../chooseAntd/index";
 import { updateFocus, swapIndex } from "../../../store/features/counterSlice";
 import {
@@ -16,13 +17,13 @@ import "./uniform.scss";
 const App: React.FC<{
   props: LibraryComponentInstanceData;
   index: number;
-  // container: string;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setContainer: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ props, index, setContainer, setIndex }) => {
-  console.log(props, "ggggggggggggggggggggggg");
   const ref = useRef(null);
   const dispatch = useDispatch();
+  const [slotUuid] = useCollectSlotUuid();
+  console.log(slotUuid, "uuidUuidUuidUuid");
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */
@@ -40,14 +41,22 @@ const App: React.FC<{
   const [, drop] = useDrop({
     accept: DragProp.SORT,
     hover(item: { props: LibraryComponentInstanceData } & { index: number }) {
-      //TODO 以后这里还是改为libraryName，先暂时用这个字段
-      if (props.componentName === "Slot") {
-        setContainer(props.componentName);
-        console.log("enterEnterEnter");
+      const total = [];
+      for (const item of slotUuid.values()) {
+        total.push(...item);
       }
-      dispatch(swapIndex({ pre: index, now: item.index }));
-      setIndex(index);
-      item.index = index;
+      // 判断hover的最终容器的最终位置在哪里
+      const isExistSlot = total.includes(props.uuid);
+
+      if (isExistSlot || props.componentName === "Slot") {
+        // 如果在slot里面
+        setContainer("Slot");
+      } else {
+        // 如果不在slot里面
+        dispatch(swapIndex({ pre: index, now: item.index }));
+        setIndex(index);
+        item.index = index;
+      }
     },
     collect: (monitor: DropTargetMonitor) => ({
       canDrop: monitor.canDrop(),
