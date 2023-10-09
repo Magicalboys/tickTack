@@ -3,7 +3,11 @@ import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { useCollectSlotUuid } from "../../../util/useCollectUuid";
 import ShowContent from "../../chooseAntd/index";
-import { updateFocus, swapIndex } from "../../../store/features/counterSlice";
+import {
+  updateFocus,
+  swapIndex,
+  swapSlotIndex,
+} from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
@@ -23,7 +27,7 @@ const App: React.FC<{
   const ref = useRef(null);
   const dispatch = useDispatch();
   const [slotUuid] = useCollectSlotUuid();
-  console.log(slotUuid, "uuidUuidUuidUuid");
+  // console.log(slotUuid, "uuidUuidUuidUuid");
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */
@@ -31,7 +35,7 @@ const App: React.FC<{
     type: DragProp.SORT,
     item: { props: props, index: index },
     end(draggedItem, monitor) {
-      console.log(draggedItem);
+      // console.log(draggedItem);
       if (monitor.didDrop()) {
         // console.log("uuuuuuuuuuuuuuuuuuu");
       }
@@ -51,6 +55,11 @@ const App: React.FC<{
       if (isExistSlot || props.componentName === "Slot") {
         // 如果在slot里面
         setContainer("Slot");
+        dispatch(
+          swapSlotIndex({ pre: index, now: item.index, uuid: props.uuid })
+        );
+        setIndex(index);
+        item.index = index;
       } else {
         // 如果不在slot里面
         dispatch(swapIndex({ pre: index, now: item.index }));
@@ -65,7 +74,7 @@ const App: React.FC<{
   });
 
   const handleFocus = (uuid: string, e) => {
-    console.log(uuid);
+    // console.log(uuid);
     // 阻止事件冒泡
     e.stopPropagation();
     dispatch(updateFocus({ uuid: uuid }));

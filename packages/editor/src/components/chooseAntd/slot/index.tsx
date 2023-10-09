@@ -25,7 +25,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     }
   );
 
-  console.log(slotData, "slotDataSlotDataSlotData");
+  // console.log(slotData, "slotDataSlotDataSlotData");
 
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
@@ -45,7 +45,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
         continue;
       }
     }
-    console.log(prop, "prop");
+    // console.log(prop, "prop");
     const uuid = uuidv4();
     const res = {
       uuid: uuid,
@@ -82,25 +82,27 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   return (
     <>
       <div className='slotProp' ref={drop}>
-        {slotData?.children && slotData.children.length > 0
-          ? slotData?.children?.map((item, index) => {
-              console.log(item, "ItemItemItem");
-              return (
-                <>
-                  <Fragment key={`${index}${item}`}>
-                    <div className='slot_children'>
-                      <FormContent
-                        setContainer={setContainer}
-                        props={item}
-                        index={index}
-                        setIndex={setIndex}
-                      ></FormContent>
-                    </div>
-                  </Fragment>
-                </>
-              );
-            })
-          : "这是插槽"}
+        {slotData?.children && slotData.children.length > 0 ? (
+          slotData?.children?.map((item, index) => {
+            // console.log(item, "ItemItemItem");
+            return (
+              <>
+                <Fragment key={`${index}${item}`}>
+                  <div className='slot_children'>
+                    <FormContent
+                      setContainer={setContainer}
+                      props={item}
+                      index={index}
+                      setIndex={setIndex}
+                    ></FormContent>
+                  </div>
+                </Fragment>
+              </>
+            );
+          })
+        ) : (
+          <div> "这是插槽"</div>
+        )}
       </div>
     </>
   );

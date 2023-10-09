@@ -18,7 +18,7 @@ const Content: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
-  console.log(contentData, "contentData");
+  // console.log(contentData, "contentData");
   const length = contentData.length;
   const [index, setIndex] = useState<number>(length);
   const [container, setContainer] = useState(""); // 放置的容器信息
@@ -57,12 +57,12 @@ const Content: React.FC = () => {
     () => ({
       accept: [DragProp.SORT],
       drop: (data: { props: ExportJson; index: number }, monitor) => {
-        console.log(isOver, monitor.getDropResult(), "mmmmmmmmmmmmmmmmm");
+        console.log(isOver, monitor.getDropResult());
         const _item = handleItem(data.props);
         setIndex(0); // fix: 每次拖动结束之后index更新为0
         setContainer(""); // fix: 每次拖动结束之后container更新为空
         if (containerRef.current !== "Slot") {
-          console.log(containerRef.current, "container");
+          // console.log(containerRef.current, "container");
           dispatch(
             addComponent({ componentJson: _item, index: indexRef.current })
           );

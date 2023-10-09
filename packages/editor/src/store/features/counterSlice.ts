@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { storeData } from "../../../../types/src/store";
-import { LibraryComponentInstanceProps } from "../../../../types/src/library-component";
+import {
+  LibraryComponentInstanceProps,
+  LibraryComponentInstanceData,
+} from "../../../../types/src/library-component";
 
 /**
  * 全局共享物料
@@ -40,6 +43,27 @@ export const counterSlice = createSlice({
       const temp = state.contentData[payload.pre];
       state.contentData[payload.pre] = state.contentData[payload.now];
       state.contentData[payload.now] = temp;
+      payload.now = payload.pre;
+    },
+
+    /**
+     * 对插槽内的元素进行排序
+     */
+    swapSlotIndex(state, { payload }) {
+      // 先根据uuid选择是属于哪一个slot下面的
+      let aimEle: LibraryComponentInstanceData[] = [];
+      state.contentData.forEach((item) => {
+        if (item.componentName === "Slot") {
+          item.children?.forEach((child) => {
+            if (child.uuid === payload.uuid) {
+              aimEle = item.children as LibraryComponentInstanceData[];
+            }
+          });
+        }
+      });
+      const temp = aimEle[payload.pre];
+      aimEle[payload.pre] = aimEle[payload.now];
+      aimEle[payload.now] = temp;
       payload.now = payload.pre;
     },
 
@@ -134,6 +158,7 @@ export const counterSlice = createSlice({
 export const {
   addComponent,
   swapIndex,
+  swapSlotIndex,
   deleteComponent,
   updateAll,
   updateFocus,

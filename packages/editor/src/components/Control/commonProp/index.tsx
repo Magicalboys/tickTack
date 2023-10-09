@@ -14,17 +14,17 @@ const Control: React.FC = () => {
   const data = useMemo(() => {
     let result = contentData.find((item) => item.focus);
     if (!result) {
-      console.log("elseeeeeeeeeeeeeeeeeeeeeeeee");
+      // console.log("elseeeeeeeeeeeeeeeeeeeeeeeee");
       for (const itemData of contentData) {
         if (itemData.componentName === "Slot") {
           result = itemData.children?.find((child) => child.focus);
-          console.log(result, "iiiiiiiiiiiiiiiiiiiiii");
+          // console.log(result, "iiiiiiiiiiiiiiiiiiiiii");
         }
       }
     }
     return result;
   }, [contentData]);
-  console.log(data, "DATATATATAT");
+  // console.log(data, "DATATATATAT");
 
   const controlComponent = data && (
     <div className='tt-content'>

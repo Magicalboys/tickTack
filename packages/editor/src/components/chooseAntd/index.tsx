@@ -58,7 +58,7 @@ const App: React.FC<{
       // 有插槽的情况
       if (item.componentName === "Slot") {
         item.children?.forEach((data) => {
-          console.log(data, "data");
+          // console.log(data, "data");
           if (data.uuid === uuid) {
             const itemProps = data.props as LibraryComponentInstanceProps;
             setValue(
@@ -119,8 +119,8 @@ const App: React.FC<{
     } else {
       ShowContent = _Antd[`${componentName}`];
       if (componentName === "Button") {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-        console.log(cssProps, "cssProps");
+        // console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        // console.log(cssProps, "cssProps");
         return <Button {...cssProps}>{cssProps.value as string}</Button>;
       } else {
         return <ShowContent {...cssProps}></ShowContent>;

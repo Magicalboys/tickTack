@@ -10,7 +10,7 @@ const App: React.FC<{
   uuid: string;
   name: string;
 }> = ({ fakeProps, value, setValue, uuid, name }) => {
-  console.log(fakeProps, "fakeFake");
+  // console.log(fakeProps, "fakeFake");
   const dispatch = useDispatch();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
