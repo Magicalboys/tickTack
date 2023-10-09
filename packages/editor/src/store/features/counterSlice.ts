@@ -34,7 +34,7 @@ export const counterSlice = createSlice({
     },
 
     /**
-     *
+     * 需要对插槽进行针对性修改
      */
     swapIndex(state, { payload }) {
       const temp = state.contentData[payload.pre];
@@ -62,12 +62,22 @@ export const counterSlice = createSlice({
      * 更改物料的focus
      */
     updateFocus(state, { payload }) {
-      // 点击更改
+      // 点击更改,先找整体，再找slot
       state.contentData.forEach((itemData) => {
         if (itemData.uuid === payload.uuid) {
           itemData.focus = true;
         } else {
           itemData.focus = false;
+        }
+
+        if (itemData.componentName === "Slot") {
+          itemData.children?.forEach((child) => {
+            if (child.uuid === payload.uuid) {
+              child.focus = true;
+            } else {
+              child.focus = false;
+            }
+          });
         }
       });
     },
@@ -90,6 +100,18 @@ export const counterSlice = createSlice({
               payload.name
             ] as LibraryComponentInstanceProps
           ).defaultValue = payload.defaultValue;
+        }
+
+        if (item.componentName === "Slot") {
+          item.children?.forEach((child) => {
+            if (child.uuid === payload.uuid) {
+              (
+                (child.props as LibraryComponentInstanceProps)[
+                  payload.name
+                ] as LibraryComponentInstanceProps
+              ).defaultValue = payload.defaultValue;
+            }
+          });
         }
       });
     },

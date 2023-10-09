@@ -6,6 +6,7 @@ import {
 import "./renderCss.scss";
 
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
+  console.log(props, "props");
   const uuid = props.uuid;
   const tickCss: LibraryComponentInstanceProps[] = [];
   Object.keys(props.props as LibraryComponentInstanceProps).forEach((item) => {

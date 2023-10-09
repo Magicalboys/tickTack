@@ -33,6 +33,8 @@ const App: React.FC<{
   );
 
   useEffect(() => {
+    // 把这个抽离为函数，现在时间紧迫先不急着
+
     contentData.forEach((item) => {
       if (item.uuid === uuid) {
         const itemProps = item.props as LibraryComponentInstanceProps;
@@ -51,6 +53,34 @@ const App: React.FC<{
           ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
         });
         setCssProps(cssProps);
+      }
+
+      // 有插槽的情况
+      if (item.componentName === "Slot") {
+        item.children?.forEach((data) => {
+          console.log(data, "data");
+          if (data.uuid === uuid) {
+            const itemProps = data.props as LibraryComponentInstanceProps;
+            setValue(
+              (itemProps[name as string] as LibraryComponentInstanceProps)
+                .defaultValue as string
+            );
+            setFakeProps(
+              itemProps[name as string] as LibraryComponentInstanceProps
+            );
+            const cssProps: LibraryComponentInstanceProps = {};
+            const fake = data.props as LibraryComponentInstanceProps;
+            Object.keys(fake as LibraryComponentInstanceProps).forEach(
+              (item) => {
+                cssProps[
+                  (fake[item] as LibraryComponentInstanceProps)
+                    .control as string
+                ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
+              }
+            );
+            setCssProps(cssProps);
+          }
+        });
       }
     });
   }, [contentData]);
@@ -89,7 +119,8 @@ const App: React.FC<{
     } else {
       ShowContent = _Antd[`${componentName}`];
       if (componentName === "Button") {
-        // console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        console.log(cssProps, "cssProps");
         return <Button {...cssProps}>{cssProps.value as string}</Button>;
       } else {
         return <ShowContent {...cssProps}></ShowContent>;

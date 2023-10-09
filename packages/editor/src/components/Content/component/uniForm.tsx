@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch } from "react-redux";
 import ShowContent from "../../chooseAntd/index";
 import { updateFocus, swapIndex } from "../../../store/features/counterSlice";
@@ -19,8 +19,8 @@ const App: React.FC<{
   // container: string;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setContainer: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ props, index, setIndex, setContainer }) => {
-  // console.log(props, "ggggggggggggggggggggggg");
+}> = ({ props, index, setContainer, setIndex }) => {
+  console.log(props, "ggggggggggggggggggggggg");
   const ref = useRef(null);
   const dispatch = useDispatch();
   /**
@@ -32,7 +32,7 @@ const App: React.FC<{
     end(draggedItem, monitor) {
       console.log(draggedItem);
       if (monitor.didDrop()) {
-        console.log("uuuuuuuuuuuuuuuuuuu");
+        // console.log("uuuuuuuuuuuuuuuuuuu");
       }
     },
   });
@@ -43,21 +43,28 @@ const App: React.FC<{
       //TODO 以后这里还是改为libraryName，先暂时用这个字段
       if (props.componentName === "Slot") {
         setContainer(props.componentName);
-        //TODO 判断是否放置在了这个元素之内
-        return;
+        console.log("enterEnterEnter");
       }
       dispatch(swapIndex({ pre: index, now: item.index }));
       setIndex(index);
       item.index = index;
     },
+    collect: (monitor: DropTargetMonitor) => ({
+      canDrop: monitor.canDrop(),
+      isOverCurrent: monitor.isOver({ shallow: true }),
+    }),
   });
 
-  const handleFocus = (uuid: string) => {
+  const handleFocus = (uuid: string, e) => {
+    console.log(uuid);
+    // 阻止事件冒泡
+    e.stopPropagation();
     dispatch(updateFocus({ uuid: uuid }));
   };
 
   const chooseName = (index: number) => {
     const nameProps: string[] = [];
+    // console.log(props, "props");
     Object.keys(props.props as LibraryComponentInstanceProps).forEach(
       (item) => {
         nameProps.push(item);
@@ -69,11 +76,11 @@ const App: React.FC<{
   const selectComponent = () => {
     return (
       <>
-        <div ref={ref} onClick={() => handleFocus(props.uuid)}>
+        <div ref={ref} onClick={(e) => handleFocus(props.uuid, e)}>
           <ShowContent
-            uuid={props.uuid}
             name={chooseName(index)}
             componentName={props.componentName}
+            uuid={props.uuid}
           ></ShowContent>
         </div>
       </>
