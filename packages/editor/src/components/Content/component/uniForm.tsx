@@ -19,7 +19,7 @@ import { storeData } from "../../../../../types/src/store";
 import "./uniform.scss";
 
 /**
- * 适用于form表单相关的元素
+ * TODO: 封装为一个可用的hook
  */
 const App: React.FC<{
   props: LibraryComponentInstanceData;
@@ -73,6 +73,7 @@ const App: React.FC<{
           nowIndex = item.index;
           slotUuid = findNearestSlot(contentData, props.uuid);
         }
+
         // 如果在slot里面
         setContainer("Slot");
         if (uuid) {
@@ -83,14 +84,17 @@ const App: React.FC<{
             item.index = index;
           }
         }
+        if (preIndex !== null && nowIndex !== null) {
+          setIndex(preIndex as number);
+        }
       } else {
         // uuid存在则说明是可视区域内进行拖动排序
         if (uuid) {
           dispatch(swapIndex({ pre: index, now: item.index }));
           item.index = index;
         }
+        setIndex(index);
       }
-      setIndex(index);
     },
     collect: (monitor: DropTargetMonitor) => ({
       canDrop: monitor.canDrop(),

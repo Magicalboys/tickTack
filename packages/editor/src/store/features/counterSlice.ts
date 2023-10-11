@@ -28,7 +28,7 @@ export const counterSlice = createSlice({
      * @param param1
      */
     addComponent(state, { payload }) {
-      console.log(payload.index, "indexIndexIndexIndex");
+      // console.log(payload.index, "indexIndexIndexIndex");
       if (payload.index === 0) {
         state.contentData.push(payload.componentJson);
       } else {
@@ -141,12 +141,18 @@ export const counterSlice = createSlice({
      *  根据uuid寻找对应的slot，然后再将后续元素插入到slot里面
      */
     findSlotToInsert(state, { payload }) {
-      console.log(payload);
+      console.log(payload.index, "oooooooo");
+      let slotData: LibraryComponentInstanceData[] = [];
       state.contentData.forEach((item) => {
         if (item.uuid === payload.uuid) {
-          item.children?.push(payload.componentJson);
+          slotData = item.children;
         }
       });
+      if (payload.index === 0) {
+        slotData.push(payload.componentJson);
+      } else {
+        slotData.splice(payload.index + 1, 0, payload.componentJson);
+      }
     },
   },
 });

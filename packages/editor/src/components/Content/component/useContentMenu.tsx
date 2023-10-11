@@ -63,7 +63,6 @@ const ContextMenu: React.FC<MenuProps> = forwardRef((props, ref) => {
   const handleContextMenu = (event: MouseEvent, position?: PositionType) => {
     setCurrentEvent(event);
 
-    // const nodeName = event.target.nodeName
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const className = (event.target as any)?.className;
     // const id = event.target.id;
@@ -109,10 +108,10 @@ const ContextMenu: React.FC<MenuProps> = forwardRef((props, ref) => {
 
     if (l >= winWidth() - menu?.offsetWidth) {
       l = winWidth() - menu?.offsetWidth;
-    } 
+    }
     if (t > winHeight() - menu?.offsetHeight) {
       t = winHeight() - menu?.offsetHeight;
-    } 
+    }
 
     if (menu) {
       menu.style.left = l + "px";
@@ -154,7 +153,7 @@ const ContextMenu: React.FC<MenuProps> = forwardRef((props, ref) => {
   return visible ? (
     <div
       // className={styles.menu}
-      id="context-menu"
+      id='context-menu'
       ref={menuRef}
       style={style ? style : {}}
     >

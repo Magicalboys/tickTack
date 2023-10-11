@@ -2,12 +2,13 @@ import { useState, useRef, useEffect, Fragment } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { useAdaptContainer } from "../../../util/hooks/useAdaptContainer";
+import FormContent from "../../Content/component/uniForm";
 import { findSlotToInsert } from "../../../store/features/counterSlice";
 import { libraryPropsMap } from "../../../../../library";
 import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
 import { storeData } from "../../../../../types/src/store";
 import { DragProp } from "../../../../../types/src/drop-drag";
-import FormContent from "../../Content/component/uniForm";
 import { ExportJson } from "../../../../../types/src/library-component";
 import "./index.scss";
 
@@ -25,16 +26,14 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     }
   );
 
-  // console.log(slotData, "slotDataSlotDataSlotData");
-
-  // const contentData: LibraryComponentInstanceData[] = useSelector(
-  //   (state: Record<string, storeData>) => state.tickTack.contentData
-  // );
   const length = (slotData?.children as LibraryComponentInstanceData[]).length;
   const [index, setIndex] = useState<number>(length);
   const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
   const containerRef = useRef(container);
+
+  const adaptElementRef = useRef(null); // 获取内容元素的引用
+  const adaptContainerRef = useAdaptContainer(adaptElementRef);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
@@ -45,7 +44,6 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
         continue;
       }
     }
-    // console.log(prop, "prop");
     const uuid = uuidv4();
     const res = {
       uuid: uuid,
@@ -68,11 +66,23 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     () => ({
       accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
+        if (adaptElementRef.current) {
+          console.log(
+            adaptElementRef.current.getBoundingClientRect().height,
+            "ppp"
+          );
+        }
         console.log(isOver);
         const _item = handleItem(data.props);
         setIndex(0);
         setContainer("");
-        dispatch(findSlotToInsert({ componentJson: _item, uuid: uuid }));
+        dispatch(
+          findSlotToInsert({
+            componentJson: _item,
+            uuid: uuid,
+            index: indexRef.current,
+          })
+        );
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),
@@ -81,31 +91,35 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     []
   );
 
+  useEffect(() => {
+    drop(adaptContainerRef);
+  }, []);
+
   return (
     <>
-      <div className='slotProp' ref={drop}>
-        {slotData?.children && slotData.children.length > 0 ? (
-          slotData?.children?.map((item, index) => {
-            // console.log(item, "ItemItemItem");
-            // console.log(index, "pppppppppppppppp");
-            return (
-              <>
-                <Fragment key={`${index}${item}`}>
-                  <div className='slot_children'>
-                    <FormContent
-                      setContainer={setContainer}
-                      props={item}
-                      index={index}
-                      setIndex={setIndex}
-                    ></FormContent>
-                  </div>
-                </Fragment>
-              </>
-            );
-          })
-        ) : (
-          <div> 这是插槽</div>
-        )}
+      <div ref={adaptContainerRef} className='slotProp'>
+        <div ref={adaptElementRef}>
+          {slotData?.children && slotData.children.length > 0 ? (
+            slotData?.children?.map((item, index) => {
+              return (
+                <>
+                  <Fragment key={`${index}${item}`}>
+                    <div className='slot_children'>
+                      <FormContent
+                        setContainer={setContainer}
+                        props={item}
+                        index={index}
+                        setIndex={setIndex}
+                      ></FormContent>
+                    </div>
+                  </Fragment>
+                </>
+              );
+            })
+          ) : (
+            <div> 这是插槽</div>
+          )}
+        </div>
       </div>
     </>
   );
