@@ -27,10 +27,10 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
 
   // console.log(slotData, "slotDataSlotDataSlotData");
 
-  const contentData: LibraryComponentInstanceData[] = useSelector(
-    (state: Record<string, storeData>) => state.tickTack.contentData
-  );
-  const length = contentData.length;
+  // const contentData: LibraryComponentInstanceData[] = useSelector(
+  //   (state: Record<string, storeData>) => state.tickTack.contentData
+  // );
+  const length = (slotData?.children as LibraryComponentInstanceData[]).length;
   const [index, setIndex] = useState<number>(length);
   const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
@@ -70,6 +70,8 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
       drop: (data: { props: ExportJson; index: number }) => {
         console.log(isOver);
         const _item = handleItem(data.props);
+        setIndex(0);
+        setContainer("");
         dispatch(findSlotToInsert({ componentJson: _item, uuid: uuid }));
       },
       collect: (monitor: DropTargetMonitor) => ({
@@ -85,6 +87,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
         {slotData?.children && slotData.children.length > 0 ? (
           slotData?.children?.map((item, index) => {
             // console.log(item, "ItemItemItem");
+            // console.log(index, "pppppppppppppppp");
             return (
               <>
                 <Fragment key={`${index}${item}`}>
@@ -101,7 +104,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
             );
           })
         ) : (
-          <div> "这是插槽"</div>
+          <div> 这是插槽</div>
         )}
       </div>
     </>

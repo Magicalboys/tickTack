@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
 import { storeData } from "../../../types/src/store";
 
-// 收集所有插槽的uuid以map结构存储
 /**
- * {slot<uuid>: [uuid, uuid]}
+ * 收集所有插槽的uuid_{slot<uuid>: [uuid, uuid]}
  */
 
 export const useCollectSlotUuid = () => {
@@ -15,6 +14,7 @@ export const useCollectSlotUuid = () => {
 
   contentData.forEach((item) => {
     if (item.componentName === "Slot") {
+      slotMap.set(item.uuid, []);
       const childUuid: string[] = [];
       item.children?.forEach((child) => {
         childUuid.push(child.uuid);

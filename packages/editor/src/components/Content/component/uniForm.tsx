@@ -1,7 +1,8 @@
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCollectSlotUuid } from "../../../util/useCollectUuid";
+import { findNearestSlot } from "../../../util/findNearestSlot";
 import ShowContent from "../../chooseAntd/index";
 import {
   updateFocus,
@@ -13,6 +14,8 @@ import {
   LibraryComponentInstanceProps,
 } from "../../../../../types/src/library-component";
 import { DragProp } from "../../../../../types/src/drop-drag";
+import { ExportJson } from "../../../../../types/src/library-component";
+import { storeData } from "../../../../../types/src/store";
 import "./uniform.scss";
 
 /**
@@ -25,47 +28,69 @@ const App: React.FC<{
   setContainer: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ props, index, setContainer, setIndex }) => {
   const ref = useRef(null);
+  const contentData = useSelector(
+    (state: Record<string, storeData>) => state.tickTack.contentData
+  );
   const dispatch = useDispatch();
   const [slotUuid] = useCollectSlotUuid();
-  // console.log(slotUuid, "uuidUuidUuidUuid");
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */
   const [, drag] = useDrag({
     type: DragProp.SORT,
-    item: { props: props, index: index },
-    end(draggedItem, monitor) {
-      // console.log(draggedItem);
-      if (monitor.didDrop()) {
-        // console.log("uuuuuuuuuuuuuuuuuuu");
-      }
-    },
+    item: { props: { props }, index: index },
   });
 
   const [, drop] = useDrop({
     accept: DragProp.SORT,
-    hover(item: { props: LibraryComponentInstanceData } & { index: number }) {
+    hover(
+      item: { props: ExportJson | LibraryComponentInstanceData } & {
+        index: number;
+      }
+    ) {
       const total = [];
       for (const item of slotUuid.values()) {
         total.push(...item);
       }
-      // 判断hover的最终容器的最终位置在哪里
+      for (const item of slotUuid.keys()) {
+        total.push(item);
+      }
+      // 判断hover的最终容器的最终位置在哪里——container或者content
       const isExistSlot = total.includes(props.uuid);
 
-      if (isExistSlot || props.componentName === "Slot") {
+      const uuid = (item.props.props as unknown as LibraryComponentInstanceData)
+        .uuid;
+      if (isExistSlot) {
+        let slotUuid: string;
+        let preIndex: number | null = null;
+        let nowIndex: number | null = null;
+
+        //TODO 对可能会触发slot的做统一管理——策略模式
+        if (props.componentName === "Slot") {
+          slotUuid = props.uuid;
+        } else {
+          preIndex = index;
+          nowIndex = item.index;
+          slotUuid = findNearestSlot(contentData, props.uuid);
+        }
         // 如果在slot里面
         setContainer("Slot");
-        dispatch(
-          swapSlotIndex({ pre: index, now: item.index, uuid: props.uuid })
-        );
-        setIndex(index);
-        item.index = index;
+        if (uuid) {
+          if (preIndex !== null && nowIndex !== null) {
+            dispatch(
+              swapSlotIndex({ pre: preIndex, now: nowIndex, uuid: slotUuid })
+            );
+            item.index = index;
+          }
+        }
       } else {
-        // 如果不在slot里面
-        dispatch(swapIndex({ pre: index, now: item.index }));
-        setIndex(index);
-        item.index = index;
+        // uuid存在则说明是可视区域内进行拖动排序
+        if (uuid) {
+          dispatch(swapIndex({ pre: index, now: item.index }));
+          item.index = index;
+        }
       }
+      setIndex(index);
     },
     collect: (monitor: DropTargetMonitor) => ({
       canDrop: monitor.canDrop(),
@@ -73,8 +98,10 @@ const App: React.FC<{
     }),
   });
 
-  const handleFocus = (uuid: string, e) => {
-    // console.log(uuid);
+  const handleFocus = (
+    uuid: string,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     // 阻止事件冒泡
     e.stopPropagation();
     dispatch(updateFocus({ uuid: uuid }));

@@ -55,11 +55,11 @@ export interface LibraryComponentInstanceData {
 
   componentName: string;
 
+  children: LibraryComponentInstanceData[];
+
   props?: LibraryComponentInstanceProps;
 
   child?: string;
-
-  children?: LibraryComponentInstanceData[];
 }
 
 export interface contentJsonProp {}
