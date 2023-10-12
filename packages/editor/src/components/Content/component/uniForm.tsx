@@ -31,6 +31,7 @@ const App: React.FC<{
   const contentData = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
+  // console.log(contentData, "contentData");
   const dispatch = useDispatch();
   const [slotUuid] = useCollectSlotUuid();
   /**
@@ -48,6 +49,7 @@ const App: React.FC<{
         index: number;
       }
     ) {
+      console.log(props.uuid);
       const total = [];
       for (const item of slotUuid.values()) {
         total.push(...item);

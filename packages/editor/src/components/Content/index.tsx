@@ -85,7 +85,6 @@ const Content: React.FC = () => {
                 <FormContent
                   props={item}
                   index={index}
-                  // container={container}
                   setIndex={setIndex}
                   setContainer={setContainer}
                 ></FormContent>

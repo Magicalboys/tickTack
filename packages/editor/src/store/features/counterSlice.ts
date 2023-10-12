@@ -37,7 +37,7 @@ export const counterSlice = createSlice({
     },
 
     /**
-     * 需要对插槽进行针对性修改
+     *
      */
     swapIndex(state, { payload }) {
       const temp = state.contentData[payload.pre];
@@ -50,7 +50,6 @@ export const counterSlice = createSlice({
      * 对插槽内的元素进行排序
      */
     swapSlotIndex(state, { payload }) {
-      // console.log(payload.pre, payload.now, "lllllll");
       // 先根据uuid选择是属于哪一个slot下面的
       let aimEle: LibraryComponentInstanceData[] = [];
       state.contentData.forEach((item) => {
@@ -141,7 +140,7 @@ export const counterSlice = createSlice({
      *  根据uuid寻找对应的slot，然后再将后续元素插入到slot里面
      */
     findSlotToInsert(state, { payload }) {
-      console.log(payload.index, "oooooooo");
+      console.log(payload.uuid, "oooooooo");
       let slotData: LibraryComponentInstanceData[] = [];
       state.contentData.forEach((item) => {
         if (item.uuid === payload.uuid) {

@@ -4,7 +4,6 @@ import { storeData } from "../../../types/src/store";
 /**
  * 收集所有插槽的uuid_{slot<uuid>: [uuid, uuid]}
  */
-
 export const useCollectSlotUuid = () => {
   const contentData = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData

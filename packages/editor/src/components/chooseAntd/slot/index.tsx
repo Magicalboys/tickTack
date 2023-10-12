@@ -26,10 +26,14 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     }
   );
 
-  const length = (slotData?.children as LibraryComponentInstanceData[]).length;
+  let length = 0;
+  if (slotData?.children) {
+    length = (slotData?.children as LibraryComponentInstanceData[]).length;
+  }
   const [index, setIndex] = useState<number>(length);
-  const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
+
+  const [container, setContainer] = useState(""); // 放置的容器信息
   const containerRef = useRef(container);
 
   const adaptElementRef = useRef(null); // 获取内容元素的引用
@@ -66,12 +70,6 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     () => ({
       accept: DragProp.SORT,
       drop: (data: { props: ExportJson; index: number }) => {
-        if (adaptElementRef.current) {
-          console.log(
-            adaptElementRef.current.getBoundingClientRect().height,
-            "ppp"
-          );
-        }
         console.log(isOver);
         const _item = handleItem(data.props);
         setIndex(0);
