@@ -10,8 +10,18 @@ export const generateCode = (contentData: LibraryComponentInstanceData[]) => {
       let props = "";
       Object.keys(item.props as LibraryComponentInstanceProps).forEach(
         (data) => {
-          const key = item.props[data].control;
-          const value = item.props[data].defaultValue;
+          const key = (
+            (item.props as Record<string, unknown>)[data] as Record<
+              string,
+              unknown
+            >
+          ).control;
+          const value = (
+            (item.props as Record<string, unknown>)[data] as Record<
+              string,
+              unknown
+            >
+          ).defaultValue;
           props = `${props} ${key} = '${String(value)}'`;
         }
       );

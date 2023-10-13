@@ -5,7 +5,7 @@ import { configureMonaco } from "../../../../monaco/monacoSetup";
 
 const ShowCode = ({ codeJson }: { codeJson: string }) => {
   // console.log(codeJson, "codeJSon");
-  const [value, setValue] = useState(codeJson);
+  const [value] = useState(codeJson);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>(); // 编辑器实例
   const monacoRef = useRef<typeof monaco>(); // monaco 实例
 

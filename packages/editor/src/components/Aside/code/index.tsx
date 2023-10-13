@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { generateCode } from "./component/generateCode";
 import { useSelector } from "react-redux";
 import ShowCode from "./component/showCode";
+import { storeData } from "../../../../../types/src/store";
 
 // const worker = new Worker("../../../../../util/worker.ts");
 
 const CodeBox: React.FC = () => {
-  const contentData = useSelector((state) => state.tickTack.contentData);
-  const [code, setCode] = useState<string>(generateCode(contentData));
+  const contentData = useSelector(
+    (state: Record<string, storeData>) => state.tickTack.contentData
+  );
+  const [code] = useState<string>(generateCode(contentData));
 
   // useEffect(() => {
-  //   const code = generateCode(contentData);
-  //   setCode(code);
-  //   // worker.postMessage(code);
-  //   console.log("Message posted to worker");
   // }, [contentData]);
 
   // useEffect(() => {

@@ -113,7 +113,7 @@ const App: React.FC<{
     dispatch(updateFocus({ uuid: uuid }));
   };
 
-  const chooseName = (index: number) => {
+  const chooseName = () => {
     const nameProps: string[] = [];
     // console.log(props, "props");
     Object.keys(props.props as LibraryComponentInstanceProps).forEach(
@@ -129,7 +129,7 @@ const App: React.FC<{
       <>
         <div ref={ref} onClick={(e) => handleFocus(props.uuid, e)}>
           <ShowContent
-            name={chooseName(index)}
+            name={chooseName()}
             componentName={props.componentName}
             uuid={props.uuid}
           ></ShowContent>

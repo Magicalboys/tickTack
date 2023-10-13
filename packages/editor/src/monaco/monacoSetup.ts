@@ -3,7 +3,7 @@
  * @param monaco
  */
 
-export function configureMonaco(monaco) {
+export function configureMonaco(monaco: typeof import("monaco-editor")) {
   monaco.languages.register({ id: "jsx" });
 
   // JSX语言的配置
