@@ -1,7 +1,7 @@
 // 如果确定已经进入了slot，就把这个slot的uuid作为黑名单，直接根据里面的那个uuid进行判断，但是可以只对slot实现这个功能，因为放置元素的时候，会触发最外层的那个元素，
 // 所以还是找最近的slot来执行吧
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useCollectSlotUuid } from "../../../util/useCollectUuid";
@@ -11,7 +11,7 @@ import {
   updateFocus,
   swapIndex,
   swapSlotIndex,
-  updateChildUuid,
+  // updateChildUuid,
 } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
@@ -54,8 +54,8 @@ const App: React.FC<{
     hover(
       item: { props: ExportJson | LibraryComponentInstanceData } & {
         index: number;
-      },
-      monitor
+      }
+      // monitor
     ) {
       // 当悬停在当前元素时
       // if (monitor.isOver({ shallow: true })) {
