@@ -26,7 +26,7 @@ jobs:
 
       - name: Set Actions Allow Unsecure Commands
         run: |
-           echo "DEPLOYMENT_STATUS=skipped" >> $GITHUB_ENV
+           echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> $GITHUB_ENV
 
       - name: Deploy # 将打包内容发布到 github page
         uses: JamesIves/github-pages-deploy-action@3.5.9 # 使用别人写好的 actions
