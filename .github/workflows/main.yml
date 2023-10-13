@@ -14,11 +14,15 @@ jobs:
           
       - name: Install pnpm
         run: npm install -g pnpm
+
+      - name: Install modules
+        run: pnpm install
+      
+      - name: enter editor
+        run: cd packages/editor
         
       - name: Install and Build # 下载依赖 打包项目
-        run: |
-          pnpm install
-          pnpm run build
+        run: pnpm run build
 
       - name: Deploy # 将打包内容发布到 github page
         uses: JamesIves/github-pages-deploy-action@3.5.9 # 使用别人写好的 actions
