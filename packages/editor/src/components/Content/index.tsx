@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import { addComponent } from "../../store/features/counterSlice";
+import { addComponent, initChildUuid } from "../../store/features/counterSlice";
 import { v4 as uuidv4 } from "uuid";
 import {
   ExportJson,
@@ -61,6 +61,7 @@ const Content: React.FC = () => {
         const _item = handleItem(data.props);
         setIndex(0); // fix: 每次拖动结束之后index更新为0
         setContainer(""); // fix: 每次拖动结束之后container更新为空
+        dispatch(initChildUuid()); // 初始化childUuid
         if (containerRef.current !== "Slot") {
           // console.log(containerRef.current, "container");
           dispatch(

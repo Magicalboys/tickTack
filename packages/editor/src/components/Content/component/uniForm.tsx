@@ -1,4 +1,7 @@
-import { useRef, useEffect } from "react";
+// 如果确定已经进入了slot，就把这个slot的uuid作为黑名单，直接根据里面的那个uuid进行判断，但是可以只对slot实现这个功能，因为放置元素的时候，会触发最外层的那个元素，
+// 所以还是找最近的slot来执行吧
+
+import { useRef, useState, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useCollectSlotUuid } from "../../../util/useCollectUuid";
@@ -8,6 +11,7 @@ import {
   updateFocus,
   swapIndex,
   swapSlotIndex,
+  updateChildUuid,
 } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
@@ -27,11 +31,14 @@ const App: React.FC<{
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setContainer: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ props, index, setContainer, setIndex }) => {
+  // const [hover, setHover] = useState(false);
+  const childUuid = useSelector(
+    (state: Record<string, storeData>) => state.tickTack.propUuid
+  );
   const ref = useRef(null);
   const contentData = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
-  // console.log(contentData, "contentData");
   const dispatch = useDispatch();
   const [slotUuid] = useCollectSlotUuid();
   /**
@@ -47,9 +54,16 @@ const App: React.FC<{
     hover(
       item: { props: ExportJson | LibraryComponentInstanceData } & {
         index: number;
-      }
+      },
+      monitor
     ) {
-      console.log(props.uuid);
+      // 当悬停在当前元素时
+      // if (monitor.isOver({ shallow: true })) {
+      //   console.log(props.componentName);
+      //   if (props.componentName === "Slot") {
+      //     dispatch(updateChildUuid({ uuid: props.uuid }));
+      //   }
+      // }
       const total = [];
       for (const item of slotUuid.values()) {
         total.push(...item);
@@ -115,7 +129,6 @@ const App: React.FC<{
 
   const chooseName = () => {
     const nameProps: string[] = [];
-    // console.log(props, "props");
     Object.keys(props.props as LibraryComponentInstanceProps).forEach(
       (item) => {
         nameProps.push(item);
@@ -131,7 +144,7 @@ const App: React.FC<{
           <ShowContent
             name={chooseName()}
             componentName={props.componentName}
-            uuid={props.uuid}
+            uuid={childUuid.length > 0 ? childUuid : props.uuid}
           ></ShowContent>
         </div>
       </>
