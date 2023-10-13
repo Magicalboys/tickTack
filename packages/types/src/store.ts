@@ -8,6 +8,7 @@ export interface storeData {
   contentData: LibraryComponentInstanceData[];
   count: number;
   contentJson: contentJsonProp[];
+  propUuid: string;
 }
 
 export interface actions {

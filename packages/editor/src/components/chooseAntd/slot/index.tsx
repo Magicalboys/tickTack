@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useAdaptContainer } from "../../../util/hooks/useAdaptContainer";
 import FormContent from "../../Content/component/uniForm";
-import { findSlotToInsert } from "../../../store/features/counterSlice";
+import {
+  findSlotToInsert,
+  initChildUuid,
+} from "../../../store/features/counterSlice";
 import { libraryPropsMap } from "../../../../../library";
 import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
 import { storeData } from "../../../../../types/src/store";
@@ -74,6 +77,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
         const _item = handleItem(data.props);
         setIndex(0);
         setContainer("");
+        dispatch(initChildUuid()); // 初始化childUuid
         dispatch(
           findSlotToInsert({
             componentJson: _item,

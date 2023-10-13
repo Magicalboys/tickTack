@@ -13,6 +13,7 @@ const initialState: storeData = {
   contentData: [],
   count: 0,
   contentJson: [],
+  propUuid: "",
 };
 
 export const counterSlice = createSlice({
@@ -153,6 +154,14 @@ export const counterSlice = createSlice({
         slotData.splice(payload.index + 1, 0, payload.componentJson);
       }
     },
+
+    updateChildUuid(state, { payload }) {
+      state.propUuid = payload.uuid;
+    },
+
+    initChildUuid(state) {
+      state.propUuid = "";
+    },
   },
 });
 
@@ -167,6 +176,8 @@ export const {
   showContentJson,
   updateControlProp,
   findSlotToInsert,
+  updateChildUuid,
+  initChildUuid,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
