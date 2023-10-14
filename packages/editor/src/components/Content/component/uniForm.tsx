@@ -59,9 +59,9 @@ const App: React.FC<{
       // monitor
     ) {
       // 当悬停在当前元素时,但是悬浮在slot上时不触发这个事件
-      if (monitor.isOver({ shallow: true })) {
-        console.log();
-      }
+      // if (monitor.isOver({ shallow: true })) {
+      //   console.log();
+      // }
       const total = [];
       for (const item of allSlotUuid.values()) {
         total.push(...item);
