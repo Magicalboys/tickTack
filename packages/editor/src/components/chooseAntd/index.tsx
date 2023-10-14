@@ -33,57 +33,45 @@ const App: React.FC<{
       state.tickTack.contentData
   );
 
+  const changeProps = (
+    contentData: LibraryComponentInstanceData[],
+    uuid: string
+  ): LibraryComponentInstanceData | null => {
+    // 检查当前对象是否是数组
+    if (Array.isArray(contentData) && contentData.length > 0) {
+      // 遍历数组中的每个元素
+      for (const item of contentData) {
+        if (item.uuid === uuid) {
+          const itemProps = item.props as LibraryComponentInstanceProps;
+          setValue(
+            (itemProps[name as string] as LibraryComponentInstanceProps)
+              .defaultValue as string
+          );
+          setFakeProps(
+            itemProps[name as string] as LibraryComponentInstanceProps
+          );
+          const cssProps: LibraryComponentInstanceProps = {};
+          const fake = item.props as LibraryComponentInstanceProps;
+          Object.keys(fake as LibraryComponentInstanceProps).forEach((item) => {
+            cssProps[
+              (fake[item] as LibraryComponentInstanceProps).control as string
+            ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
+          });
+          setCssProps(cssProps);
+          return item;
+        }
+        // 递归搜索数组元素
+        const result = changeProps(item.children, uuid);
+        if (result !== null) {
+          return result;
+        }
+      }
+    }
+    return null; // 未找到目标值
+  };
+
   useEffect(() => {
-    // 把这个抽离为函数，现在时间紧迫先不急着
-
-    contentData.forEach((item) => {
-      if (item.uuid === uuid) {
-        const itemProps = item.props as LibraryComponentInstanceProps;
-        setValue(
-          (itemProps[name as string] as LibraryComponentInstanceProps)
-            .defaultValue as string
-        );
-        setFakeProps(
-          itemProps[name as string] as LibraryComponentInstanceProps
-        );
-        const cssProps: LibraryComponentInstanceProps = {};
-        const fake = item.props as LibraryComponentInstanceProps;
-        Object.keys(fake as LibraryComponentInstanceProps).forEach((item) => {
-          cssProps[
-            (fake[item] as LibraryComponentInstanceProps).control as string
-          ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
-        });
-        setCssProps(cssProps);
-      }
-
-      // 有插槽的情况
-      if (item.componentName === "Slot") {
-        item.children?.forEach((data) => {
-          // console.log(data, "data");
-          if (data.uuid === uuid) {
-            const itemProps = data.props as LibraryComponentInstanceProps;
-            setValue(
-              (itemProps[name as string] as LibraryComponentInstanceProps)
-                .defaultValue as string
-            );
-            setFakeProps(
-              itemProps[name as string] as LibraryComponentInstanceProps
-            );
-            const cssProps: LibraryComponentInstanceProps = {};
-            const fake = data.props as LibraryComponentInstanceProps;
-            Object.keys(fake as LibraryComponentInstanceProps).forEach(
-              (item) => {
-                cssProps[
-                  (fake[item] as LibraryComponentInstanceProps)
-                    .control as string
-                ] = (fake[item] as LibraryComponentInstanceProps).defaultValue;
-              }
-            );
-            setCssProps(cssProps);
-          }
-        });
-      }
-    });
+    changeProps(contentData, uuid);
   }, [contentData]);
 
   let ShowContent;
@@ -115,13 +103,10 @@ const App: React.FC<{
   // 不存在type，表示是画布级别的组件渲染
   else {
     if (componentName === "Slot") {
-      // console.log("slotSlot");
       return <Slot uuid={uuid}></Slot>;
     } else {
       ShowContent = _Antd[`${componentName}`];
       if (componentName === "Button") {
-        // console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-        // console.log(cssProps, "cssProps");
         return <Button {...cssProps}>{cssProps.value as string}</Button>;
       } else {
         return <ShowContent {...cssProps}></ShowContent>;

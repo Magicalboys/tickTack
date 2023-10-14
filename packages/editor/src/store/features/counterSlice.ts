@@ -38,7 +38,7 @@ export const counterSlice = createSlice({
     },
 
     /**
-     *
+     * 对content里面的元素进行排序
      */
     swapIndex(state, { payload }) {
       const temp = state.contentData[payload.pre];
@@ -51,17 +51,31 @@ export const counterSlice = createSlice({
      * 对插槽内的元素进行排序
      */
     swapSlotIndex(state, { payload }) {
-      // 先根据uuid选择是属于哪一个slot下面的
-      let aimEle: LibraryComponentInstanceData[] = [];
-      state.contentData.forEach((item) => {
-        if (item.uuid === payload.uuid) {
-          aimEle = item.children;
+      const recursiveSearch = (
+        contentData: LibraryComponentInstanceData[],
+        uuid: string
+      ): LibraryComponentInstanceData | null => {
+        // 检查当前对象是否是数组
+        if (Array.isArray(contentData) && contentData.length > 0) {
+          // 遍历数组中的每个元素
+          for (const item of contentData) {
+            if (item.uuid === uuid) {
+              const temp = item.children[payload.pre];
+              item.children[payload.pre] = item.children[payload.now];
+              item.children[payload.now] = temp;
+              payload.now = payload.pre;
+              return item;
+            }
+            // 递归搜索数组元素
+            const result = recursiveSearch(item.children, uuid);
+            if (result !== null) {
+              return result;
+            }
+          }
         }
-      });
-      const temp = aimEle[payload.pre];
-      aimEle[payload.pre] = aimEle[payload.now];
-      aimEle[payload.now] = temp;
-      payload.now = payload.pre;
+        return null; // 未找到目标值
+      };
+      recursiveSearch(state.contentData, payload.uuid);
     },
 
     /**
@@ -83,24 +97,30 @@ export const counterSlice = createSlice({
      * 更改物料的focus
      */
     updateFocus(state, { payload }) {
-      // 点击更改,先找整体，再找slot
-      state.contentData.forEach((itemData) => {
-        if (itemData.uuid === payload.uuid) {
-          itemData.focus = true;
-        } else {
-          itemData.focus = false;
-        }
-
-        if (itemData.componentName === "Slot") {
-          itemData.children?.forEach((child) => {
-            if (child.uuid === payload.uuid) {
-              child.focus = true;
+      const recursiveSearch = (
+        contentData: LibraryComponentInstanceData[],
+        uuid: string
+      ): LibraryComponentInstanceData | null => {
+        // 检查当前对象是否是数组
+        if (Array.isArray(contentData) && contentData.length > 0) {
+          // 遍历数组中的每个元素
+          for (const item of contentData) {
+            if (item.uuid === uuid) {
+              item.focus = true;
+              return item;
             } else {
-              child.focus = false;
+              item.focus = false;
             }
-          });
+            // 递归搜索数组元素
+            const result = recursiveSearch(item.children, uuid);
+            if (result !== null) {
+              return result;
+            }
+          }
         }
-      });
+        return null; // 未找到目标值
+      };
+      recursiveSearch(state.contentData, payload.uuid);
     },
 
     /**
@@ -111,48 +131,74 @@ export const counterSlice = createSlice({
     },
 
     /**
-     *
+     * 更改元素的props
      */
     updateControlProp(state, { payload }) {
-      state.contentData.forEach((item) => {
-        if (item.uuid === payload.uuid) {
-          (
-            (item.props as LibraryComponentInstanceProps)[
-              payload.name
-            ] as LibraryComponentInstanceProps
-          ).defaultValue = payload.defaultValue;
-        }
-
-        if (item.componentName === "Slot") {
-          item.children?.forEach((child) => {
-            if (child.uuid === payload.uuid) {
+      const recursiveSearch = (
+        contentData: LibraryComponentInstanceData[],
+        uuid: string
+      ): LibraryComponentInstanceData | null => {
+        // console.log(payload.uuid, "uuid");
+        // 检查当前对象是否是数组
+        if (Array.isArray(contentData) && contentData.length > 0) {
+          // 遍历数组中的每个元素
+          for (const item of contentData) {
+            if (item.uuid === uuid) {
               (
-                (child.props as LibraryComponentInstanceProps)[
+                (item.props as LibraryComponentInstanceProps)[
                   payload.name
                 ] as LibraryComponentInstanceProps
               ).defaultValue = payload.defaultValue;
+              return item;
             }
-          });
+
+            // 递归搜索数组元素
+            const result = recursiveSearch(item.children, uuid);
+            if (result !== null) {
+              return result;
+            }
+          }
         }
-      });
+        return null; // 未找到目标值
+      };
+      recursiveSearch(state.contentData, payload.uuid);
     },
 
     /**
      *  根据uuid寻找对应的slot，然后再将后续元素插入到slot里面
      */
     findSlotToInsert(state, { payload }) {
-      console.log(payload.uuid, "oooooooo");
-      let slotData: LibraryComponentInstanceData[] = [];
-      state.contentData.forEach((item) => {
-        if (item.uuid === payload.uuid) {
-          slotData = item.children;
+      const recursiveSearch = (
+        contentData: LibraryComponentInstanceData[],
+        uuid: string
+      ): LibraryComponentInstanceData | null => {
+        // 检查当前对象是否是数组
+        if (Array.isArray(contentData) && contentData.length > 0) {
+          // 遍历数组中的每个元素
+          for (const item of contentData) {
+            if (item.uuid === uuid) {
+              if (payload.index === 0) {
+                item.children.push(payload.componentJson);
+              } else {
+                item.children.splice(
+                  payload.index + 1,
+                  0,
+                  payload.componentJson
+                );
+              }
+              return item;
+            }
+
+            // 递归搜索数组元素
+            const result = recursiveSearch(item.children, uuid);
+            if (result !== null) {
+              return result;
+            }
+          }
         }
-      });
-      if (payload.index === 0) {
-        slotData.push(payload.componentJson);
-      } else {
-        slotData.splice(payload.index + 1, 0, payload.componentJson);
-      }
+        return null; // 未找到目标值
+      };
+      recursiveSearch(state.contentData, payload.uuid);
     },
 
     updateChildUuid(state, { payload }) {
