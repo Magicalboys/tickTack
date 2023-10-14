@@ -16,7 +16,7 @@ export const useAdaptContainer = (
       const updateContainerHeight = () => {
         const { height } = contentElement.getBoundingClientRect();
         containerElement.style.height = `${height}px`;
-        console.log(height, "height");
+        // console.log(height, "height");
       };
 
       updateContainerHeight();

@@ -6,24 +6,14 @@ import RenderCss from "./component/renderCss";
 import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
 import "./index.scss";
 import { storeData } from "../../../../../types/src/store";
+import { findFocusIsTrue } from "../../../util/index";
 
 const Control: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
   const data = useMemo(() => {
-    let result = contentData.find((item) => item.focus);
-    if (!result) {
-      for (const itemData of contentData) {
-        if (itemData.componentName === "Slot") {
-          result = itemData.children?.find((child) => child.focus);
-        }
-        if (result) {
-          return result;
-        }
-      }
-    }
-    return result;
+    return findFocusIsTrue(contentData);
   }, [contentData]);
 
   const controlComponent = data && (

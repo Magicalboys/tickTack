@@ -1,17 +1,16 @@
 // 如果确定已经进入了slot，就把这个slot的uuid作为黑名单，直接根据里面的那个uuid进行判断，但是可以只对slot实现这个功能，因为放置元素的时候，会触发最外层的那个元素，
 // 所以还是找最近的slot来执行吧
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { useCollectSlotUuid } from "../../../util/useCollectUuid";
 import { findNearestSlot } from "../../../util/findNearestSlot";
 import ShowContent from "../../chooseAntd/index";
 import {
   updateFocus,
   swapIndex,
   swapSlotIndex,
-  updateChildUuid,
+  // updateChildUuid,
 } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
@@ -20,6 +19,7 @@ import {
 import { DragProp } from "../../../../../types/src/drop-drag";
 import { ExportJson } from "../../../../../types/src/library-component";
 import { storeData } from "../../../../../types/src/store";
+import { collectSlotUuid } from "../../../util/index";
 import "./uniform.scss";
 
 /**
@@ -31,7 +31,6 @@ const App: React.FC<{
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setContainer: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ props, index, setContainer, setIndex }) => {
-  // const [hover, setHover] = useState(false);
   const childUuid = useSelector(
     (state: Record<string, storeData>) => state.tickTack.propUuid
   );
@@ -40,7 +39,9 @@ const App: React.FC<{
     (state: Record<string, storeData>) => state.tickTack.contentData
   );
   const dispatch = useDispatch();
-  const [slotUuid] = useCollectSlotUuid();
+
+  const allSlotUuid = collectSlotUuid(contentData);
+
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
    */
@@ -57,18 +58,15 @@ const App: React.FC<{
       },
       monitor
     ) {
-      // 当悬停在当前元素时
-      // if (monitor.isOver({ shallow: true })) {
-      //   console.log(props.componentName);
-      //   if (props.componentName === "Slot") {
-      //     dispatch(updateChildUuid({ uuid: props.uuid }));
-      //   }
-      // }
+      // 当悬停在当前元素时,但是悬浮在slot上时不触发这个事件
+      if (monitor.isOver({ shallow: true })) {
+        console.log();
+      }
       const total = [];
-      for (const item of slotUuid.values()) {
+      for (const item of allSlotUuid.values()) {
         total.push(...item);
       }
-      for (const item of slotUuid.keys()) {
+      for (const item of allSlotUuid.keys()) {
         total.push(item);
       }
       // 判断hover的最终容器的最终位置在哪里——container或者content
@@ -116,6 +114,7 @@ const App: React.FC<{
       canDrop: monitor.canDrop(),
       isOverCurrent: monitor.isOver({ shallow: true }),
     }),
+    // options: { ignoreContext: true },
   });
 
   const handleFocus = (

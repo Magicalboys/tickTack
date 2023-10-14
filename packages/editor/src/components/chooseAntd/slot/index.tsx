@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, Fragment } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { recursiveSearch } from "../../../util/index";
 import { useAdaptContainer } from "../../../util/hooks/useAdaptContainer";
 import FormContent from "../../Content/component/uniForm";
 import {
@@ -18,14 +19,14 @@ import "./index.scss";
 const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   const dispatch = useDispatch();
 
+  const contentData = useSelector(
+    (state: Record<string, storeData>) => state.tickTack.contentData
+  );
+
   // 收集插槽
-  const slotData: LibraryComponentInstanceData | undefined = useSelector(
+  const slotData: LibraryComponentInstanceData | null = useSelector(
     (state: Record<string, storeData>) => {
-      for (const item of state.tickTack.contentData) {
-        if (item.uuid === uuid) {
-          return item;
-        }
-      }
+      return recursiveSearch(state.tickTack.contentData, uuid);
     }
   );
 
@@ -40,7 +41,8 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   const containerRef = useRef(container);
 
   const adaptElementRef = useRef(null); // 获取内容元素的引用
-  const adaptContainerRef = useAdaptContainer(adaptElementRef);
+  // const adaptContainerRef = useAdaptContainer(adaptElementRef);
+  const adaptContainerRef = useRef(null);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
     let prop;
@@ -78,13 +80,28 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
         setIndex(0);
         setContainer("");
         dispatch(initChildUuid()); // 初始化childUuid
-        dispatch(
-          findSlotToInsert({
-            componentJson: _item,
-            uuid: uuid,
-            index: indexRef.current,
-          })
-        );
+
+        // 获取最外层的slot的uuid
+        const slotUuid: string[] = [];
+        contentData.forEach((item) => {
+          if (item.componentName === "Slot") {
+            slotUuid.push(item.uuid);
+          }
+        });
+
+        console.log(containerRef.current, uuid, slotUuid);
+
+        if (containerRef.current !== "Slot") {
+          // 嵌套的时候，最近的一个slot会走这条道路
+          dispatch(
+            findSlotToInsert({
+              componentJson: _item,
+              uuid: uuid,
+              index: indexRef.current,
+              container: containerRef.current,
+            })
+          );
+        }
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: !!monitor.isOver(),
