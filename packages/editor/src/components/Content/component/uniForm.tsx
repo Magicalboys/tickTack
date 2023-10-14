@@ -1,16 +1,11 @@
-// 如果确定已经进入了slot，就把这个slot的uuid作为黑名单，直接根据里面的那个uuid进行判断，但是可以只对slot实现这个功能，因为放置元素的时候，会触发最外层的那个元素，
-// 所以还是找最近的slot来执行吧
-
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { findNearestSlot } from "../../../util/findNearestSlot";
 import ShowContent from "../../chooseAntd/index";
 import {
   updateFocus,
   swapIndex,
   swapSlotIndex,
-  // updateChildUuid,
 } from "../../../store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
@@ -19,7 +14,7 @@ import {
 import { DragProp } from "../../../../../types/src/drop-drag";
 import { ExportJson } from "../../../../../types/src/library-component";
 import { storeData } from "../../../../../types/src/store";
-import { collectSlotUuid } from "../../../util/index";
+import { collectSlotUuid, findNearestSlot } from "../../../util/index";
 import "./uniform.scss";
 
 /**
@@ -30,10 +25,11 @@ const App: React.FC<{
   index: number;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   setContainer: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ props, index, setContainer, setIndex }) => {
-  const childUuid = useSelector(
-    (state: Record<string, storeData>) => state.tickTack.propUuid
-  );
+  setWhoElement: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ props, index, setContainer, setIndex, setWhoElement }) => {
+  // const childUuid = useSelector(
+  //   (state: Record<string, storeData>) => state.tickTack.propUuid
+  // );
   const ref = useRef(null);
   const contentData = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
@@ -41,6 +37,8 @@ const App: React.FC<{
   const dispatch = useDispatch();
 
   const allSlotUuid = collectSlotUuid(contentData);
+  // console.log(allSlotUuid, "allSlotUuid");
+  let slotUuid: string | null;
 
   /**
    * 这里的type需要注意，不同功能最好使用不一样的type，建议加个类型做一下区分
@@ -49,6 +47,8 @@ const App: React.FC<{
     type: DragProp.SORT,
     item: { props: { props }, index: index },
   });
+
+  // const [hover, setHover] = useState(false);
 
   const [, drop] = useDrop({
     accept: DragProp.SORT,
@@ -75,17 +75,20 @@ const App: React.FC<{
       const uuid = (item.props.props as unknown as LibraryComponentInstanceData)
         .uuid;
       if (isExistSlot) {
-        let slotUuid: string;
+        // let slotUuid: string | null;
         let preIndex: number | null = null;
         let nowIndex: number | null = null;
 
         //TODO 对可能会触发slot的做统一管理——策略模式
         if (props.componentName === "Slot") {
           slotUuid = props.uuid;
+          setWhoElement(false);
         } else {
           preIndex = index;
           nowIndex = item.index;
           slotUuid = findNearestSlot(contentData, props.uuid);
+          console.log(slotUuid, "slotUuid");
+          setWhoElement(true);
         }
 
         // 如果在slot里面
@@ -109,12 +112,13 @@ const App: React.FC<{
         }
         setIndex(index);
       }
+      // }
     },
     collect: (monitor: DropTargetMonitor) => ({
       canDrop: monitor.canDrop(),
       isOverCurrent: monitor.isOver({ shallow: true }),
     }),
-    // options: { ignoreContext: true },
+    // options: { ignoreContext: true }, // 阻止hover事件透传,
   });
 
   const handleFocus = (
@@ -143,7 +147,7 @@ const App: React.FC<{
           <ShowContent
             name={chooseName()}
             componentName={props.componentName}
-            uuid={childUuid.length > 0 ? childUuid : props.uuid}
+            uuid={props.uuid}
           ></ShowContent>
         </div>
       </>

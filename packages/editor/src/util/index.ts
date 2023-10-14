@@ -67,8 +67,6 @@ export const collectSlotUuid = (
             childUuid.push(child.uuid);
             slotMap.set(item.uuid, childUuid);
           }
-          //   console.log(slotMap, "slotMap");
-          //   return item;
         }
         // 递归搜索数组元素
         const result = recur(item.children);
@@ -82,4 +80,20 @@ export const collectSlotUuid = (
   };
   recur(contentData);
   return slotMap;
+};
+
+/**
+ * 根据uuid找到离自己最近的一个插槽的uuid
+ */
+export const findNearestSlot = (
+  contentData: LibraryComponentInstanceData[],
+  uuid: string
+): string | null => {
+  const allSlotUuid = collectSlotUuid(contentData);
+  for (const [key, item] of allSlotUuid) {
+    if (item.includes(uuid)) {
+      return key;
+    }
+  }
+  return null;
 };

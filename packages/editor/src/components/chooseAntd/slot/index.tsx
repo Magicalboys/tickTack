@@ -40,6 +40,9 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [container, setContainer] = useState(""); // 放置的容器信息
   const containerRef = useRef(container);
 
+  const [whoElement, setWhoElement] = useState(false); // 用来判断元素是在slot上hover时drop还是在其它元素上hover时drop
+  const whoElementRef = useRef(whoElement);
+
   const adaptElementRef = useRef(null); // 获取内容元素的引用
   // const adaptContainerRef = useAdaptContainer(adaptElementRef);
   const adaptContainerRef = useRef(null);
@@ -69,7 +72,8 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   useEffect(() => {
     indexRef.current = index;
     containerRef.current = container;
-  }, [index, container]);
+    whoElementRef.current = whoElement;
+  }, [index, container, whoElement]);
 
   const [{ isOver }, drop] = useDrop(
     () => ({
@@ -91,14 +95,13 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
 
         console.log(containerRef.current, uuid, slotUuid);
 
-        if (containerRef.current !== "Slot") {
+        if (containerRef.current !== "Slot" || whoElementRef.current) {
           // 嵌套的时候，最近的一个slot会走这条道路
           dispatch(
             findSlotToInsert({
               componentJson: _item,
               uuid: uuid,
               index: indexRef.current,
-              container: containerRef.current,
             })
           );
         }
@@ -129,6 +132,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
                         props={item}
                         index={index}
                         setIndex={setIndex}
+                        setWhoElement={setWhoElement}
                       ></FormContent>
                     </div>
                   </Fragment>

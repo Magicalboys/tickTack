@@ -23,7 +23,6 @@ const App: React.FC<{
   componentName?: string;
   type?: string;
 }> = ({ componentName, type, uuid, name }) => {
-  // console.log(uuid, "uuuuuuuuuu");
   const [fakeProps, setFakeProps] = useState<LibraryComponentInstanceProps>({}); // 控制右侧控制台的prop
   const [value, setValue] = useState<string>(""); // 控制button的value值
   const [cssProps, setCssProps] = useState<LibraryComponentInstanceProps>({}); // 控制中间展示台元素的prop
