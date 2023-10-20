@@ -63,9 +63,11 @@ export const collectSlotUuid = (
         if (item.componentName === "Slot") {
           slotMap.set(item.uuid, []);
           const childUuid: string[] = [];
-          for (const child of item.children) {
-            childUuid.push(child.uuid);
-            slotMap.set(item.uuid, childUuid);
+          if (item.children && item.children.length) {
+            for (const child of item.children) {
+              childUuid.push(child.uuid);
+              slotMap.set(item.uuid, childUuid);
+            }
           }
         }
         // 递归搜索数组元素

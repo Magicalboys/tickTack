@@ -1,12 +1,14 @@
 import React, { useMemo } from "react";
-import { Empty } from "antd";
+import { Empty, Button } from "antd";
 import { useSelector } from "react-redux";
 import FormControl from "./component/formControl";
+import { libraryEvent } from "../../../../../library";
 import RenderCss from "./component/renderCss";
 import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
 import "./index.scss";
 import { storeData } from "../../../../../types/src/store";
 import { findFocusIsTrue } from "../../../util/index";
+import globalEventEmitter from "../../../../../event-action/src/index";
 
 const Control: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
@@ -23,6 +25,12 @@ const Control: React.FC = () => {
     </div>
   );
 
+  const emitDefaultClick = () => {
+    console.log(libraryEvent, "libraryEvent");
+    console.log(globalEventEmitter);
+    globalEventEmitter.emit("Button");
+  };
+
   return (
     <>
       <div className='tt-container-control'>
@@ -34,6 +42,7 @@ const Control: React.FC = () => {
           </>
         )}
       </div>
+      <Button onClick={emitDefaultClick}>点击触发</Button>
     </>
   );
 };

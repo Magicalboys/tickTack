@@ -16,6 +16,8 @@ const libraryComponents = import.meta.glob<Module>(
 );
 const libraryPropsMap: Record<string, LibraryComponentInstanceProps> = {};
 const libraryMap: Record<string, ExportJson> = {};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const libraryEvent = {};
 
 /**
  * 添加每一个组件的props
@@ -30,4 +32,23 @@ Object.entries(libraryComponents).forEach(([, module]) => {
   libraryMap[module.default.componentData.name] = module.default;
 });
 
-export { libraryMap, libraryComponents, libraryPropsMap, libraryAsideMenu };
+/**
+ * 导出每一个组件的事件
+ */
+Object.entries(libraryComponents).forEach(([, module]) => {
+  if (module.default.componentData.name === "Button") {
+    module.default.events.forEach((eventEmit) => {
+      eventEmit();
+    });
+    console.log(module.default.events);
+    libraryEvent[module.default.componentData.name] = module.default.events;
+  }
+});
+
+export {
+  libraryMap,
+  libraryComponents,
+  libraryPropsMap,
+  libraryAsideMenu,
+  libraryEvent,
+};

@@ -27,9 +27,6 @@ const App: React.FC<{
   setContainer: React.Dispatch<React.SetStateAction<string>>;
   setWhoElement: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ props, index, setContainer, setIndex, setWhoElement }) => {
-  // const childUuid = useSelector(
-  //   (state: Record<string, storeData>) => state.tickTack.propUuid
-  // );
   const ref = useRef(null);
   const contentData = useSelector(
     (state: Record<string, storeData>) => state.tickTack.contentData
@@ -37,7 +34,6 @@ const App: React.FC<{
   const dispatch = useDispatch();
 
   const allSlotUuid = collectSlotUuid(contentData);
-  // console.log(allSlotUuid, "allSlotUuid");
   let slotUuid: string | null;
 
   /**
@@ -47,8 +43,6 @@ const App: React.FC<{
     type: DragProp.SORT,
     item: { props: { props }, index: index },
   });
-
-  // const [hover, setHover] = useState(false);
 
   const [, drop] = useDrop({
     accept: DragProp.SORT,
@@ -69,13 +63,13 @@ const App: React.FC<{
       for (const item of allSlotUuid.keys()) {
         total.push(item);
       }
+
       // 判断hover的最终容器的最终位置在哪里——container或者content
       const isExistSlot = total.includes(props.uuid);
 
       const uuid = (item.props.props as unknown as LibraryComponentInstanceData)
         .uuid;
       if (isExistSlot) {
-        // let slotUuid: string | null;
         let preIndex: number | null = null;
         let nowIndex: number | null = null;
 
@@ -112,7 +106,6 @@ const App: React.FC<{
         }
         setIndex(index);
       }
-      // }
     },
     collect: (monitor: DropTargetMonitor) => ({
       canDrop: monitor.canDrop(),

@@ -11,6 +11,7 @@ export type tickType = "container" | "generics";
 export interface ExportJson {
   componentData: LibraryComponent;
   props: LibraryComponentInstanceProps;
+  events: (() => void)[];
 }
 
 export interface Module {
