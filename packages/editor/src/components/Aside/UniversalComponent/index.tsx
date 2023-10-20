@@ -3,10 +3,11 @@ import LibraryItem from "./component/LibItem/libItem";
 import { libraryMap } from "../../../../../library/index";
 import { Fragment } from "react";
 import "./style.scss";
+import { storeData } from "../../../../../types/src/store";
 
 const App = () => {
   const count: number = useSelector(
-    (state: any) => state.tickTack.contentData.length
+    (state: Record<string, storeData>) => state.tickTack.contentData.length
   );
   const genericComponent =
     libraryMap &&
@@ -17,6 +18,6 @@ const App = () => {
         </Fragment>
       );
     });
-  return <div className="tt-component-container">{genericComponent}</div>;
+  return <div className='tt-component-container'>{genericComponent}</div>;
 };
 export default App;

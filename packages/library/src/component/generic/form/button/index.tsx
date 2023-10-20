@@ -1,3 +1,4 @@
+import globalEventEmitter from "../../../../../../event-action/src/index";
 const componentData = {
   name: "Button",
   tickType: "generics",
@@ -47,8 +48,19 @@ const props = {
   },
 };
 
+const onClick = () => {
+  alert("111");
+};
+// const
 const buttonJson = {
   componentData,
   props,
+  events: [
+    () => {
+      globalEventEmitter.subscribe(componentData.name, onClick);
+      // globalEventEmitter.emit(componentData.name);
+    },
+  ],
 };
+
 export default buttonJson;
