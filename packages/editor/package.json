@@ -10,6 +10,15 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
+    "toolkit": "link:@types/@reduxjs/toolkit",
     "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@types/react-dnd": "^3.0.2",
+    "@types/react-dnd-html5-backend": "^3.0.2",
+    "icons": "link:@type/@ant-design/icons",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   }
 }
