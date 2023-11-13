@@ -24,7 +24,7 @@ const SelectedMask = ({componentId, containerClassName, offsetContainerClassName
         const container = document.querySelector(`.${offsetContainerClassName}`);
         if (!container) return;
         // 获取被选中的组件
-        const node = document.querySelector(`[component-key="${componentId}"]`);
+        const node = document.querySelector(`[data-component-key="${componentId}"]`);
         if (!node) return;
         // 获取节点位置
         const {top,left,width,height} = node.getBoundingClientRect();

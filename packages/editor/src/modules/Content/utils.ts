@@ -17,7 +17,7 @@ export function renderComponents(components: Component[], componentConfig: Compo
                     key: component.id, 
                     id: component.id,
                     // 添加 唯一自定义 key 作为 被选中的组件 的唯一标识
-                    'component-key': component.id,
+                    'data-component-key': component.id,
                     ...component.props,
                     ...props,
                 },

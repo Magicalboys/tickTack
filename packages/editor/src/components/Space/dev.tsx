@@ -28,8 +28,8 @@ const SpaceDev: React.FC<Props> = ({children, id}) =>{
         })  
     }));
     
-    // TODO:  component-key 需要手动添加
-    return <Space component-key={id} ref={drop} className='space' style={{border: canDrop ? '1px solid #ccc' : ''}}>
+    // TODO:  data-component-key 需要手动添加
+    return <Space data-component-key={id} ref={drop} className='space' style={{border: canDrop ? '1px solid #ccc' : ''}}>
         {children?.length ? children : '暂无内容'}
     </Space>;
 };

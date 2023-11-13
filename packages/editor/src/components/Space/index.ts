@@ -1,9 +1,9 @@
-import {Context} from '@/types/schema';
+import {Register} from '@/types/schema';
 import SpaceDev from './dev';
 import SpaceProd from './prod';
 
-export default (ctx: Context) => {
-    ctx.registerComponent('Space', {
+export default (register: Register) => {
+    register.registerComponent('Space', {
         name: 'Space',
         desc: '间距',
         defaultProps: {

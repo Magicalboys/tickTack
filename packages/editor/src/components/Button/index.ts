@@ -1,10 +1,10 @@
-import {Context} from '@/types/schema';
+import {Register} from '@/types/schema';
 import ButtonDev from './dev';
 import ButtonProd from './prod';
-export default (ctx: Context) => {
+export default (register: Register) => {
     return new Promise((resolve) => {
         setTimeout(()=>{
-            ctx.registerComponent('Button',{
+            register.registerComponent('Button',{
                 name: 'Button',
                 desc: '按钮',
                 defaultProps: {

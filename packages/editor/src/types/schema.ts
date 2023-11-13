@@ -1,7 +1,6 @@
 import SettingFromInput from '@/common/SettingForm/Input';
 import Button from '@/components/Button';
-import {Space} from '@/components/Space';
-import {Input, Select, message} from 'antd';
+import {Input, Select, Space, message} from 'antd';
 
 // 组件 数据结构
 export interface Component {
@@ -104,7 +103,7 @@ interface IComponentMap {
     [key: string]: any;
 }
 
-export interface Context {
+export interface Register {
     registerComponent: (name: string, componentConfig: any) => void;
 }
 
@@ -176,6 +175,10 @@ export const ItemType = {
     Input: 'Input',
     Space: 'Space',
     Select: 'Select',
+    Table: 'Table',
+    TableColumn: 'TableColumn',
+    SearchFrom:'SearchFrom',
+    SearchFormItem: 'SearchFormItem'
 };
 
 // 右侧控制台 表单

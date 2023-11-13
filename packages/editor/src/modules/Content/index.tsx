@@ -20,7 +20,9 @@ const Content = () => {
             ItemType.Button,
             ItemType.Input,
             ItemType.Space,
-            ItemType.Select
+            ItemType.Select,
+            ItemType.Table,
+            ItemType.SearchFrom,
         ],
         drop: (_, monitor) => {
             const didDrop = monitor.didDrop();
@@ -43,8 +45,8 @@ const Content = () => {
             if (node.getAttribute){
                 // 查找 被触发的事件流里面 key 为 component-key 的 组件
                 // 即为 当前 被选中的 组件
-                if (node.getAttribute('component-key')){
-                    const componentId = node.getAttribute('component-key');
+                if (node.getAttribute('data-component-key')){
+                    const componentId = node.getAttribute('data-component-key');
                     dispatch(setSelectedComponent(componentId));
                     return;
                 }

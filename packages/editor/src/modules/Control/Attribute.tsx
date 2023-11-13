@@ -36,6 +36,9 @@ function ComponentsAttr() {
                 <Form.Item label="组件id">
                     <Input value={selectedComponent.id} disabled />
                 </Form.Item>
+                <Form.Item label="组件名称">
+                    <Input value={selectedComponent.name} disabled />
+                </Form.Item>
                 {((componentConfig[selectedComponent?.name] || [])?.setter || []).map((setting:any) =>{
                     return (
                         <Form.Item key={setting.name} name={setting.name} label={setting.label}>

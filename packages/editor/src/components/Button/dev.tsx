@@ -3,7 +3,7 @@ import {Button} from 'antd';
 
 const ButtonDev = (props: any) => {
     return (
-        <Button component-key={props.id} type={props.type}>{props.text}</Button>
+        <Button data-component-key={props.id} type={props.type}>{props.text}</Button>
     );   
 };
 
