@@ -178,7 +178,9 @@ export const ItemType = {
     Table: 'Table',
     TableColumn: 'TableColumn',
     SearchFrom:'SearchFrom',
-    SearchFormItem: 'SearchFormItem'
+    SearchFormItem: 'SearchFormItem',
+    Form: 'Form',
+    FormItem: 'FormItem',
 };
 
 // 右侧控制台 表单

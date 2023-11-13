@@ -5,7 +5,7 @@ import Prod from './prod';
 export default (register: Register) => {
     register.registerComponent('SearchFrom',{
         name: 'SearchFrom',
-        desc:'搜索区',
+        desc:'搜索',
         defaultProps: {},
         dev:Dev,
         prod:Prod,

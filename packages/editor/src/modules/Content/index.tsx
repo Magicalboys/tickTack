@@ -23,6 +23,8 @@ const Content = () => {
             ItemType.Select,
             ItemType.Table,
             ItemType.SearchFrom,
+            ItemType.Form,
+
         ],
         drop: (_, monitor) => {
             const didDrop = monitor.didDrop();
