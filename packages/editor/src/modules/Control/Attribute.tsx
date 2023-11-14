@@ -6,6 +6,7 @@ import {InitialState, updateComponentProps} from '@/store/features/editorSlice';
 import {renderFormElement} from './utils';
 import './index.less';
 import {useConfigState} from '@/store/features/configSlice';
+import ComponentEmpty from '@/common/Empty';
 function ComponentsAttr() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
@@ -19,12 +20,11 @@ function ComponentsAttr() {
     
     const valueChange = (changeValue: any) => {
         if(selectedComponentId){
-            
             dispatch(updateComponentProps({selectedComponentId, changeValue}));
         }
     };
 
-    if (!selectedComponent || !selectedComponentId) return null;
+    if (!selectedComponent || !selectedComponentId) return <ComponentEmpty/>;
     return (
         <div className='attribute'>
             <Form

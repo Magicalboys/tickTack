@@ -43,7 +43,7 @@ const SearchForm: FC<Props> = ({id,children,onSearch}) => {
     }, [children]);
 
     return (
-        <div ref={drop} data-component-key={id} style={{border:canDrop ? '1px solid #e71515' : '',height:'60px'}}>
+        <div ref={drop} data-component-key={id} style={{border:canDrop ? '' : '',padding:'16px'}}>
             <Form form={form} onFinish={search}>
                 <Row gutter={20}>
                     {

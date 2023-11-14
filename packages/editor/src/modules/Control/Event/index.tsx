@@ -7,6 +7,7 @@ import {Collapse, Input, Select, TreeSelect} from 'antd';
 import {Component} from '@/types/schema';
 import {getComponentById} from '@/modules/Content/utils';
 import {useConfigState} from '@/store/features/configSlice';
+import ComponentEmpty from '@/common/Empty';
 function ComponentsEvent() {
     const dispatch = useDispatch();
     const {componentConfig} = useSelector(state => useConfigState(state));
@@ -84,7 +85,7 @@ function ComponentsEvent() {
         dispatch(updateComponentProps({selectedComponentId,changeValue}));
     };
 
-    if (!selectedComponent) return null;
+    if (!selectedComponent) return <ComponentEmpty/>;
 
     return (
         <div className='event'>

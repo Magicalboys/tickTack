@@ -45,7 +45,7 @@ const SpaceDev: React.FC<Props> = ({children, id, size, direction}) =>{
         direction={direction}
         data-component-key={id} 
         ref={drop}
-        style={{border: canDrop ? '1px solid #a69c9c' : '', width: direction === 'vertical' ? '96%' : '',padding: '16px'}}>
+        style={{border: canDrop ? '1px solid #a69c9c' : '1px dashed #cac5c5', width: direction === 'vertical' ? '96%' : '',padding: '16px'}}>
         {children?.length ? children : '暂无内容'}
     </Space>;
 };
