@@ -15,6 +15,6 @@ export default (register: Register) => {
                 desc:'搜索',
             }
         ],
-        order:8
+        order:9
     });
 };

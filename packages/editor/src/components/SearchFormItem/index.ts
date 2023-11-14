@@ -38,6 +38,6 @@ export default (register: Register) => {
                 type: 'input',
             },
         ],
-        order: 9,
+        order: 8,
     });
 };

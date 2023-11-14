@@ -55,8 +55,7 @@ const Form: React.FC<Props> = ({id, children, onSearch}) => {
             <div
                 data-component-key={id}
                 ref={drop}
-                className='p-[16px] flex justify-center'
-                style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', textAlign:'center',width:'100%',height: '300px',lineHeight:'300px'}}
+                style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', textAlign:'center',width:'97%',padding:'10px'}}
             >
         暂无内容
             </div>
@@ -65,7 +64,7 @@ const Form: React.FC<Props> = ({id, children, onSearch}) => {
 
 
     return (
-        <div ref={drop} data-component-key={id} style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', width:'100%',height:'300px'}}>
+        <div ref={drop} data-component-key={id} style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', width:'97%',padding:'10px'}}>
             <AntdForm labelCol={{span: 5}} wrapperCol={{span: 18}} form={form} onFinish={search}>
                 {searchItems.map((item: any) => {
                     return (

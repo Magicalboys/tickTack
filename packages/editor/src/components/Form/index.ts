@@ -12,7 +12,7 @@ export default (register: Register) => {
         setter: [
             {
                 name: 'url',
-                label: 'url',
+                label: 'URL',
                 type: 'input',
             },
         ],
@@ -32,6 +32,6 @@ export default (register: Register) => {
                 desc: '提交',
             },
         ],
-        order: 10,
+        order: 11,
     });
 };

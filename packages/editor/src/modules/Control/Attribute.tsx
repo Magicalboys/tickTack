@@ -33,7 +33,7 @@ function ComponentsAttr() {
                 labelCol={{span: 8}}
                 wrapperCol={{span: 14}}
             >
-                <Form.Item label="组件id">
+                <Form.Item label="组件ID">
                     <Input value={selectedComponent.id} disabled />
                 </Form.Item>
                 <Form.Item label="组件名称">

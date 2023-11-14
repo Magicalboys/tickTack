@@ -42,7 +42,7 @@ const TableDev: React.FC<Props> = ({id, children}) => {
         <div 
             ref={drop}
             data-component-key={id}
-            style={{border: canDrop ? '1px solid #ccc' : 'none', width: '100%', height: columns.length == 0 ? 200 : 212}}>
+            style={{border: canDrop ? '1px solid #ccc' : 'none', width: '100%'}}>
             <Table
                 columns={columns}
                 dataSource={[]}

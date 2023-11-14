@@ -50,6 +50,10 @@ export const editorSlice = createSlice({
                 return;
             }
             state.componentTree = [...state.componentTree ,component];
+
+            // 添加后被选中后
+            state.selectedComponentId = component.id;
+            state.selectedComponent = component;
         },
     
         // 更新当前选中的组件

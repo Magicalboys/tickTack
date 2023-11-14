@@ -42,6 +42,6 @@ export default (register: Register) => {
                 type: 'input',
             },
         ],
-        order: 5,
+        order: 4,
     });
 };
