@@ -3,4 +3,5 @@
  */
 export enum LibraryPanelTabEnum {
   generics = "generics",
+  container = 'container',
 }

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import MonacoEditor from "react-monaco-editor";
 import * as monaco from "monaco-editor";
-import { configureMonaco } from "../../../../monaco/monacoSetup";
+import { configureMonaco } from "@/monaco/monacoSetup";
 
 const ShowCode = ({ codeJson }: { codeJson: string }) => {
   // console.log(codeJson, "codeJSon");

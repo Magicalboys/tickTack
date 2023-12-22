@@ -1,6 +1,6 @@
 import { LibraryPanelTabEnum } from "./panel";
 
-export type LibraryComponentInstanceProps = Record<string, unknown>;
+export type LibraryComponentInstanceProps = Record<string, signalProp>;
 
 export type DefineComponent = () => JSX.Element;
 
@@ -61,6 +61,14 @@ export interface LibraryComponentInstanceData {
   props?: LibraryComponentInstanceProps;
 
   child?: string;
+}
+
+export interface signalProp {
+  defaultValue: string;
+  control: string;
+  type: string;
+  title?: string;
+  options?: unknown;
 }
 
 export interface contentJsonProp {}

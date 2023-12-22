@@ -17,24 +17,24 @@ const props = {
   title: {
     title: "文本内容",
     defaultValue: "",
-    type: "string",
+    type: "Input",
     control: "value",
   },
   inputSize: {
     title: "大小",
-    defaultValue: "middle",
+    defaultValue: "large",
     options: [
       { label: "大", value: "large" },
       { label: "中", value: "middle" },
       { label: "小", value: "small" },
     ],
-    type: "select",
+    type: "Select",
     control: "size",
   },
   inputPlaceholder: {
     title: "占位符",
     defaultValue: "Please input content!",
-    type: "string",
+    type: "Input",
     control: "placeholder",
   },
 };

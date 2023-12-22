@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { generateCode } from "./component/generateCode";
 import { useSelector } from "react-redux";
+import { storeData } from "@tickTack/types/src/store";
 import ShowCode from "./component/showCode";
-import { storeData } from "../../../../../types/src/store";
 
 // const worker = new Worker("../../../../../util/worker.ts");
 

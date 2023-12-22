@@ -1,5 +1,5 @@
-import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
-import { libraryMap } from "../../../../../library";
+import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
+import { libraryMap } from "@tickTack/library";
 
 /**
  * 解析画布渲染组件的钩子

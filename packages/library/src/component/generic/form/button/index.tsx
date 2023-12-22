@@ -19,12 +19,12 @@ const props = {
   title: {
     title: "按钮名称",
     defaultValue: "按钮",
-    type: "string",
+    type: "Input",
     control: "value",
   },
   buttonType: {
     title: "按钮类型",
-    defaultValue: "default",
+    defaultValue: "primary",
     options: [
       { label: "默认", value: "default" },
       { label: "主色调", value: "primary" },
@@ -32,7 +32,7 @@ const props = {
       { label: "纯文本", value: "text" },
       { label: "链接", value: "link" },
     ],
-    type: "select",
+    type: "Select",
     control: "type",
   },
   buttonSize: {
@@ -43,7 +43,7 @@ const props = {
       { label: "中", value: "middle" },
       { label: "小", value: "small" },
     ],
-    type: "select",
+    type: "Select",
     control: "size",
   },
 };

@@ -1,4 +1,4 @@
-import { LibraryComponentInstanceData } from "../../../types/src/library-component";
+import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
 
 /**
  * 默认收集页面最外层元素的uuid，如果传入uuid则收集uuid那一层的uuid

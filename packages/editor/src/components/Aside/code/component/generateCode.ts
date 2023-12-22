@@ -1,7 +1,7 @@
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
-} from "../../../../../../types/src/library-component";
+} from "@ticktack/types/src/library-component";
 
 export const generateCode = (contentData: LibraryComponentInstanceData[]) => {
   const render = (contentData: LibraryComponentInstanceData[]) => {

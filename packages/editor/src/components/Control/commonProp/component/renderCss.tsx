@@ -1,14 +1,15 @@
-import ShowContent from "../../../chooseAntd/index";
+import ShowContent from "@/components/chooseAntd/index";
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
-} from "../../../../../../types/src/library-component";
+} from "@tickTack/types/src/library-component";
+import { generateControlComponent } from "factory";
 import "./renderCss.scss";
 
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
   const uuid = props.uuid;
   const tickCss: LibraryComponentInstanceProps[] = [];
-  Object.keys(props.props as LibraryComponentInstanceProps).forEach((item) => {
+  Object.keys(props.props).forEach((item) => {
     tickCss.push(
       (props.props as LibraryComponentInstanceProps)[
         item

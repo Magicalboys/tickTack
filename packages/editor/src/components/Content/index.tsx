@@ -1,16 +1,17 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
+// import * as Antd from 'antd'
 import { useSelector, useDispatch } from "react-redux";
-import { addComponent, initChildUuid } from "../../store/features/counterSlice";
 import { v4 as uuidv4 } from "uuid";
+import { libraryPropsMap } from "@ticktack/library";
 import {
   ExportJson,
   LibraryComponentInstanceData,
-} from "../../../../types/src/library-component";
-import { storeData } from "../../../../types/src/store";
-import { libraryPropsMap } from "../../../../library";
-import FormContent from "./component/uniForm";
-import { DragProp } from "../../../../types/src/drop-drag";
+} from "@ticktack/types/src/library-component";
+import { storeData } from "@tickTack/types/src/store";
+import { DragProp } from "@ticktack/types/src/drop-drag";
+import { addComponent, initChildUuid } from "@/store/features/counterSlice";
+import {GenerateChildenComponent} from '../../../factory/index'
 import "./style.scss";
 
 const Content: React.FC = () => {
@@ -23,7 +24,7 @@ const Content: React.FC = () => {
   const [container, setContainer] = useState(""); // 放置的容器信息
   const indexRef = useRef(index);
   const containerRef = useRef(container);
-  const [whoElement, setWhoElement] = useState(false);
+  const [whoElement] = useState(false);
   const whoElementRef = useRef(whoElement);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
@@ -84,19 +85,13 @@ const Content: React.FC = () => {
     <>
       <div className='container container-content' ref={drop}>
         {contentData.length > 0 &&
-          contentData.map((item, index) => {
+          contentData.map((item) => {
             return (
-              <Fragment key={`${index}${item}`}>
-                <FormContent
-                  props={item}
-                  index={index}
-                  setIndex={setIndex}
-                  setContainer={setContainer}
-                  setWhoElement={setWhoElement}
-                ></FormContent>
+              <Fragment key={`${item}${item.componentName}${item.uuid}`}>
+                <GenerateChildenComponent {...item}></GenerateChildenComponent>
               </Fragment>
-            );
-          })}
+            )
+            })}
       </div>
     </>
   );

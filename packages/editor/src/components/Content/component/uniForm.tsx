@@ -1,20 +1,20 @@
 import { useRef, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import ShowContent from "../../chooseAntd/index";
+import ShowContent from "@/components/chooseAntd/index";
 import {
   updateFocus,
   swapIndex,
   swapSlotIndex,
-} from "../../../store/features/counterSlice";
+} from "@/store/features/counterSlice";
 import {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
-} from "../../../../../types/src/library-component";
-import { DragProp } from "../../../../../types/src/drop-drag";
-import { ExportJson } from "../../../../../types/src/library-component";
-import { storeData } from "../../../../../types/src/store";
-import { collectSlotUuid, findNearestSlot } from "../../../util/index";
+} from "@ticktack/types/src/library-component";
+import { DragProp } from "@ticktack/types/src/drop-drag";
+import { ExportJson } from "@tickTack/types/src/library-component";
+import { storeData } from "@tickTack/types/src/store";
+import { collectSlotUuid, findNearestSlot } from "@/util/index";
 import "./uniform.scss";
 
 /**

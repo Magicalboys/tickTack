@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { storeData } from "../../../../types/src/store";
+import { storeData } from "@tickTack/types/src/store";
 import {
   LibraryComponentInstanceProps,
   LibraryComponentInstanceData,
-} from "../../../../types/src/library-component";
+} from "@tickTack/types/src/library-component";
 
 /**
  * 全局共享物料

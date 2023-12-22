@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Divider, Empty, Popover, message } from "antd";
 import { SmallDashOutlined } from "@ant-design/icons";
 import classnames from "classnames";
-import { libraryAsideMenu } from "../../../../library";
+import { libraryAsideMenu } from "@tickTack/library";
 import Setting from "./setting";
 import UniversalComponent from "./UniversalComponent";
 import Code from "./code";

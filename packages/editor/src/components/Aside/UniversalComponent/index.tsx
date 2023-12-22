@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import LibraryItem from "./component/LibItem/libItem";
-import { libraryMap } from "../../../../../library/index";
+import { libraryMap } from "@tickTack/library/index";
 import { Fragment } from "react";
+import { storeData } from "@tickTack/types/src/store";
 import "./style.scss";
-import { storeData } from "../../../../../types/src/store";
 
 const App = () => {
   const count: number = useSelector(

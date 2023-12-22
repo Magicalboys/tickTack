@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import { Editor } from "./monaco/index";
-import "../../../../../monaco/use-monaco";
+import "@/monaco/use-monaco";
 
 const App: React.FC<{
   open: boolean;

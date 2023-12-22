@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { LibraryComponentInstanceProps } from "../../../../../types/src/library-component";
+import { LibraryComponentInstanceProps } from "@tickTack/types/src/library-component";
 
 const App: React.FC<{ fakeProps: LibraryComponentInstanceProps }> = ({
   fakeProps,

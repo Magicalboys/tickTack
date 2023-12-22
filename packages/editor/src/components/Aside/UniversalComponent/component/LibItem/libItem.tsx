@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDrag, DragPreviewImage } from "react-dnd";
-import { DragProp } from "../../../../../../../types/src/drop-drag";
-import { ExportJson } from "../../../../../../../types/src/library-component";
+import { DragProp } from "@tickTack/types/src/drop-drag";
+import { ExportJson } from "@tickTack/types/src/library-component";
 import "./libItem.scss";
 
 const App: React.FC<{ props: ExportJson; index: number }> = ({

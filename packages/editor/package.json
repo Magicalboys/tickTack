@@ -13,6 +13,10 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "@ticktack/event-action": "workspace:^",
+    "@ticktack/library": "workspace:^",
+    "@ticktack/types": "workspace:^",
+    "@ticktack/utils": "workspace:^",
     "monaco-editor": "^0.43.0"
   }
 }

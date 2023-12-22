@@ -1,22 +1,23 @@
-import { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { recursiveSearch } from "../../../util/index";
-// import { useAdaptContainer } from "../../../util/hooks/useAdaptContainer";
-import FormContent from "../../Content/component/uniForm";
+import { libraryPropsMap } from "@ticktack/library";
+import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
+import { storeData } from "@tickTack/types/src/store";
+import { DragProp } from "@tickTack/types/src/drop-drag";
+import { ExportJson } from "@tickTack/types/src/library-component";
 import {
   findSlotToInsert,
   initChildUuid,
-} from "../../../store/features/counterSlice";
-import { libraryPropsMap } from "../../../../../library";
-import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
-import { storeData } from "../../../../../types/src/store";
-import { DragProp } from "../../../../../types/src/drop-drag";
-import { ExportJson } from "../../../../../types/src/library-component";
+} from "@/store/features/counterSlice";
+import { recursiveSearch } from "@/util/index";
 import "./index.scss";
 
-const App: React.FC<{ uuid: string }> = ({ uuid }) => {
+export interface RootViewProps {
+  children?: React.ReactNode
+}
+const App: React.FC<{ uuid: string } & RootViewProps> = ({ uuid }, props) => {
   const dispatch = useDispatch();
 
   const contentData = useSelector(
@@ -40,11 +41,10 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
   const [container, setContainer] = useState(""); // 放置的容器信息
   const containerRef = useRef(container);
 
-  const [whoElement, setWhoElement] = useState(false); // 用来判断元素是在slot上hover时drop还是在其它元素上hover时drop
+  const [whoElement, ] = useState(false); // 用来判断元素是在slot上hover时drop还是在其它元素上hover时drop
   const whoElementRef = useRef(whoElement);
 
   const adaptElementRef = useRef(null); // 获取内容元素的引用
-  // const adaptContainerRef = useAdaptContainer(adaptElementRef);
   const adaptContainerRef = useRef(null);
 
   const handleItem = (item: ExportJson): LibraryComponentInstanceData => {
@@ -121,27 +121,7 @@ const App: React.FC<{ uuid: string }> = ({ uuid }) => {
     <>
       <div ref={adaptContainerRef} className='slotProp'>
         <div ref={adaptElementRef}>
-          {slotData?.children && slotData.children.length > 0 ? (
-            slotData?.children?.map((item, index) => {
-              return (
-                <>
-                  <Fragment key={`${index}${item}`}>
-                    <div className='slot_children'>
-                      <FormContent
-                        setContainer={setContainer}
-                        props={item}
-                        index={index}
-                        setIndex={setIndex}
-                        setWhoElement={setWhoElement}
-                      ></FormContent>
-                    </div>
-                  </Fragment>
-                </>
-              );
-            })
-          ) : (
-            <div> 这是插槽</div>
-          )}
+          {props.children}
         </div>
       </div>
     </>

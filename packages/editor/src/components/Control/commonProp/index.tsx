@@ -2,13 +2,14 @@ import React, { useMemo } from "react";
 import { Empty, Button } from "antd";
 import { useSelector } from "react-redux";
 import FormControl from "./component/formControl";
-import { libraryEvent } from "../../../../../library";
-import RenderCss from "./component/renderCss";
-import { LibraryComponentInstanceData } from "../../../../../types/src/library-component";
-import "./index.scss";
-import { storeData } from "../../../../../types/src/store";
+import { libraryEvent } from "@tickTack/library";
+// import RenderCss from "./component/renderCss";
+import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
+import { storeData } from "@tickTack/types/src/store";
 import { findFocusIsTrue } from "../../../util/index";
-import globalEventEmitter from "../../../../../event-action/src/index";
+import globalEventEmitter from "@ticktack/event-action/src/index";
+import "./index.scss";
+import { GenerateControlComponent } from '../../../../factory/index';
 
 const Control: React.FC = () => {
   const contentData: LibraryComponentInstanceData[] = useSelector(
@@ -21,7 +22,7 @@ const Control: React.FC = () => {
   const controlComponent = data && (
     <div className='tt-content'>
       <FormControl props={data}></FormControl>
-      <RenderCss props={data}></RenderCss>
+      <GenerateControlComponent {...data}></GenerateControlComponent>
     </div>
   );
 

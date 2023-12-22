@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import { LibraryComponentInstanceData } from "../../../../../../types/src/library-component";
+import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
 const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
   return (
     <>
