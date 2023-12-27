@@ -1,23 +1,34 @@
-import { useSelector } from "react-redux";
-import LibraryItem from "./component/LibItem/libItem";
-import { libraryMap } from "@tickTack/library/index";
+// import { useEffect } from "react";
 import { Fragment } from "react";
-import { storeData } from "@tickTack/types/src/store";
+import LibItem from './LibItem/libItem';
+import { instanceMap } from "@ticktack/library";
+import { signalComponent } from "@ticktack/types/src/library-component";
 import "./style.scss";
 
 const App = () => {
-  const count: number = useSelector(
-    (state: Record<string, storeData>) => state.tickTack.contentData.length
+  const boxName: {
+    name: string;
+    value: signalComponent;
+  }[] = [];
+
+  // 对instanceMap进行操作，分别提取其key和value
+  for (const [key, value] of instanceMap) {
+    boxName.push({ name: key, value: value });
+  }
+
+  return (
+    <>
+    {
+      boxName.map((item, index) => {
+        const insData = item.value.ComponentInstance;
+        return (
+          <Fragment key={`${item.name}`}>
+            <LibItem props={insData} index={index}></LibItem>
+          </Fragment>
+        )
+      })
+    }
+    </>
   );
-  const genericComponent =
-    libraryMap &&
-    Object.keys(libraryMap).map((item, index) => {
-      return (
-        <Fragment key={`${item}${index}`}>
-          <LibraryItem props={libraryMap[item]} index={count}></LibraryItem>
-        </Fragment>
-      );
-    });
-  return <div className='tt-component-container'>{genericComponent}</div>;
 };
 export default App;

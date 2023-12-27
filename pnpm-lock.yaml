@@ -161,6 +161,10 @@ importers:
         version: 4.5.1(@types/node@20.10.4)
 
   packages/library:
+    dependencies:
+      '@ticktack/types':
+        specifier: workspace:^
+        version: link:../types
     devDependencies:
       vite:
         specifier: ^4.4.5

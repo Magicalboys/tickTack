@@ -1,74 +1,54 @@
-import { LibraryPanelTabEnum } from "./panel";
+// import { LibraryPanelTabEnum } from "./panel";
 
-export type LibraryComponentInstanceProps = Record<string, signalProp>;
-
-export type DefineComponent = () => JSX.Element;
-
-export type TabName = "form" | "show" | "container";
-
-export type tickType = "container" | "generics";
-
-export interface ExportJson {
-  componentData: LibraryComponent;
-  props: LibraryComponentInstanceProps;
-  events: (() => void)[];
+export interface BaseData {
+  component: {
+    type: string;
+    props?: UIInstanceProps;
+  }
 }
 
-export interface Module {
-  default: ExportJson;
-}
+export type UIInstanceProps = Record<string, unknown>;
 
-export interface LibraryComponent {
-  name: string;
+export type ControlInstanceProps = Record<string, ControlInstance>;
 
-  libraryName: LibraryPanelTabEnum;
+export type componentType = "container" | "generics";
 
-  tickType: string;
-
-  tabName: string;
-
-  order: number;
-
-  libraryPanelShowDetail: {
-    title: string;
-    content: string;
-  };
-
-  tips: {
-    title: string;
-
-    content: string;
-
-    preview?: DefineComponent;
-  };
-  child?: string;
+export interface signalComponent {
+  ComponentInstance: UIInstance;
+  ComponentControlInstance: ControlInstanceProps;
 }
 
 /**
- * 物料组件定义（可视区域与右侧控制台）
+ * 物料组件定义（可视区域的组件实例
  */
-export interface LibraryComponentInstanceData {
-  uuid: string;
+export interface UIInstance {
+  component: {
+    uuid?: string;
 
-  focus: boolean;
+    type: string;
 
-  libraryName: LibraryPanelTabEnum;
+    focus?: boolean;
 
-  componentName: string;
+    componentType: componentType;
 
-  children: LibraryComponentInstanceData[];
+    children?: UIInstance[];
 
-  props?: LibraryComponentInstanceProps;
+    props?: UIInstanceProps;
 
-  child?: string;
+    child?: string;
+  };
 }
 
-export interface signalProp {
-  defaultValue: string;
-  control: string;
-  type: string;
-  title?: string;
-  options?: unknown;
-}
+/**
+ * 控制台区域的组件属性
+ */
 
-export interface contentJsonProp {}
+export interface ControlInstance {
+  component: {
+    type: string;
+    label: string;
+    componentType: componentType;
+    control: string,
+    props?: Record<string, unknown>
+  }
+}

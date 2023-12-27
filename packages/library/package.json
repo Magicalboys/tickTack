@@ -1,5 +1,5 @@
 {
-  "name": "@ticktack/library", 
+  "name": "@ticktack/library",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "@ticktack/types": "workspace:^"
   }
 }

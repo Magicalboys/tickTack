@@ -1,10 +1,10 @@
 import { Input } from "antd";
-import { LibraryComponentInstanceData } from "@tickTack/types/src/library-component";
-const App: React.FC<{ props: LibraryComponentInstanceData }> = ({ props }) => {
+import { UIInstance } from "@tickTack/types/src/library-component";
+const App: React.FC<{ props: UIInstance }> = ({ props }) => {
   return (
     <>
       <div>物料组件唯一标识符（uuid）</div>
-      <Input value={props.uuid} disabled></Input>
+      <Input value={props.component.uuid} disabled></Input>
     </>
   );
 };

@@ -1,18 +1,11 @@
-import {
-  LibraryComponent,
-  LibraryComponentInstanceData,
-  contentJsonProp,
-} from "./library-component";
+import { UIInstance } from "./library-component";
 
 export interface storeData {
-  contentData: LibraryComponentInstanceData[];
-  count: number;
-  contentJson: contentJsonProp[];
-  propUuid: string;
+  contentData: UIInstance[];
 }
 
-export interface actions {
-  showContent: (state: LibraryComponent) => void;
-  addComponent: (state: LibraryComponentInstanceData) => void;
-  deleteComponent: (state: LibraryComponent) => void;
-}
+// export interface actions {
+//   showContent: (state: LibraryComponent) => void;
+//   addComponent: (state: LibraryComponentInstanceData) => void;
+//   deleteComponent: (state: LibraryComponent) => void;
+// }

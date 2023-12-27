@@ -6,7 +6,6 @@ import counterSlice from "./features/counterSlice";
 const store = configureStore({
   reducer: {
     tickTack: counterSlice,
-    // recommend: recommendSlice,
   },
 });
 

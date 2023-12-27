@@ -2,7 +2,6 @@ import { Fragment, useState } from "react";
 import { Divider, Empty, Popover, message } from "antd";
 import { SmallDashOutlined } from "@ant-design/icons";
 import classnames from "classnames";
-import { libraryAsideMenu } from "@tickTack/library";
 import Setting from "./setting";
 import UniversalComponent from "./UniversalComponent";
 import Code from "./code";
@@ -13,22 +12,26 @@ const Aside: React.FC = () => {
     icon: React.ReactNode;
     label: string;
     value: string;
-  }> = libraryAsideMenu;
+  }> = [
+    { icon: "look", label: "show", value: "UniversalComponent" },
+    { icon: "push", label: "tree", value: "大纲树" },
+    { icon: "pop", label: "code", value: "init code" },
+  ];
   const [param, setParam] = useState("UniversalComponent");
 
   return (
     <>
-      <div className='tt-aside'>
+      <div className="tt-aside">
         {/* 左侧的aside图标 */}
-        <div className='tt-menu-aside'>
+        <div className="tt-menu-aside">
           {list ? (
             list.map((item, index) => {
               return (
                 <Fragment key={String(index) + item.value}>
                   <Popover
-                    placement='right'
+                    placement="right"
                     content={item.label}
-                    trigger='hover'
+                    trigger="hover"
                   >
                     <div
                       onClick={() => setParam(item.value)}
@@ -47,11 +50,11 @@ const Aside: React.FC = () => {
           )}
         </div>
         {/* 右侧的内容区 */}
-        <div className='tt-menu-content'>
-          <div className='tt-menu-content-header'>
+        <div className="tt-menu-content">
+          <div className="tt-menu-content-header">
             <span>{list.find((v) => v.value === param)?.label}</span>
             <span
-              className='tt-menu-content-header-icon'
+              className="tt-menu-content-header-icon"
               onClick={() => {
                 message.warning("功能暂未实现！");
               }}
@@ -60,7 +63,7 @@ const Aside: React.FC = () => {
             </span>
           </div>
           <Divider style={{ marginTop: "12px" }}></Divider>
-          <div className='tt-menu-content-base'>
+          <div className="tt-menu-content-base">
             {list &&
               list.map((item, index) => {
                 if (param === item.value) {

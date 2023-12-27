@@ -1,54 +1,30 @@
 import {
-  LibraryComponentInstanceProps,
-  ExportJson,
+  ControlInstanceProps,
+  signalComponent,
 } from "../types/src/library-component";
-import { Module } from "../types/src/library-component";
-import { asideMenu as libraryAsideMenu } from "./src/universal";
 
 /**
  * 动态导入模块
  */
-const libraryComponents = import.meta.glob<Module>(
-  "./src/component/**/index.(tsx|jsx)",
+interface AllPropsInter {
+  default: signalComponent;
+}
+const allInstanceProp: AllPropsInter[] = import.meta.glob(
+  "./src/component/generic/**/index.(tsx|jsx)",
   {
     eager: true,
   }
 );
-const libraryPropsMap: Record<string, LibraryComponentInstanceProps> = {};
-const libraryMap: Record<string, ExportJson> = {};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const libraryEvent = {};
 
-/**
- * 添加每一个组件的props
- */
-Object.entries(libraryComponents).forEach(([, module]) => {
-  const name = module.default.componentData.name;
-  libraryPropsMap[name] = module.default.props;
+// 全局json的map实例
+const instanceMap = new Map<string, signalComponent>();
+// 全局json
+const instanceControlMap = new Map<string, ControlInstanceProps>();
+
+Object.entries(allInstanceProp).forEach(([, module]) => {
+  const type = module.default.ComponentInstance.component.type;
+  instanceMap.set(type, module.default);
+  instanceControlMap.set(type, module.default.ComponentControlInstance);
 });
 
-// 导出每一个组件的数据
-Object.entries(libraryComponents).forEach(([, module]) => {
-  libraryMap[module.default.componentData.name] = module.default;
-});
-
-/**
- * 导出每一个组件的事件
- */
-Object.entries(libraryComponents).forEach(([, module]) => {
-  if (module.default.componentData.name === "Button") {
-    module.default.events.forEach((eventEmit) => {
-      eventEmit();
-    });
-    console.log(module.default.events);
-    libraryEvent[module.default.componentData.name] = module.default.events;
-  }
-});
-
-export {
-  libraryMap,
-  libraryComponents,
-  libraryPropsMap,
-  libraryAsideMenu,
-  libraryEvent,
-};
+export { instanceControlMap, instanceMap };
