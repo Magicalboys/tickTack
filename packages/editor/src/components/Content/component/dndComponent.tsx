@@ -30,15 +30,9 @@ const App: React.FC<ChildrenProp> = (props) => {
         isOver: monitor.isDragging(),
       }),
       item: { index },
-
-      //   end: (item, monitor) => {
-      //     console.log(item);
-      //   },
     },
     []
   );
-
-//   const opacity = isDragging ? 0.4 : 1;
 
   // @ts-expect-error 暂时使用
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -65,27 +59,7 @@ const App: React.FC<ChildrenProp> = (props) => {
       if (dragIndex === dropIndex) {
         return;
       }
-
-      //   // 确定屏幕上元素范围
-      //   const dropBoundingRect = ref.current!.getBoundingClientRect();
-
-      //   // 获取中点垂直坐标
-      //   const dropMiddleY = (dropBoundingRect.bottom - dropBoundingRect.top) / 2;
-      //   console.log(dropMiddleY);
-      //   // 确定鼠标位置
-      //   const clientOffset = monitor.getClientOffset();
-      //   console.log(clientOffset?.y);
-      //   // 获取距离顶部距离
-      //   const dropClientY = (clientOffset as XYCoord).y - dropBoundingRect.top;
-      //   console.log(dropClientY);
-      //   if (dropClientY < dropMiddleY) {
-      //     return;
-      //   }
-
-      //   if (dropClientY > dropMiddleY) {
-      //     return;
-      //   }
-
+      
       //   执行交换index函数
       dispatch(swapIndex({ dragIndex, dropIndex }));
       if (item.index !== undefined) {

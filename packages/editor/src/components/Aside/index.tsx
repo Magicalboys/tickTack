@@ -13,9 +13,9 @@ const Aside: React.FC = () => {
     label: string;
     value: string;
   }> = [
-    { icon: "look", label: "show", value: "UniversalComponent" },
-    { icon: "push", label: "tree", value: "大纲树" },
-    { icon: "pop", label: "code", value: "init code" },
+    { icon: "组件", label: "组件", value: "UniversalComponent" },
+    { icon: "代码", label: "代码", value: "代码" },
+    { icon: "设置", label: "系统设置", value: "setting" },
   ];
   const [param, setParam] = useState("UniversalComponent");
 

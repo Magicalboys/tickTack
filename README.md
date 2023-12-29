@@ -41,33 +41,77 @@ pnpm run docs
 
 **每个组件的数据形式：**
 
-- 属性初步采用 object.defineProperty 进行定义，并手动实现双向绑定——数据劫持+发布订阅
-- 事件列表初步采用发布订阅设计模式
-- 分为公有属性和私有属性：命令式——公有前加`pub`，私有前加`pri`
-- 同时可以将不小心触发的操作进行封装：用一个函数或者 hook 统一抛出错误（在 set 和 get 里面）
-
-```json
-[
-  {
-    "indexId": "0f1370b4-ccd7-4c4a-aebd-713205c944be",
-    "uuid": "e22532dc-9d61-48f4-b0b6-80af3a309902",
-    "libraryName": "generics",
-    "component": "tickButton",
-    "status": {
-      "focus": "true",
-      "disable": "true"
-    }
-    "events": {},
-    // 这里放跟组件的元素相关的属性
-    "props": {
-      "label": "文字",
-      "propValue": "文字",
-    // 这里专门放css属性
-      "style": {
+```tsx
+const ComponentControlInstance: ControlInstanceProps = {
+  ButtonType: {
+    component: {
+      type: 'Select',
+      label: '按钮类型',
+      componentType: 'generics',
+      control: 'type',
+      props: {
+        options: [
+          { label: "默认", value: "default" },
+          { label: "主色调", value: "primary" },
+          { label: "虚线边框", value: "dashed" },
+          { label: "纯文本", value: "text" },
+          { label: "链接", value: "link" },
+        ],
+        placeholder: "Please select type"
       }
-    },
+    }
+  },
+
+  ButtonValue: {
+    component: {
+      type: 'Input',
+      label: '按钮名称',
+      componentType: 'generics',
+      control: 'child',
+      props: {
+        placeholder: '请输入按钮名称',
+      }
+    }
+  },
+
+  ButtonSize: {
+    component: {
+      type: 'Select',
+      label: '按钮大小',
+      componentType: 'generics',
+      control: 'size',
+      props: {
+        options: [
+          { label: "大", value: "large" },
+          { label: "中", value: "middle" },
+          { label: "小", value: "small" },
+        ],
+        placeholder: "Please select size"
+      }
+    }
   }
-]
+}
+
+const ComponentInstance: UIInstance = {
+  component: {
+    uuid: '',
+    type: "Button",
+    componentType: "generics",
+    focus: false,
+    props: {
+      type: 'primary',
+      size: 'large',
+    },
+    child: '按钮'
+  }
+};
+
+const Allprops: signalComponent = {
+  ComponentInstance,
+  ComponentControlInstance,
+}
 ```
+1. 可分为自定义组件与antd组件，其中antd组件在render的时候自动注册，自定义组件需要在factory文件中手动进行注册。
+2. 数据格式如上：分为中间显示的数据以及右侧控制台的数据
 
 [github 地址](https://github.com/Magicalboys/tickTack)

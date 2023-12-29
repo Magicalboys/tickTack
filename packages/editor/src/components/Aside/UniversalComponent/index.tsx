@@ -1,4 +1,3 @@
-// import { useEffect } from "react";
 import { Fragment } from "react";
 import LibItem from './LibItem/libItem';
 import { instanceMap } from "@ticktack/library";
