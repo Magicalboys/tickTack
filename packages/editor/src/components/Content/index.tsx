@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import DndComponent from "./component/dndComponent";
 import { render } from "@ticktack/library/src/utils/factory";
-import { updateFocus } from "@/store/features/counterSlice";
+import { updateFocus, setRef } from "@/store/features/counterSlice";
 import { CounterSliceType } from "@/store";
 import { DragProp } from "@tickTack/types/src/drop-drag";
 import "./style.scss";
@@ -13,7 +13,7 @@ const Content: React.FC = () => {
     (state: CounterSliceType) => state.tickTack.contentData
   );
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const clickRef = useRef(null);
 
   const [, drop] = useDrop({
@@ -24,7 +24,9 @@ const Content: React.FC = () => {
     let uuid;
     const clickElement = event.target as HTMLDivElement;
     if (!clickElement.getAttribute("uuid")) {
-      uuid = (clickElement.parentNode as HTMLDivElement)?.getAttribute("uuid") as string;
+      uuid = (clickElement.parentNode as HTMLDivElement)?.getAttribute(
+        "uuid"
+      ) as string;
     } else {
       uuid = clickElement.getAttribute("uuid") as string;
     }
@@ -33,6 +35,8 @@ const Content: React.FC = () => {
 
   useEffect(() => {
     drop(ref);
+    const current = ref.current;
+    dispatch(setRef({ current }));
   }, []);
 
   return (
@@ -42,11 +46,7 @@ const Content: React.FC = () => {
           contentData.map((item, index) => {
             const uuid = item.component.uuid;
             return (
-              <div
-                key={`${uuid}`}
-                onClick={handleFocus}
-                ref={clickRef}
-              >
+              <div key={`${uuid}`} onClick={handleFocus} ref={clickRef}>
                 <DndComponent index={index}>{render(item)}</DndComponent>
               </div>
             );

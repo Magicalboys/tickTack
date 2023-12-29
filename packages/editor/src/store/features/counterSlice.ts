@@ -9,6 +9,7 @@ import { UIInstance } from "@tickTack/types/src/library-component";
 
 const initialState: storeData = {
   contentData: [],
+  ref: null,
 };
 
 export const counterSlice = createSlice({
@@ -98,14 +99,12 @@ export const counterSlice = createSlice({
       state,
       { payload }: { payload: { dragIndex: number; dropIndex: number } }
     ) {
-      // eslint-disable-next-line prefer-const
-      let { dragIndex, dropIndex } = payload;
+      const { dragIndex, dropIndex } = payload;
       console.log(dragIndex, "ppppp");
       if (dragIndex !== undefined) {
         const temp = state.contentData[dragIndex];
         state.contentData[dragIndex] = state.contentData[dropIndex];
         state.contentData[dropIndex] = temp;
-        // dragIndex = dropIndex;
       }
     },
 
@@ -123,6 +122,13 @@ export const counterSlice = createSlice({
       payload.json.component.uuid === "-1";
       state.contentData.push(payload.json);
     },
+
+    /**
+     * 内容区的ref，需要提升到全局
+     */
+    setRef(state, {payload}) {
+      state.ref = payload.ref;
+    }
   },
 });
 
@@ -134,6 +140,7 @@ export const {
   swapIndex,
   deleteComponent,
   controlPreview,
+  setRef
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

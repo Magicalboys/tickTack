@@ -2,6 +2,7 @@ import { UIInstance } from "./library-component";
 
 export interface storeData {
   contentData: UIInstance[];
+  ref: HTMLDivElement | null;
 }
 
 // export interface actions {
