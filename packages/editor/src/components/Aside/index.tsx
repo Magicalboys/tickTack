@@ -5,7 +5,8 @@ import classnames from "classnames";
 import Setting from "./setting";
 import UniversalComponent from "./UniversalComponent";
 import Code from "./code";
-import Tree from './componentTree/index';
+import Tree from "./componentTree/index";
+import "@/monaco/use-monaco";
 import "./style.scss";
 
 const Aside: React.FC = () => {
@@ -78,8 +79,8 @@ const Aside: React.FC = () => {
                       return <Setting key={index}></Setting>;
                     case "Code":
                       return <Code key={index}></Code>;
-                    case "Tree": 
-                      return <Tree key={index}></Tree>
+                    case "Tree":
+                      return <Tree key={index}></Tree>;
                     default:
                       return "";
                   }
