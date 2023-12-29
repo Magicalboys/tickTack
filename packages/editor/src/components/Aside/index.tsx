@@ -5,6 +5,7 @@ import classnames from "classnames";
 import Setting from "./setting";
 import UniversalComponent from "./UniversalComponent";
 import Code from "./code";
+import Tree from './componentTree/index';
 import "./style.scss";
 
 const Aside: React.FC = () => {
@@ -14,8 +15,9 @@ const Aside: React.FC = () => {
     value: string;
   }> = [
     { icon: "组件", label: "组件", value: "UniversalComponent" },
-    { icon: "代码", label: "代码", value: "代码" },
-    { icon: "设置", label: "系统设置", value: "setting" },
+    { icon: "代码", label: "代码", value: "Code" },
+    { icon: "设置", label: "系统设置", value: "Setting" },
+    { icon: "大纲", label: "组件大纲", value: "Tree" },
   ];
   const [param, setParam] = useState("UniversalComponent");
 
@@ -76,6 +78,8 @@ const Aside: React.FC = () => {
                       return <Setting key={index}></Setting>;
                     case "Code":
                       return <Code key={index}></Code>;
+                    case "Tree": 
+                      return <Tree key={index}></Tree>
                     default:
                       return "";
                   }
