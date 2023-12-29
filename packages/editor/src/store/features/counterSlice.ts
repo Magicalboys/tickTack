@@ -23,10 +23,20 @@ export const counterSlice = createSlice({
      * @param state
      * @param param1
      */
-    addComponent(state, { payload }: { payload: { json: UIInstance } }) {
-      // 判断传进来的json应该插入到哪里，根据uuid进行判断===》找出放置的时候距离最近的uuid，
+    addComponent(
+      state,
+      { payload }: { payload: { json: UIInstance; uuid?: string } }
+    ) {
+      // 判断传进来的json应该插入到哪里，根据uuid进行判断===》根据容器的uuid找到这个容器
       // 如果放置的是一个容器，那么就将这个json插入到容器里面，如果放置的是一个普通组件，那么就放置在这个组件的下方
-      state.contentData.push(payload.json);
+      const { json, uuid } = payload;
+      if (uuid) {
+        const data = findComponent(state.contentData, "uuid", uuid);
+        if (!data) return
+        data.component.children?.push(json);
+      } else {
+        state.contentData.push(json);
+      }
     },
 
     /**
@@ -63,8 +73,8 @@ export const counterSlice = createSlice({
 
     /**
      * 更改物料的props
-     * @param state 
-     * @param param1 
+     * @param state
+     * @param param1
      */
     updateJson(
       state,
@@ -74,8 +84,8 @@ export const counterSlice = createSlice({
     ) {
       const data = findComponent(state.contentData, "uuid", payload.uuid);
       if (data) {
-        if (data.component.props?.[payload.control]) {
-          data.component.props[payload.control] = payload.value;
+        if (payload.control in data.component.props!) {
+          data.component.props![payload.control] = payload.value;
         } else {
           data.component.child = payload.value as string;
         }
@@ -83,10 +93,47 @@ export const counterSlice = createSlice({
         console.warn("没有找到对应的组件");
       }
     },
+
+    swapIndex(
+      state,
+      { payload }: { payload: { dragIndex: number; dropIndex: number } }
+    ) {
+      // eslint-disable-next-line prefer-const
+      let { dragIndex, dropIndex } = payload;
+      console.log(dragIndex, "ppppp");
+      if (dragIndex !== undefined) {
+        const temp = state.contentData[dragIndex];
+        state.contentData[dragIndex] = state.contentData[dropIndex];
+        state.contentData[dropIndex] = temp;
+        // dragIndex = dropIndex;
+      }
+    },
+
+    /**
+     * 删除组件
+     */
+    deleteComponent(state, { payload }: { payload: { index: number } }) {
+      state.contentData.splice(payload.index, 1);
+    },
+
+    /**
+     * 对预览组件的一系列操作
+     */
+    controlPreview(state, { payload }: { payload: { json: UIInstance } }) {
+      payload.json.component.uuid === "-1";
+      state.contentData.push(payload.json);
+    },
   },
 });
 
 // 导出actions
-export const { addComponent, updateFocus, updateJson } = counterSlice.actions;
+export const {
+  addComponent,
+  updateFocus,
+  updateJson,
+  swapIndex,
+  deleteComponent,
+  controlPreview,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

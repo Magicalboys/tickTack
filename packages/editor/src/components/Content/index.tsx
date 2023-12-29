@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import { v4 as uuidv4 } from "uuid";
 import DndComponent from "./component/dndComponent";
 import { render } from "@ticktack/library/src/utils/factory";
-import { addComponent, updateFocus } from "@/store/features/counterSlice";
+import { updateFocus } from "@/store/features/counterSlice";
 import { CounterSliceType } from "@/store";
 import { DragProp } from "@tickTack/types/src/drop-drag";
-import { UIInstance } from "@tickTack/types/src/library-component";
 import "./style.scss";
 
 const Content: React.FC = () => {
@@ -16,26 +14,22 @@ const Content: React.FC = () => {
   );
   const dispatch = useDispatch();
   const ref = useRef(null);
+  const clickRef = useRef(null);
 
   const [, drop] = useDrop({
     accept: DragProp.SORT,
-    drop: (item: [UIInstance, number]) => {
-      const [json] = item;
-      const _json = {
-        component: {
-          ...json.component,
-          uuid: uuidv4(),
-        }
-      };
-      console.log(_json, "json");
-      dispatch(addComponent({ json: _json }));
-    },
   });
 
-  const handleFocus = (uuid: string) => {
-    console.log(uuid);
-    dispatch(updateFocus({uuid}));
-  }
+  const handleFocus = (event: React.MouseEvent<HTMLDivElement>) => {
+    let uuid;
+    const clickElement = event.target as HTMLDivElement;
+    if (!clickElement.getAttribute("uuid")) {
+      uuid = (clickElement.parentNode as HTMLDivElement)?.getAttribute("uuid") as string;
+    } else {
+      uuid = clickElement.getAttribute("uuid") as string;
+    }
+    dispatch(updateFocus({ uuid }));
+  };
 
   useEffect(() => {
     drop(ref);
@@ -45,18 +39,21 @@ const Content: React.FC = () => {
     <>
       <div className="container-content" ref={ref}>
         {contentData && contentData.length ? (
-          contentData.map((item) => {
+          contentData.map((item, index) => {
             const uuid = item.component.uuid;
             return (
-              <div key={`${uuid}`} onClick={() => handleFocus(uuid!)}>
-                <DndComponent>{render(item)}</DndComponent>
+              <div
+                key={`${uuid}`}
+                onClick={handleFocus}
+                ref={clickRef}
+              >
+                <DndComponent index={index}>{render(item)}</DndComponent>
               </div>
             );
           })
         ) : (
           <div>请拖动左侧的组件并放置在此处</div>
         )}
-        {}
       </div>
     </>
   );

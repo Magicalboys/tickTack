@@ -26,10 +26,6 @@ const App: React.FC<{
     });
   }
 
-  const handleUpdate = () => {
-    dispatch(updateJson({ uuid: uuid, control: "type", value: "dashed" }));
-  };
-
   const updateValue = (changeValue: Record<string, string>) => {
     console.log(changeValue, 'update', Object.keys(changeValue)[0]);
     const type = Object.keys(changeValue)[0];
@@ -43,13 +39,9 @@ const App: React.FC<{
           return (
             <Fragment key={`${item.component.label}`}>
               <Form form={form} onValuesChange={updateValue}>
-                <div className="control-div_title" onClick={handleUpdate}>
-                  {item.component.label}
-                </div>
                 <Form.Item
                   name={item.component.control}
                   label={item.component.label}
-                  // valuePropName="value"
                 >
                   {render(item)}
                 </Form.Item>

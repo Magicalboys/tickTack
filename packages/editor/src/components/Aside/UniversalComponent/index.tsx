@@ -10,6 +10,7 @@ const App = () => {
     name: string;
     value: signalComponent;
   }[] = [];
+  console.log(instanceMap);
 
   // 对instanceMap进行操作，分别提取其key和value
   for (const [key, value] of instanceMap) {
@@ -19,11 +20,11 @@ const App = () => {
   return (
     <>
     {
-      boxName.map((item, index) => {
+      boxName.map((item) => {
         const insData = item.value.ComponentInstance;
         return (
           <Fragment key={`${item.name}`}>
-            <LibItem props={insData} index={index}></LibItem>
+            <LibItem props={insData}></LibItem>
           </Fragment>
         )
       })

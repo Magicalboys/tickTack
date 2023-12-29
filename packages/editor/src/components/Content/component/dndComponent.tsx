@@ -1,27 +1,117 @@
 import React, { useEffect, useRef } from "react";
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
+import { useDispatch } from "react-redux";
+import { swapIndex } from "@/store/features/counterSlice";
 import { DragProp } from "@tickTack/types/src/drop-drag";
-import { UIInstance } from "@tickTack/types/src/library-component";
+import OrderListPng from "../../../../public/order-list.png";
 
 interface ChildrenProp {
   children: React.ReactNode;
+  index: number;
 }
 
 const App: React.FC<ChildrenProp> = (props) => {
-    const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  const { children, index } = props;
+  const pngStyle: React.CSSProperties = {
+    position: "absolute",
+    width: 20,
+    height: 20,
+    zIndex: 999,
+    right: 6,
+    cursor: "move",
+  };
 
-    const [, drop] = useDrop({
-        accept: DragProp.SORT,
-        hover: (item: [UIInstance, number]) => {
-            console.log(item);
-        }
-    })
-    useEffect(() => {
-        drop(ref);
-    }, [])
+  const [ ,drag, dragPreview] = useDrag(
+    {
+      type: DragProp.SORT,
+      collect: (monitor) => ({
+        isOver: monitor.isDragging(),
+      }),
+      item: { index },
+
+      //   end: (item, monitor) => {
+      //     console.log(item);
+      //   },
+    },
+    []
+  );
+
+//   const opacity = isDragging ? 0.4 : 1;
+
+  // @ts-expect-error 暂时使用
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: DragProp.SORT,
+
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+
+    canDrop: () => {
+      return true;
+    },
+
+    // @ts-expect-error nothing
+    hover(item: { index: number }) {
+      if (!ref.current) {
+        return;
+      }
+
+      const dragIndex = item.index;
+      const dropIndex = index;
+
+      if (dragIndex === dropIndex) {
+        return;
+      }
+
+      //   // 确定屏幕上元素范围
+      //   const dropBoundingRect = ref.current!.getBoundingClientRect();
+
+      //   // 获取中点垂直坐标
+      //   const dropMiddleY = (dropBoundingRect.bottom - dropBoundingRect.top) / 2;
+      //   console.log(dropMiddleY);
+      //   // 确定鼠标位置
+      //   const clientOffset = monitor.getClientOffset();
+      //   console.log(clientOffset?.y);
+      //   // 获取距离顶部距离
+      //   const dropClientY = (clientOffset as XYCoord).y - dropBoundingRect.top;
+      //   console.log(dropClientY);
+      //   if (dropClientY < dropMiddleY) {
+      //     return;
+      //   }
+
+      //   if (dropClientY > dropMiddleY) {
+      //     return;
+      //   }
+
+      //   执行交换index函数
+      dispatch(swapIndex({ dragIndex, dropIndex }));
+      if (item.index !== undefined) {
+        item.index = dropIndex;
+      }
+    },
+  });
+
+  const isActive = canDrop && isOver;
+
+  const style: React.CSSProperties = {
+    position: "relative",
+    border: isActive ? "2px solid blueviolet" : "",
+    verticalAlign: 40,
+  };
+
+  useEffect(() => {
+    dragPreview(drop(ref));
+  }, []);
+
   return (
     <>
-      <div ref={ref}>{props.children}</div>
+      <div ref={ref} style={style}>
+        {drag && drag(<img src={OrderListPng} alt="pic" style={pngStyle} />)}
+        {children}
+      </div>
     </>
   );
 };

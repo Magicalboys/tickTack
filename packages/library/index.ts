@@ -10,7 +10,7 @@ interface AllPropsInter {
   default: signalComponent;
 }
 const allInstanceProp: AllPropsInter[] = import.meta.glob(
-  "./src/component/generic/**/index.(tsx|jsx)",
+  "./src/component/**/index.(tsx|jsx)",
   {
     eager: true,
   }
