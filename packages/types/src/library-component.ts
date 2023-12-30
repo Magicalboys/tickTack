@@ -1,10 +1,8 @@
-// import { LibraryPanelTabEnum } from "./panel";
-
 export interface BaseData {
   component: {
     type: string;
     props?: UIInstanceProps;
-  }
+  };
 }
 
 export type UIInstanceProps = Record<string, unknown>;
@@ -48,7 +46,25 @@ export interface ControlInstance {
     type: string;
     label: string;
     componentType: componentType;
-    control: string,
-    props?: Record<string, unknown>
-  }
+    control: string;
+    props?: Record<string, unknown>;
+  };
+}
+
+/**
+ * 事件配置的属性
+ */
+export interface EventProps {
+  [key: string]: {
+    type: string;
+    config: Record<string, unknown>;
+  };
+}
+
+/**
+ * 事件参数配置
+ */
+export interface EventArg {
+  target: UIInstance,
+  args: Record<string, unknown>,
 }
