@@ -64,7 +64,7 @@ const ComponentInstance: UIInstance = {
     event: [
       {
         onClick: {
-          type: 'ShowMessage',
+          type: 'useMessage',
           config: {
             type: 'success',
             text: '点击了按钮'

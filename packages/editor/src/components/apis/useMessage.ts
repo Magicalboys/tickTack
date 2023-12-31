@@ -1,10 +1,11 @@
 import { message } from "antd";
 
+export type MessageType = "success" | "info" | "error" | "warning";
 export const useMessage = ({
     type,
     text,
   }: {
-    type: "success" | "info" | "error" | "warning";
+    type: MessageType;
     text: string;
   }) => {
     const [messageApi, contextHolder] = message.useMessage();

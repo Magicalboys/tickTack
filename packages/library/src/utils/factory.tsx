@@ -1,5 +1,6 @@
 import React from "react";
 import * as Antd from "antd";
+import {apis} from '../../../editor/src/components/apis/index';
 import Block from "../../../editor/src/components/custom/block/index";
 import { UIInstance } from "@tickTack/types/src/library-component";
 
