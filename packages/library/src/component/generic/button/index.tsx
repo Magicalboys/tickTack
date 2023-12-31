@@ -60,7 +60,18 @@ const ComponentInstance: UIInstance = {
       type: 'primary',
       size: 'large',
     },
-    child: '按钮'
+    child: '按钮',
+    event: [
+      {
+        onClick: {
+          type: 'ShowMessage',
+          config: {
+            type: 'success',
+            text: '点击了按钮'
+          }
+        }
+      }
+    ]
   }
 };
 

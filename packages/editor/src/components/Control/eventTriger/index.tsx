@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Empty, Button } from "antd";
+import { Button } from "antd";
+import Action from '@/components/actions/index';
 import Model from "./component/model/index";
 import "./index.scss";
 
@@ -12,7 +13,8 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Empty description='快去创建事件，让你的产品动起来吧'></Empty>
+      {/* <Empty description='快去创建事件，让你的产品动起来吧'></Empty> */}
+      <Action></Action>
       <Button className='addEvent' onClick={handleOpen}>
         添加事件
       </Button>

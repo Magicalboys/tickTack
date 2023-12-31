@@ -34,6 +34,8 @@ export interface UIInstance {
     props?: UIInstanceProps;
 
     child?: string;
+
+    event?: EventProps[];
   };
 }
 
