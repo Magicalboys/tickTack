@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Select } from "antd";
+import { SelectProps } from "@tickTack/types/src/library-component";
 import ComponentFun from "./componentFun";
 import Message from "./message";
+import Console from './console';
 
 const App: React.FC = () => {
-  type SelectProps = "componentFun" | "message";
   const [value, setValue] = useState<SelectProps>("componentFun");
   const option = [
     {
@@ -15,6 +16,10 @@ const App: React.FC = () => {
       label: "消息提示",
       value: "message",
     },
+    {
+      label: '消息输出',
+      value: 'console'
+    }
   ];
 
   const handleChange = (value: SelectProps) => {
@@ -24,6 +29,7 @@ const App: React.FC = () => {
   const selectFunction = {
     componentFun: <ComponentFun></ComponentFun>,
     message: <Message></Message>,
+    console: <Console></Console>
   };
 
   return (

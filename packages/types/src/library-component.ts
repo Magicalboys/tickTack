@@ -58,7 +58,7 @@ export interface ControlInstance {
  */
 export interface EventProps {
   [key: string]: {
-    type: string;
+    type: SelectProps;
     config: Record<string, unknown>;
   };
 }
@@ -67,6 +67,11 @@ export interface EventProps {
  * 事件参数配置
  */
 export interface EventArg {
-  target: UIInstance,
-  args: Record<string, unknown>,
+  target?: UIInstance,
+  args?: Record<string, unknown>,
 }
+
+/**
+ * 全局事件名称配置
+ */
+export type SelectProps = "componentFun" | "message" | 'console';

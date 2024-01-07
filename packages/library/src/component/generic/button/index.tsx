@@ -63,8 +63,9 @@ const ComponentInstance: UIInstance = {
     child: '按钮',
     event: [
       {
+        // 这里应该也是一个数组,应该onClick的时候可以触发多个api
         onClick: {
-          type: 'useMessage',
+          type: 'console',
           config: {
             type: 'success',
             text: '点击了按钮'

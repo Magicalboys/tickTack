@@ -1,6 +1,7 @@
 import React from "react";
 import * as Antd from "antd";
-import {apis} from '../../../editor/src/components/apis/index';
+import EventEmitter from "@ticktack/editor/util/eventEmitter";
+import { apis } from "@ticktack/editor/src/components/apis/index";
 import Block from "../../../editor/src/components/custom/block/index";
 import { UIInstance } from "@tickTack/types/src/library-component";
 
@@ -9,7 +10,7 @@ import { UIInstance } from "@tickTack/types/src/library-component";
  */
 const component = Object.keys(Antd);
 
-const instanceMap = new Map<string, React.FC>();
+export const instanceMap = new Map<string, React.FC>();
 
 // 注册组件
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,6 +77,12 @@ const genericIns = (component: UIInstance["component"]) => {
           ...props,
           //@ts-expect-error 需要为每个组件在渲染的时候添加uuid
           uuid: uuid,
+          onClick: renderComponentAction(component['event']),
+          //  () => {
+            // window.message.success('点击了按钮');
+            // console.log("this is click");
+            // apis.useMessage({type: 'success', text: '成功'})
+          // },
         },
         child
       );
@@ -96,10 +103,37 @@ const createInstanceRoot = (options: UIInstance) => {
   return <>{genericIns(component)}</>;
 };
 
+type RenderEventProps = { [eventName: string]: string };
+
+const renderAction = (events: RenderEventProps) => {
+  for (const key in events) {
+    EventEmitter.on(key, eval(events[key]));
+  }
+};
+
+// 多种事件的话可以使用策略模式进行封装
+const renderComponentAction = (events: UIInstance["component"]["event"]) => {
+  if (!events || events.length === 0) return;
+  let handler;
+  for (const event of events) {
+    const name = Object.keys(event)[0];
+    handler = apis.find((api) => api.name === event[name].type);
+  }
+
+  const emitEvent = () => {
+    EventEmitter.emit(handler.name);
+  }
+
+  return  emitEvent;
+};
+
 // reder的时候自动注册antd，这个逻辑不是很对，应该要在后续稍微更改一下
-export const render = (options: UIInstance) => {
+export const render = (options: UIInstance, events?: RenderEventProps) => {
   allAntdInstance(component);
   instanceMap.set("Block", Block);
+  if (events) {
+    renderAction(events);
+  }
   const root = createInstanceRoot(options);
   return <>{root}</>;
 };

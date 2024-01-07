@@ -21,6 +21,7 @@
     "@rollup/plugin-node-resolve": "13.0.6",
     "antd": "^5.8.3",
     "classnames": "^2.3.2",
+    "immutable": "5.0.0-beta.4",
     "monaco-editor": "^0.43.0",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",

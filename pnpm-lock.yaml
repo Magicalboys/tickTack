@@ -26,6 +26,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      immutable:
+        specifier: 5.0.0-beta.4
+        version: 5.0.0-beta.4
       monaco-editor:
         specifier: ^0.43.0
         version: 0.43.0
@@ -162,6 +165,9 @@ importers:
 
   packages/library:
     dependencies:
+      '@ticktack/editor':
+        specifier: workspace:^
+        version: link:../editor
       '@ticktack/types':
         specifier: workspace:^
         version: link:../types
@@ -7704,6 +7710,10 @@ packages:
   /immutable@4.3.4:
     resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
     dev: true
+
+  /immutable@5.0.0-beta.4:
+    resolution: {integrity: sha512-sl9RE3lqd2LoQSESc8VV0k8qE9y57iT7dinq3Q+8mR2dqReHDZlgUrudzmFfZhDXBLXlNJMVWv3SG1YpQIokig==}
+    dev: false
 
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}

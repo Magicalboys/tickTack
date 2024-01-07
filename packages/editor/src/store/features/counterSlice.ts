@@ -10,6 +10,7 @@ import { UIInstance } from "@tickTack/types/src/library-component";
 const initialState: storeData = {
   contentData: [],
   ref: null,
+  windowEvent: {},
 };
 
 export const counterSlice = createSlice({
@@ -33,7 +34,7 @@ export const counterSlice = createSlice({
       const { json, uuid } = payload;
       if (uuid) {
         const data = findComponent(state.contentData, "uuid", uuid);
-        if (!data) return
+        if (!data) return;
         data.component.children?.push(json);
       } else {
         state.contentData.push(json);
@@ -126,9 +127,24 @@ export const counterSlice = createSlice({
     /**
      * 内容区的ref，需要提升到全局
      */
-    setRef(state, {payload}) {
+    setRef(state, { payload }) {
       state.ref = payload.ref;
-    }
+    },
+
+    /**
+     * 插入事件，事件机制初探
+     */
+    insertEvent(
+      state,
+      {
+        payload,
+      }: { payload: { eventName: string; listener: string } }
+    ) {
+      const events = state.windowEvent;
+      const { eventName, listener } = payload;
+      if (events[eventName]) return; 
+      events[eventName] = listener;
+    },
   },
 });
 
@@ -140,7 +156,8 @@ export const {
   swapIndex,
   deleteComponent,
   controlPreview,
-  setRef
+  setRef,
+  insertEvent,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

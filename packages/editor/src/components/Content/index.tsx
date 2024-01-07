@@ -12,6 +12,7 @@ const Content: React.FC = () => {
   const contentData = useSelector(
     (state: CounterSliceType) => state.tickTack.contentData
   );
+  const events = useSelector((state: CounterSliceType) => state.tickTack.windowEvent);
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement | null>(null);
   const clickRef = useRef(null);
@@ -47,7 +48,7 @@ const Content: React.FC = () => {
             const uuid = item.component.uuid;
             return (
               <div key={`${uuid}`} onClick={handleFocus} ref={clickRef}>
-                <DndComponent index={index}>{render(item)}</DndComponent>
+                <DndComponent index={index}>{render(item, events)}</DndComponent>
               </div>
             );
           })

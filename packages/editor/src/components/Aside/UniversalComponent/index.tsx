@@ -9,8 +9,7 @@ const App = () => {
     name: string;
     value: signalComponent;
   }[] = [];
-  console.log(instanceMap);
-
+  
   // 对instanceMap进行操作，分别提取其key和value
   for (const [key, value] of instanceMap) {
     boxName.push({ name: key, value: value });

@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <>
           <ViewCss></ViewCss>
         </>,
-        '全局样式'
+        '全局事件'
       ];
     } else if (id === "3") {
       return [
