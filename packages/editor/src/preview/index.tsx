@@ -12,6 +12,7 @@ const Preview = () => {
     const {componentTree} = useSelector((state) => useComponentState(state));
     const {variables, variableData} = useSelector(state => useVariableState(state));
 
+    
     return (
         <div className='preview'>
             <React.Suspense fallback="loading...">

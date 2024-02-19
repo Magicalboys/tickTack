@@ -1,7 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import './index.less';
-import {useDrop} from 'react-dnd';
-import {ItemType} from '@/types/schema';
 import {useDispatch, useSelector} from 'react-redux';
 import {renderComponents} from './utils';
 import {setSelectedComponent, useComponentState} from '@/store/features/editorSlice';
@@ -15,29 +13,7 @@ const Content = () => {
     const {componentConfig} = useSelector(state => useConfigState(state)); 
     const {componentTree, selectedComponentId} = useSelector((state) => useComponentState(state));
     const {variables} = useSelector(state => useVariableState(state));
-    const [{canDrop}, drop] = useDrop(() => ({
-        accept:[
-            ItemType.Button,
-            ItemType.Input,
-            ItemType.Space,
-            ItemType.Select,
-            ItemType.Table,
-            ItemType.SearchFrom,
-            ItemType.Form,
-
-        ],
-        drop: (_, monitor) => {
-            const didDrop = monitor.didDrop();
-            if(didDrop)return;
-            return {
-                id: 0,
-            };
-        },
-        collect: (monitor) =>({
-            canDrop: monitor.canDrop(),
-        })
-    }));
-
+    
     // 通过监听 点击事件 获取当前被选中组件的 id
     const createMask = (e:any) => {
         // 事件被触发后 返回包含事件流中元素的对象数组
@@ -82,13 +58,12 @@ const Content = () => {
     }, [componentTree]);
 
     return (
-        <div className='content' ref={drop} style={{border: canDrop ? '1px solid #0f53f0' : ''}}>
+        <div className='content'>
             <React.Suspense fallback="loading...">
                 {renderComponents(componentTree,componentConfig, variables)}
             </React.Suspense>
             {selectedComponentId && 
                 <SelectedMask
-                    componentId={selectedComponentId}
                     containerClassName='select-mask-container'
                     offsetContainerClassName='content'
                     ref={selectedMaskRef}

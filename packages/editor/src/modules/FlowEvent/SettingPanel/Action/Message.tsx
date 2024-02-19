@@ -5,7 +5,7 @@ import React from 'react';
 const MessageSetting = () => {
     return (
         <>
-            <FormItem>
+            <FormItem label="类型" name={['config', 'type']}>
                 <Select
                     style={{width: 240}}
                     options={[

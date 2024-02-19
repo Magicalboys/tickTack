@@ -1,4 +1,4 @@
-import {Register} from '@/types/schema';
+import {ItemType, Register} from '@/types/schema';
 import SpaceDev from './dev';
 import SpaceProd from './prod';
 
@@ -33,5 +33,6 @@ export default (register: Register) => {
             },
         ],
         order: 1,
+        allowDrag: [ItemType.Page, ItemType.Space],
     });
 };

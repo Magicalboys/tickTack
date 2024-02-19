@@ -1,20 +1,21 @@
-import {Register} from '@/types/schema';
+import {ItemType, Register} from '@/types/schema';
 import Dev from './dev';
 import Prod from './prod';
 
 export default (register: Register) => {
-    register.registerComponent('SearchFrom',{
-        name: 'SearchFrom',
+    register.registerComponent('SearchForm',{
+        name: 'SearchForm',
         desc:'搜索',
         defaultProps: {},
         dev:Dev,
         prod:Prod,
-        event:[
+        events:[
             {
                 name:'onSearch',
                 desc:'搜索',
             }
         ],
-        order:9
+        order:9,
+        allowDrag: [ItemType.Page],
     });
 };

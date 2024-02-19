@@ -1,4 +1,4 @@
-import {Register} from '@/types/schema';
+import {ItemType, Register} from '@/types/schema';
 import TableDev from './dev';
 import TableProd from './prod';
 
@@ -27,5 +27,6 @@ export default (register: Register) => {
             },
         ],
         order: 5,
+        allowDrag: [ItemType.Page, ItemType.Space],
     });
 };

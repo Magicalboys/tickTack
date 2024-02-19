@@ -16,7 +16,6 @@ export const DefinedVariable = ({open, onCancel}: Props) => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     const {variables} = useSelector(state => useVariableState(state));
-
     const onFinish = (value: { variables: Variable[]; }) => {
         dispatch(setVariables(value.variables));
         onCancel && onCancel();

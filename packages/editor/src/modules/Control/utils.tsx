@@ -2,6 +2,8 @@ import React from 'react';
 import {Component, ComponentConfigType, FormElement, ItemType} from '@/types/schema';
 import {message} from 'antd';
 import {updateVariableData} from '@/store/features/variableSlice';
+import MessageSetting from '../FlowEvent/SettingPanel/Action/Message';
+import MethodSetting from '../FlowEvent/SettingPanel/Action/Method';
 
 // 控制台 属性设置
 export const componentSettingMap = {
@@ -76,6 +78,15 @@ export const componentEventMap = {
         label: '点击事件',
     }]
 };
+
+export const actionMap: any = {
+    ShowMessage: MessageSetting,
+    ComponentMethod: MethodSetting,
+    // SetVariable: SetVariableSetting,
+    // ExecScript: ExecScriptSetting,
+    // AsyncTask: AsyncTaskSetting,
+};
+  
 
 // 编辑模式时 事件的数据结构
 export const eventJson = {
@@ -176,3 +187,29 @@ export const formatEditProps = (component:Component) => {
         },{});
     return props;
 };
+
+export const EventActionTypesDesc: any = {
+    ShowMessage: '显示消息',
+    ComponentMethod: '组件方法',
+    SetVariable: '设置变量',
+    ExecScript: '执行脚本',
+    Request: '请求接口',
+    Confirm: '显示确认框',
+};
+
+export function getTreeDepth(node: any) {
+    if (!node) {
+        return 0; // 如果节点为空，深度为0
+    }
+    let maxChildDepth = 0; // 当前节点的子节点的最大深度
+    
+    // 遍历当前节点的所有子节点，递归调用 getTreeDepth 函数获取子节点的深度
+    for (const child of node.children || []) {
+        const childDepth = getTreeDepth(child);
+        if (childDepth > maxChildDepth) {
+            maxChildDepth = childDepth;
+        }
+    }
+    return maxChildDepth + 1; // 当前节点的深度为子节点的最大深度加1
+}
+  

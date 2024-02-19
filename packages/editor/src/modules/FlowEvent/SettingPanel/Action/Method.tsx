@@ -3,8 +3,8 @@ import {Select, TreeSelect} from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import {componentMethodsMap} from '../utils';
-import {getComponentById} from '../../Content/utils';
+import {componentMethodsMap} from '../../../Control/utils';
+import {getComponentById} from '../../../Content/utils';
 import {DefaultOptionType} from 'antd/es/select';
 interface Props {
     value: any;

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Store} from '@/store';
 import {Form, Input} from 'antd';
-import {InitialState, updateComponentProps} from '@/store/features/editorSlice';
+import {updateComponentProps} from '@/store/features/editorSlice';
 import {renderFormElement} from './utils';
 import './index.less';
 import {useConfigState} from '@/store/features/configSlice';
@@ -11,7 +11,7 @@ function ComponentsAttr() {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     const {componentConfig} = useSelector(state => useConfigState(state));
-    const {selectedComponent, selectedComponentId}: InitialState = useSelector((state:Store) => state.editorSlice);
+    const {selectedComponent, selectedComponentId} = useSelector((state:Store) => state.editorSlice);
     
     useEffect(()=>{
         // 初始化表单

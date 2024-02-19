@@ -2,7 +2,7 @@ import {getComponentById} from '@/modules/Content/utils';
 import {Component} from '@/types/schema';
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface InitialState {
+export interface EditorSlice {
     // 组件树
     componentTree: Component[],
 
@@ -16,8 +16,15 @@ export interface InitialState {
     mode: 'edit' | 'preview',
 }
 
-const initialState: InitialState = {
-    componentTree: [],
+const initialState: EditorSlice = {
+    componentTree: [
+        {
+            id: 1,
+            name: 'Page',
+            props: {},
+            desc: '页面',
+        },
+    ],
     selectedComponentId: undefined,
     selectedComponent: null,
     mode: 'edit'
@@ -46,12 +53,13 @@ export const editorSlice = createSlice({
                         parentComponent.children = [component];
                     }
                 }
+                component.parentId = parentId;
                 state.componentTree = [...state.componentTree];
                 return;
             }
             state.componentTree = [...state.componentTree ,component];
 
-            // 添加后被选中后
+            // 添加后被选中
             state.selectedComponentId = component.id;
             state.selectedComponent = component;
         },
@@ -63,9 +71,27 @@ export const editorSlice = createSlice({
             state.selectedComponent = getComponentById(componentId, state.componentTree);
         },
 
+        // 删除组件
+        deleteComponent(state , action) {
+            const {componentId} = action.payload;
+            if (!componentId) return ;
+            const component = getComponentById(componentId, state.componentTree);
+            state.selectedComponentId = undefined;
+            state.selectedComponent = null;
+            if (component?.parentId) {
+                const parentComponent = getComponentById(component?.parentId, state.componentTree);
+                if (parentComponent){
+                    // 删除子组件
+                    parentComponent.children = parentComponent.children?.filter((item:any) => item.id !== Number(componentId));
+                }
+            } else {
+                state.componentTree = state.componentTree.filter((item:any) => item.id !== componentId);
+            }
+        },
+
         // 更新组件属性
         updateComponentProps(state , action) {
-            const {selectedComponentId: componentId, changeValue: props,} = action.payload;
+            const {selectedComponentId: componentId, changeValue: props} = action.payload;
             const component = getComponentById(componentId,state.componentTree);
             if (component){
                 component.props = {...component.props,...props};
@@ -82,12 +108,30 @@ export const editorSlice = createSlice({
             return;
         },
 
+        updateAllComponentProps(state , action) {
+            const {selectedComponentId: componentId, changeValue} = action.payload;
+            const component = getComponentById(componentId,state.componentTree);
+            if (component){
+                component.props = changeValue.props;
+                if (componentId === state.selectedComponentId) {
+                    state.selectedComponentId = component.id;
+                    state.selectedComponent = component;
+                    state.componentTree = [...state.componentTree];
+                    return;
+                }
+                state.componentTree = [...state.componentTree];
+                return;
+            }
+            state.componentTree = [...state.componentTree];
+            return;
+        },
+
+
         // 更新当前模式 编辑 or 预览
         setMode(state, action) {
             const mode = action.payload;
             state.mode = mode;
         }
-
 
     }
 });
@@ -97,6 +141,8 @@ export const {
     updateComponentsTree,
     setSelectedComponent,
     updateComponentProps,
+    updateAllComponentProps,
+    deleteComponent,
     setMode,
 } = editorSlice.actions;
 

@@ -10,7 +10,8 @@ interface ComponentItemProps {
     description: string,
     // 拖拽结束回调
     onDragEnd: any,
-  
+    // 拖拽中回调
+    onDragging?: () => void 
 }
 export const ComponentItem: React.FC<ComponentItemProps> = ({name, description, onDragEnd}) => {
     const {componentConfig} = useSelector(state => useConfigState(state));
@@ -43,6 +44,7 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({name, description, 
             onDragEnd && onDragEnd({
                 name,
                 props,
+                desc: description,
                 ...dropResult
             });
         },

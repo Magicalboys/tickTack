@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Store} from '@/store';
-import {InitialState, updateComponentProps} from '@/store/features/editorSlice';
-import {componentEventMap} from '../utils';
+import {EditorSlice, updateComponentProps} from '@/store/features/editorSlice';
 import {Collapse, Input, Select, TreeSelect} from 'antd';
 import {Component} from '@/types/schema';
 import {getComponentById} from '@/modules/Content/utils';
@@ -11,8 +10,9 @@ import ComponentEmpty from '@/common/Empty';
 function ComponentsEvent() {
     const dispatch = useDispatch();
     const {componentConfig} = useSelector(state => useConfigState(state));
-    const {selectedComponent, selectedComponentId,componentTree}: InitialState = useSelector((state:Store) => state.editorSlice);
     const [curSelectedComponent,setCurSelectedComponent] = useState<Component|null>();
+    const {selectedComponent, selectedComponentId,componentTree}: EditorSlice = useSelector((state:Store) => state.editorSlice);
+
     // 事件类型
     const eventTypeChange = (eventName: string, value: string) => {
         if (!selectedComponentId) return ;
@@ -89,10 +89,10 @@ function ComponentsEvent() {
 
     return (
         <div className='event'>
-            {(componentEventMap[selectedComponent.name] || []).map(setting => {
+            {(componentConfig[selectedComponent.name]?.events || []).map((setting:any) => {
                 return (
                     <Collapse key={setting.name} defaultActiveKey={setting.name}>
-                        <Collapse.Panel header={setting.label} key={setting.name}>
+                        <Collapse.Panel header={setting.desc} key={setting.name}>
                             <div className='' style={{display: 'flex', alignItems: 'center', gap: 10}}>
                                 <div>动作：</div>
                                 <div>
@@ -101,6 +101,7 @@ function ComponentsEvent() {
                                         options={[
                                             {label: '显示提示', value:'showMessage'},
                                             {label: '组件方法', value:'componentFunction'},
+                                            {label: '设置变量', value: 'SetVariable'},
                                         ]}
                                         value={selectedComponent?.props?.[setting.name]?.type}
                                         onChange={(value) => eventTypeChange(setting.name, value)}

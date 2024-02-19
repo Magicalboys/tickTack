@@ -1,37 +1,13 @@
-import {ItemType} from '@/types/schema';
+import {useDrop} from '@/dnd/useDrop';
+import {CommonComponentProps} from '@/types/schema';
 import {Form as AntdForm, Input} from 'antd';
 import React, {useMemo} from 'react';
-import {useDrop} from 'react-dnd';
 
-
-interface Props {
-  id: number;
-  children?: any[];
-  onSearch?: (values: any) => void;
-}
-
-const Form: React.FC<Props> = ({id, children, onSearch}) => {
+const Form = ({_id, _name, children, onSearch}: CommonComponentProps) => {
 
     const [form] = AntdForm.useForm();
 
-    const [{canDrop}, drop] = useDrop(() => ({
-        accept: [ItemType.FormItem],
-        drop: (_, monitor) => {
-            const didDrop = monitor.didDrop();
-            if (didDrop) {
-                return;
-            }
-
-            return {
-                id,
-            };
-        },
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
-    }));
-
+    const {canDrop, drop} = useDrop(_id, _name);
 
     const searchItems = useMemo(() => {
         return React.Children.map(children, (item: any) => {
@@ -49,11 +25,10 @@ const Form: React.FC<Props> = ({id, children, onSearch}) => {
         onSearch && onSearch(values);
     };
 
-
     if (!children?.length) {
         return (
             <div
-                data-component-key={id}
+                data-component-key={_id}
                 ref={drop}
                 style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', textAlign:'center',width:'97%',padding:'10px'}}
             >
@@ -64,7 +39,7 @@ const Form: React.FC<Props> = ({id, children, onSearch}) => {
 
 
     return (
-        <div ref={drop} data-component-key={id} style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', width:'97%',padding:'10px'}}>
+        <div ref={drop} data-component-key={_id} style={{border: canDrop ? '1px solid #e71515' : '1px solid #ccc', width:'97%',padding:'10px'}}>
             <AntdForm labelCol={{span: 5}} wrapperCol={{span: 18}} form={form} onFinish={search}>
                 {searchItems.map((item: any) => {
                     return (

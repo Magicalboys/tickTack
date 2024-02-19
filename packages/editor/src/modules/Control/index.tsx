@@ -2,7 +2,7 @@ import React from 'react';
 import './index.less';
 import {Tabs} from 'antd';
 import ComponentsAttr from './Attribute';
-import ComponentsEvent from './Event';
+import ComponentsEvent from '../FlowEvent/index';
 function Control() {
 
     return (

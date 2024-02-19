@@ -17,7 +17,7 @@ export function renderComponents(components: Component[],componentConfig: Compon
                 {
                     key: component.id, 
                     id: component.id,
-                    // 添加 唯一自定义 key 作为 被选中的组件 的唯一标识
+                    // 动态渲染组件时，注入ref属性，拿到组件实例。
                     ref: (ref) => componentRefs.current[component.id] = ref,
                     ...component.props,
                     ...props,

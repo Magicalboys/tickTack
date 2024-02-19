@@ -1,6 +1,5 @@
 import SettingFromInput from '@/common/SettingForm/Input';
-import Button from '@/components/Button';
-import {Input, Select, Space, message} from 'antd';
+import {Button, Input, Select, Space, message} from 'antd';
 
 // 组件 数据结构
 export interface Component {
@@ -17,9 +16,21 @@ export interface Component {
      */
     props: any;
     /**
+     * 父组件ID
+     */
+    parentId?: number;
+    /**
      * 子组件
      */
     children?: Component[];
+    /**
+     * 组件描述
+     */
+    desc?: string;
+    hidden?: {
+        type: 'static' | 'variable';
+        value: any;
+    };
 }
 
 // 配置信息 数据结构
@@ -72,6 +83,14 @@ export interface ComponentConfig {
      * 组件排序
      */
     order: number;
+      /**
+    * 组件是否在物料中隐藏
+    */
+    hiddenInMaterial?: boolean;
+    /**
+     * 允许放置到哪些组件上
+     */
+    allowDrag: string[];
 }
 
 export interface ComponentConfigState {
@@ -177,10 +196,13 @@ export const ItemType = {
     Select: 'Select',
     Table: 'Table',
     TableColumn: 'TableColumn',
-    SearchFrom:'SearchFrom',
+    SearchForm:'SearchForm',
     SearchFormItem: 'SearchFormItem',
+    Modal: 'Modal',
     Form: 'Form',
     FormItem: 'FormItem',
+    Page: 'Page',
+    Box: 'Box',
 };
 
 // 右侧控制台 表单
@@ -192,3 +214,11 @@ export const FormElement: IComponentMap = {
     'space': Space,
 };
 
+export interface CommonComponentProps {
+    _id: number;
+    _name: string;
+    _desc?: string;
+    children?: any;
+    [key: string]: any;
+  }
+  

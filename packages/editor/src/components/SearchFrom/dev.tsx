@@ -1,35 +1,16 @@
-import {ItemType} from '@/types/schema';
+import {useDrop} from '@/dnd/useDrop';
+import {CommonComponentProps} from '@/types/schema';
 import {Col, Form, Input, Row, Space, Button} from 'antd';
-import React,{FC, useMemo} from 'react';
-import {useDrop} from 'react-dnd';
-interface Props {
-    id: string;
-    onSearch?: (value: string) => void;
-    children?: (values: any) => void;
-} 
+import React,{useMemo} from 'react';
 
-const SearchForm: FC<Props> = ({id,children,onSearch}) => {
+function SearchForm({_id, _name, children, onSearch}: CommonComponentProps) {
     const [form] = Form.useForm();
 
     const search = (values: any) => {
         onSearch && onSearch(values);
     };
 
-    const [{canDrop}, drop] = useDrop(() => ({
-        accept: [ItemType.SearchFormItem],
-        drop: (_, monitor) => {
-            if (monitor.didDrop()) {
-                return;
-            }
-            return {
-                id
-            };
-        },
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
-    }));
+    const {canDrop, drop} = useDrop(_id, _name);
 
     const searchItems = useMemo(() => {
         return React.Children.map(children, (item: any) => {    
@@ -43,7 +24,7 @@ const SearchForm: FC<Props> = ({id,children,onSearch}) => {
     }, [children]);
 
     return (
-        <div ref={drop} data-component-key={id} style={{border:canDrop ? '' : '',padding:'16px'}}>
+        <div ref={drop} data-component-key={_id} style={{border:canDrop ? '' : '',padding:'16px'}}>
             <Form form={form} onFinish={search}>
                 <Row gutter={20}>
                     {
@@ -67,6 +48,6 @@ const SearchForm: FC<Props> = ({id,children,onSearch}) => {
             </Form>
         </div>
     );
-};
+}
 
 export default SearchForm;

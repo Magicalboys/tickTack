@@ -1,4 +1,4 @@
-import {Register} from '@/types/schema';
+import {ItemType, Register} from '@/types/schema';
 import Dev from './dev';
 import Prod from './prod';
 
@@ -39,5 +39,6 @@ export default (register: Register) => {
             },
         ],
         order: 10,
+        allowDrag: [ItemType.Form],
     });
 };

@@ -10,22 +10,21 @@ export function renderComponents(components: Component[], componentConfig: Compo
         }
         // 组件绑定变量
         const props = formatEditProps(component);
-        if(componentConfig[component.name]?.dev){
-            const node : any = React.createElement(
-                componentConfig[component.name]?.dev, 
-                {
-                    key: component.id, 
-                    id: component.id,
-                    // 添加 唯一自定义 key 作为 被选中的组件 的唯一标识
-                    'data-component-key': component.id,
-                    ...component.props,
-                    ...props,
-                },
-                // 递归渲染
-                component?.props?.children || renderComponents(component?.children || [], componentConfig, variables));
-            return node;
-        }
-        return null;
+        // 渲染组件
+        const node : any = React.createElement(
+            componentConfig[component.name]?.dev, 
+            {
+                key: component.id, 
+                _id: component.id,
+                _name: component.name,
+                // 添加 唯一自定义 key 作为 被选中的组件 的唯一标识
+                'data-component-key': component.id,
+                ...component.props,
+                ...props,
+            },
+            // 递归渲染
+            component?.props?.children || renderComponents(component?.children || [], componentConfig, variables));
+        return node;
     });
 }
 

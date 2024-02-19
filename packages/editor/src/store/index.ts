@@ -18,4 +18,3 @@ const store = configureStore<Store>({
 });
 
 export default store;
-

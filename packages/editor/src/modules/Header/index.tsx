@@ -4,7 +4,7 @@ import './index.less';
 import {useDispatch} from 'react-redux';
 import {setMode, setSelectedComponent, useComponentState} from '@/store/features/editorSlice';
 import {useSelector} from 'react-redux';
-import {DefinedVariable} from '../Control/Variable';
+import {DefinedVariable} from '../FlowEvent/SettingPanel/Action/Variable';
 function Header() {
     const dispatch = useDispatch();
     const {mode} = useSelector(state => useComponentState(state));

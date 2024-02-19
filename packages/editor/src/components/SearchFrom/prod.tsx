@@ -10,6 +10,7 @@ interface Props {
 const SearchForm: React.FC<Props> = ({id, children, onSearch}) => {
     const [form] = Form.useForm();
 
+    // 获取子组件
     const searchItems = useMemo(() => {
         return React.Children.map(children, (item: any) => {
             return {
