@@ -33,6 +33,15 @@ export interface Component {
     };
 }
 
+// 基本操作的单位信息
+export interface Change {
+    type: 'ADD' | 'UPDATE' | 'DELETE';
+    parentId: number;
+    targetId: number;
+    property: string;
+    previousValue: any;
+}
+
 // 配置信息 数据结构
 export interface ComponentConfig {
     /**

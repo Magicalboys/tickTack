@@ -1,5 +1,5 @@
 import {getComponentById} from '@/modules/Content/utils';
-import {Component} from '@/types/schema';
+import {Change, Component} from '@/types/schema';
 import {createSlice} from '@reduxjs/toolkit';
 
 export interface EditorSlice {
@@ -11,6 +11,12 @@ export interface EditorSlice {
 
     // 当前选中的组件
     selectedComponent: Component | null,
+
+    // 基本操作的快照数据
+    changes: Change[],
+
+    // 快照索引
+    changesIndex: number,
 
     // 当前的模式： 编辑 or 预览
     mode: 'edit' | 'preview',
@@ -25,6 +31,8 @@ const initialState: EditorSlice = {
             desc: '页面',
         },
     ],
+    changes:[],
+    changesIndex:-1,
     selectedComponentId: undefined,
     selectedComponent: null,
     mode: 'edit'
@@ -39,7 +47,7 @@ export const editorSlice = createSlice({
     
     // 状态改变
     reducers: {
-        // 更新组件树
+        // 添加组件
         updateComponentsTree(state , action) {
             const {component,id: parentId} = action.payload;
             // 如果有 父组件 id，则将 当前组件 添加到 父组件 当中
@@ -55,10 +63,20 @@ export const editorSlice = createSlice({
                 }
                 component.parentId = parentId;
                 state.componentTree = [...state.componentTree];
-                return;
+            } else {
+                state.componentTree = [...state.componentTree ,component];
             }
-            state.componentTree = [...state.componentTree ,component];
-
+            // 清除未恢复的撤回操作
+            state.changes.splice(state.changesIndex + 1);
+            // 执行差量更新
+            state.changes.push({
+                type: 'ADD',
+                parentId: parentId ?? -1,
+                targetId: component.id,
+                property: component.name, // 添加操作不需要记录属性
+                previousValue: component, // 添加的组件
+            });
+            state.changesIndex ++;
             // 添加后被选中
             state.selectedComponentId = component.id;
             state.selectedComponent = component;
@@ -87,6 +105,16 @@ export const editorSlice = createSlice({
             } else {
                 state.componentTree = state.componentTree.filter((item:any) => item.id !== componentId);
             }
+            // 添加差量更新记录
+            state.changes.splice(state.changesIndex + 1);
+            state.changes.push({
+                type: 'DELETE',
+                parentId: component?.parentId ?? -1,
+                targetId: componentId,
+                property: '', // 删除操作不需要记录属性
+                previousValue: component, // 记录被删除的组件对象
+            });
+            state.changesIndex ++;
         },
 
         // 更新组件属性
@@ -126,11 +154,46 @@ export const editorSlice = createSlice({
             return;
         },
 
-
         // 更新当前模式 编辑 or 预览
         setMode(state, action) {
             const mode = action.payload;
             state.mode = mode;
+        },
+
+        // 撤销操作
+        undo(state){
+            if (state.changesIndex >= 0 && state.componentTree?.[0]?.children) {
+                const change = state.changes[state.changesIndex];
+                state.changesIndex --;
+                switch (change.type) {
+                case 'ADD':
+                    state.componentTree[0].children = state.componentTree?.[0]?.children.filter((component) => component.id != change.targetId);
+                    break;
+                case 'DELETE':
+                    state.componentTree[0].children.push(change.previousValue);
+                    break;
+                }
+                state.selectedComponentId = undefined;
+                state.selectedComponent = null;
+            }
+        },
+
+        // 重做操作
+        redo(state){
+            if (state.changesIndex < state.changes.length - 1 && state.componentTree?.[0]?.children) {
+                state.changesIndex ++;
+                const change = state.changes[state.changesIndex];
+                switch (change.type) {
+                case 'ADD':
+                    state.componentTree[0].children.push(change.previousValue);
+                    state.selectedComponentId = change.targetId;
+                    state.selectedComponent = change.previousValue;
+                    break;
+                case 'DELETE':
+                    state.componentTree[0].children = state.componentTree[0]?.children.filter((c) => c.id !== change.targetId);
+                    break;
+                }
+            }
         }
 
     }
@@ -144,6 +207,8 @@ export const {
     updateAllComponentProps,
     deleteComponent,
     setMode,
+    undo,
+    redo,
 } = editorSlice.actions;
 
 // 导出 state
