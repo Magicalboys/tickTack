@@ -85,6 +85,20 @@ function ComponentsEvent() {
         dispatch(updateComponentProps({selectedComponentId,changeValue}));
     };
 
+    const scriptChange = (eventName: string, value: string) => {
+        if (!selectedComponentId) return;
+        const changeValue = {
+            [eventName]: {
+                ...selectedComponent?.props?.[eventName],
+                config:{
+                    ...selectedComponent?.props?.[eventName]?.config,
+                    script: value,
+                }
+            }
+        };
+        dispatch(updateComponentProps({selectedComponentId,changeValue}));
+    };
+
     if (!selectedComponent) return <ComponentEmpty/>;
 
     return (
@@ -102,6 +116,7 @@ function ComponentsEvent() {
                                             {label: '显示提示', value:'showMessage'},
                                             {label: '组件方法', value:'componentFunction'},
                                             {label: '设置变量', value: 'SetVariable'},
+                                            {label: '设置脚本', value: 'execScript'},
                                         ]}
                                         value={selectedComponent?.props?.[setting.name]?.type}
                                         onChange={(value) => eventTypeChange(setting.name, value)}
@@ -168,6 +183,24 @@ function ComponentsEvent() {
                                         </div>
                                     </div>
                                 )}
+                            </div>
+                            }
+                            {selectedComponent?.props?.[setting.name]?.type === 'execScript' &&
+                            <div style={{display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10}}>
+                                <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+                                    <div>组件：</div>
+                                    <div>
+                                        <Input.TextArea
+                                            defaultValue={`(function(tool){
+                                            })(tool)`}
+                                            style={{width:160}}
+                                            rows={6}
+                                            value={selectedComponent?.props?.[setting.name]?.config?.script}
+                                            onChange={(e) => scriptChange(setting.name, e.target.value)}
+                                        >
+                                        </Input.TextArea>
+                                    </div>
+                                </div>
                             </div>
                             }
                         </Collapse.Panel>

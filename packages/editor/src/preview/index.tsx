@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import './index.less';
 import {useSelector} from 'react-redux';
 import {useComponentState} from '@/store/features/editorSlice';
@@ -7,7 +7,6 @@ import {renderComponents} from './until';
 import {useConfigState} from '@/store/features/configSlice';
 
 const Preview = () => {
-    const componentRefs = useRef<any>({});
     const {componentConfig} = useSelector(state => useConfigState(state));
     const {componentTree} = useSelector((state) => useComponentState(state));
     const {variables, variableData} = useSelector(state => useVariableState(state));
@@ -16,7 +15,7 @@ const Preview = () => {
     return (
         <div className='preview'>
             <React.Suspense fallback="loading...">
-                {renderComponents(componentTree,componentConfig,variables, variableData,componentRefs)}
+                {renderComponents(componentTree,componentConfig,variables, variableData)}
             </React.Suspense>
         </div>
     );

@@ -1,7 +1,8 @@
 import {handleEvent} from '@/modules/Control/utils';
+import {setComponentRef} from '@/store/componentRef';
 import {Component, ComponentConfigType, Variable} from '@/types/schema';
 import React from 'react';
-export function renderComponents(components: Component[],componentConfig: ComponentConfigType,variables: Variable[],variableData:any ,componentRefs:any) {
+export function renderComponents(components: Component[],componentConfig: ComponentConfigType,variables: Variable[],variableData:any) {
     return components.map((component: Component) => {
         if (!componentConfig[component.name]?.prod){
             return null;
@@ -9,7 +10,7 @@ export function renderComponents(components: Component[],componentConfig: Compon
         
         let props = formatPreviewProps(component, variables, variableData);
 
-        props = {...props, ...handleEvent(component,componentConfig,componentRefs)};
+        props = {...props, ...handleEvent(component,componentConfig)};
 
         if(componentConfig[component.name]?.prod){
             const node : any = React.createElement(
@@ -18,11 +19,11 @@ export function renderComponents(components: Component[],componentConfig: Compon
                     key: component.id, 
                     id: component.id,
                     // 动态渲染组件时，注入ref属性，拿到组件实例。
-                    ref: (ref) => componentRefs.current[component.id] = ref,
+                    ref: (ref) => setComponentRef(component.id, ref),
                     ...component.props,
                     ...props,
                 },
-                component?.props?.children || renderComponents(component?.children || [], componentConfig,variables, variableData,componentRefs));
+                component?.props?.children || renderComponents(component?.children || [], componentConfig, variables, variableData));
             return node;
         }
         return null;

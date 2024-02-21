@@ -4,6 +4,8 @@ import {message} from 'antd';
 import {updateVariableData} from '@/store/features/variableSlice';
 import MessageSetting from '../FlowEvent/SettingPanel/Action/Message';
 import MethodSetting from '../FlowEvent/SettingPanel/Action/Method';
+import {getComponentRef} from '@/store/componentRef';
+import {useDispatch} from 'react-redux';
 
 // 控制台 属性设置
 export const componentSettingMap = {
@@ -120,14 +122,33 @@ export const eventFunction = {
     }
 };
 
+const execScript = (script: string) => {
+    // 将 script 作为函数体 创建一个函数 并注入 tool
+    const func = new Function('tool', script);
+    // 把常用的方法注入到tool中，可以在脚本里调用我们注入的方法
+    // 比如设置变量值方法，和调用某个组件方法等
+    let variable , value;
+    const tool = {variable , value, getComponentRef};
+    try {
+        const dispatch = useDispatch();
+        func(tool);
+        dispatch(updateVariableData({variable, value}));
+    } catch (error) {
+        message.error('script error');
+        console.log(error);
+    }
+};
+
 // 渲染时处理事件 将事件信息由 json 格式 转化为 箭头函数的形式 可以被执行
-export const handleEvent: any = (component: Component,componentConfig: ComponentConfigType,componentRefs?:any) => {
+export const handleEvent: any = (component: Component,componentConfig: ComponentConfigType) => {
     const props: any = {};
     const events = componentConfig[component.name]?.events;
     if (events?.length) {
         (events || []).forEach((event) => {
+            // 事件类型： 点击事件、搜索事件
             const eventConfig = component.props[event.name];
             if (eventConfig){
+                // 事件种类：设置变量、设置脚本、等
                 const {type,config} = eventConfig;
                 // 将事件 由 json 配置 变成 () => {message.success(config.text)} 函数的形式
                 props[event.name] = () =>{
@@ -139,7 +160,7 @@ export const handleEvent: any = (component: Component,componentConfig: Component
                             message.error(config?.text);
                         }
                     } else if (type === 'componentFunction'){
-                        const component = componentRefs.current[config.componentId];
+                        const component = getComponentRef(config.componentId);
                         if (component){
                             component[config.method]?.();
                         }
@@ -148,6 +169,8 @@ export const handleEvent: any = (component: Component,componentConfig: Component
                         if(variable && value) {
                             updateVariableData({variable, value});
                         }
+                    } else if (type === 'execScript'){
+                        execScript(config.script);
                     }
                 };
             }

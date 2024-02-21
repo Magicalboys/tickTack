@@ -28,8 +28,8 @@ export const variableSlice = createSlice({
         },
         // 给变量设置值
         updateVariableData(state, action){
-            const {key,value} = action.payload;
-            state.variableData = {... state.variableData, [key]: value};
+            const {variable,value} = action.payload;
+            state.variableData = {... state.variableData, [variable]: value};
         }
     },
 }
